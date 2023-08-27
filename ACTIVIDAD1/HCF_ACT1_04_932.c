@@ -1,7 +1,7 @@
 // Fernando Haro Calvo  MATR. 372106
 // 22-AGO-2023
 // Lee un número e imprime tu sexo.
-// HCF_ACT1_4_932
+// HCF_ACT1_04_932
 
 #include <stdio.h>
 

@@ -1,7 +1,7 @@
 // Fernando Haro Calvo  MATR. 372106
 // 22-AGO-2023
 // Lee 3 numeros y determina el valor medio.
-// HCF_ACT1_8_932
+// HCF_ACT1_08_932
 
 #include <stdio.h>
 

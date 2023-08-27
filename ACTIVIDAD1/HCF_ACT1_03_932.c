@@ -1,7 +1,7 @@
 // Fernando Haro Calvo  MATR. 372106
 // 22-AGO-2023
 // Lee calificaciones y decide si aprobaste o no.
-// HCF_ACT1_3_932
+// HCF_ACT1_03_932
 
 #include <stdio.h>
 

@@ -1,7 +1,7 @@
 // Fernando Haro Calvo  MATR. 372106
 // 22-AGO-2023
 // Lee numero y decide si es par o impar.
-// HCF_ACT1_2_932
+// HCF_ACT1_02_932
 
 #include <stdio.h>
 

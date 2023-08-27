@@ -1,7 +1,7 @@
 // Fernando Haro Calvo  MATR. 372106
 // 22-AGO-2023
 // Lee 3 numeros y determina el valor menor.
-// HCF_ACT1_7_932
+// HCF_ACT1_07_932
 
 #include <stdio.h>
 

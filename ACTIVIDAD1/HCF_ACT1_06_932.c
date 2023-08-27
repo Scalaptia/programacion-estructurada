@@ -1,7 +1,7 @@
 // Fernando Haro Calvo  MATR. 372106
 // 22-AGO-2023
 // Lee 3 calificaciones, calcula el promedio y juzga su rendimiento.
-// HCF_ACT1_5_932
+// HCF_ACT1_06_932
 
 #include <stdio.h>
 
@@ -18,9 +18,7 @@ int main() {
 
     promedio = (cal1 + cal2 + cal3) / 3.0;
 
-    if (promedio < 30) {
-        printf("Repetir\n");
-    } else {
+    if (promedio >= 30) {
         if (promedio < 60) {
             printf("Extraordinario\n");
         } else {
@@ -46,6 +44,8 @@ int main() {
                 }
             }
         }
+    } else {
+        printf("Repetir\n");
     }
 
     return 0;
