@@ -18,22 +18,34 @@ int main() {
 
     promedio = (cal1 + cal2 + cal3) / 3.0;
 
-    if (promedio < 30) {
-        printf("Repetir");
-    } else if (promedio >= 30 && promedio < 60) {
-        printf("Extraordinario");
-    } else if (promedio >= 60 && promedio < 70) {
-        printf("Suficiente");   
-    } else if (promedio >= 70 && promedio < 80) {
-        printf("Regular");
-    } else if (promedio >= 80 && promedio < 90) {
-        printf("Bien");
-    } else if (promedio >= 90 && promedio < 98) {
-        printf("Muy bien");
-    } else if (promedio >= 98 && promedio < 100) {
-        printf("Excelente");
-    } else if (promedio > 100) {
-        printf("Error en promedio");
+    if (promedio >= 30) {
+        if (promedio < 60) {
+            printf("Extraordinario\n");
+        } else {
+            if (promedio < 70) {
+                printf("Suficiente\n");
+            } else {
+                if (promedio < 80) {
+                    printf("Regular\n");
+                } else {
+                    if (promedio < 90) {
+                        printf("Bien\n");
+                    } else {
+                        if (promedio < 98) {
+                            printf("Muy Bien\n");
+                        } else {
+                            if (promedio <= 100) {
+                                printf("Excelente\n");
+                            } else {
+                                printf("Error en promedio\n");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        printf("Repetir\n");
     }
 
     return 0;
