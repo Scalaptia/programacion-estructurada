@@ -16,4 +16,6 @@ int main() {
     } else {
         printf("%d es IMPAR", num);
     }
+
+    return 0;
 }

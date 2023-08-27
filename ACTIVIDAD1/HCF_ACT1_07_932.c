@@ -28,4 +28,6 @@ int main() {
             printf("El tercer numero: %d es el menor", num3);
         }
     }
+
+    return 0;
 }
