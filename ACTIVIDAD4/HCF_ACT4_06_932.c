@@ -6,21 +6,21 @@
 #include <stdio.h>
 
 int main() {
-    int m3, facturacion, costoIVA;
+    float m3, facturacion, costoIVA;
 
     printf("Ingresa los m3 de agua consumidos: ");
-    scanf("%d", &m3);
+    scanf("%f", &m3);
 
     if (m3 <= 4) {
-        facturacion = 50;
+        facturacion = 50.0;
     } else {
         if (m3 <= 15) {
-            facturacion = 50 + ((m3 - 4) * 8);
+            facturacion = 50.0 + (m3 - 4) * 8.0;
         } else {
             if (m3 <= 50) {
-                facturacion = 138 + ((m3 - 15) * 10); 
+                facturacion = 50 + 11 * 8.0 + (m3 - 15) * 10.0; 
             } else {
-                facturacion = 488 + ((m3 - 50) * 11); 
+                facturacion = 50 + 11 * 8.0 + 35 * 10.0 + (m3 - 50) * 11.0;
             }
         }
     }

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 int main () {
-    int op, unidad, res;
+    float op, unidad, res;
 
     printf("\n--- MENU ---\n");
     printf("1- cm a pulgadas\n");
@@ -15,10 +15,10 @@ int main () {
     printf("4- pulgadas a cm\n");
     printf("5- pies a cm\n");
     printf("6- millas a km\n");
-    scanf("%d", &op);
+    scanf("%f", &op);
 
-    printf("Ingresa la unidad a convertir");
-    scanf("%d", &unidad);
+    printf("Ingresa la unidad a convertir: ");
+    scanf("%f", &unidad);
     
     if (op == 1) {
         res = unidad / 2.54;
@@ -46,6 +46,6 @@ int main () {
         }
     }
 
-    printf("El resultado es: %d", res);
+    printf("El resultado es: %.2f", res);
     return 0;
 }
