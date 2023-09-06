@@ -443,13 +443,162 @@ void ascendente(void)
 void signo(void)
 {
 	//  VARIALES LOCALES
+	int dia, mes;
 	system("CLS");
 
 	//  TITULO
 	printf("   SIGNO ZODIACAL\n");
 
 	//  PROGRAMA
-	printf("Ingresa tu mes de nacimiento (1- Enero, 2- Febrero, ... 12- Diciembre)");
+	printf("Ingresa tu dia de nacimiento (1-31): ");
+	scanf("%d", &dia);
+	printf("Ingresa tu mes de nacimiento (1-12): ");
+	scanf("%d", &mes);
+
+	if (mes < 1 || mes > 12 || dia < 1 || dia > 31)
+	{
+		printf("Fecha de nacimiento no valida.\n");
+		system("PAUSE");
+		return;
+	}
+
+	switch (mes)
+	{
+	case 1:
+		if (dia <= 20)
+		{
+			printf("Eres Capricornio");
+		}
+		else
+		{
+			printf("Eres Acuario");
+		}
+		break;
+
+	case 2:
+		if (dia <= 19)
+		{
+			printf("Eres Acuario");
+		}
+		else
+		{
+			printf("Eres Piscis");
+		}
+		break;
+
+	case 3:
+		if (dia <= 20)
+		{
+			printf("Eres Piscis");
+		}
+		else
+		{
+			printf("Eres Aries");
+		}
+		break;
+
+	case 4:
+		if (dia <= 20)
+		{
+			printf("Eres Aries");
+		}
+		else
+		{
+			printf("Eres Tauro");
+		}
+		break;
+
+	case 5:
+		if (dia <= 21)
+		{
+			printf("Eres Tauro");
+		}
+		else
+		{
+			printf("Eres Geminis");
+		}
+		break;
+
+	case 6:
+		if (dia <= 21)
+		{
+			printf("Eres Geminis");
+		}
+		else
+		{
+			printf("Eres Cancer");
+		}
+		break;
+
+	case 7:
+		if (dia <= 22)
+		{
+			printf("Eres Cancer");
+		}
+		else
+		{
+			printf("Eres Leo");
+		}
+		break;
+
+	case 8:
+		if (dia <= 23)
+		{
+			printf("Eres Leo");
+		}
+		else
+		{
+			printf("Eres Virgo");
+		}
+		break;
+
+	case 9:
+		if (dia <= 23)
+		{
+			printf("Eres Virgo");
+		}
+		else
+		{
+			printf("Eres Libra");
+		}
+		break;
+
+	case 10:
+		if (dia <= 23)
+		{
+			printf("Eres Libra");
+		}
+		else
+		{
+			printf("Eres Escorpio");
+		}
+		break;
+
+	case 11:
+		if (dia <= 22)
+		{
+			printf("Eres Escorpio");
+		}
+		else
+		{
+			printf("Eres Sagitario");
+		}
+		break;
+
+	case 12:
+		if (dia <= 21)
+		{
+			printf("Eres Sagitario");
+		}
+		else
+		{
+			printf("Eres Capricornio");
+		}
+		break;
+	}
+
+	// Horóscopo genérico para el día
+	printf("\nHoroscopo del dia: Tu futuro esta lleno de posibilidades. ¡Disfruta tu dia!");
 
 	printf("\n");
 	system("PAUSE");
