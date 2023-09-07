@@ -440,6 +440,8 @@ void ascendente(void)
 	system("PAUSE");
 }
 //****************************
+// Lee tu fecha de nacimiento y retorna tu signo zodiacal y un horóscopo del dia.
+// HCF_ACT3_07_932
 void signo(void)
 {
 	//  VARIALES LOCALES
