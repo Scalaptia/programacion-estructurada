@@ -16,7 +16,7 @@ void medio(void);
 void ascendente(void);
 void signo(void);
 
-//****  main principal  *********
+//****  MAIN PRINCIPAL  *********
 int main()
 {
 	menu();
@@ -43,7 +43,7 @@ int msges()
 	scanf("%d", &op);
 	return op;
 }
-//****************
+//*********************
 void menu()
 {
 	int op;
@@ -77,10 +77,9 @@ void menu()
 
 	} while (op != 0);
 }
-
-//*********************
 // Lee 3 calificaciones y calcula su promedio y el resultado.
 // HCF_ACT3_01_932
+//*********************
 void calif(void)
 {
 	//  VARIALES LOCALES
@@ -99,6 +98,7 @@ void calif(void)
 	printf("Ingrese la 3ra calificacion: ");
 	scanf("%d", &cal3);
 	prom = (cal1 + cal2 + cal3) / 3.0;
+	printf("\nPromedio de: %.2f\n", prom);
 
 	if (prom < 80)
 	{
@@ -139,10 +139,9 @@ void calif(void)
 	printf("\n");
 	system("PAUSE");
 }
-
-//*************************
 // Piedra papel y Tijeras con condiciones anidadas.
 // HCF_ACT3_02_932
+//*************************
 void ppt1(void)
 {
 	//  VARIALES LOCALES
@@ -227,9 +226,9 @@ void ppt1(void)
 	printf("\n");
 	system("PAUSE");
 }
-//****************************
 // Piedra papel y Tijeras con condiciones múltiples.
 // HCF_ACT3_03_932
+//****************************
 void ppt2(void)
 {
 	//  VARIALES LOCALES
@@ -310,9 +309,9 @@ void ppt2(void)
 	printf("\n");
 	system("PAUSE");
 }
-//****************************
 // Lee 3 numeros y determina el valor mayor.
 // HCF_ACT3_04_932
+//****************************
 void mayor(void)
 {
 	//  VARIALES LOCALES
@@ -348,9 +347,9 @@ void mayor(void)
 	printf("\n");
 	system("PAUSE");
 }
-//****************************
 // Lee 3 numeros y determina el valor medio.
 // HCF_ACT3_05_932
+//****************************
 void medio(void)
 {
 	//  VARIALES LOCALES
@@ -386,9 +385,9 @@ void medio(void)
 	printf("\n");
 	system("PAUSE");
 }
-//****************************
 // Lee 3 numeros y los muestra en orden ascendente.
 // HCF_ACT3_06_932
+//****************************
 void ascendente(void)
 {
 	//  VARIALES LOCALES
@@ -439,9 +438,9 @@ void ascendente(void)
 	printf("\n");
 	system("PAUSE");
 }
-//****************************
 // Lee tu fecha de nacimiento y retorna tu signo zodiacal y un horóscopo del dia.
 // HCF_ACT3_07_932
+//****************************
 void signo(void)
 {
 	//  VARIALES LOCALES
