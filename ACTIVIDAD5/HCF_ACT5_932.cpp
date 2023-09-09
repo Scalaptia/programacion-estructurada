@@ -155,7 +155,7 @@ void numMayMen(void)
 	system("CLS");
 
 	//	TITULO
-	printf("   NUMEROS ALEATORIOS (PARES, IMPARES)\n");
+	printf("   NUMEROS ALEATORIOS (MAYOR, MENOR)\n");
 
 	//	PROGRAMA
 	srand(time(NULL));
@@ -163,7 +163,7 @@ void numMayMen(void)
 	for (i = 0; i < N; i++)
 	{
 		num = rand() % 101 + 100;
-		printf("%d ", num);
+		printf("%d\n", num);
 
 		if (num > maximo)
 		{
@@ -193,7 +193,7 @@ void tablas(void)
 	system("CLS");
 
 	//	TITULO
-	printf("   NUMEROS ALEATORIOS (PARES, IMPARES)\n");
+	printf("   TABLAS DE MULTIPLICAR\n");
 
 	//	PROGRAMA
 	printf("Ingresa el numero entero positivo de la tabla deseada: ");
