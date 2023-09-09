@@ -72,7 +72,7 @@ void menu()
 // HCF_ACT5_01_932
 void descendente(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int n;
 	system("CLS");
 
@@ -104,7 +104,7 @@ void descendente(void)
 // HCF_ACT5_02_932
 void numParImpar(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int num, i;
 	int pares = 0, impares = 0;
 	int sumPares = 0, sumImpares = 0;
@@ -149,7 +149,7 @@ void numParImpar(void)
 // HCF_ACT5_03_932
 void numMayMen(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int num, i;
 	int maximo = 100, minimo = 200;
 	system("CLS");
@@ -188,7 +188,7 @@ void numMayMen(void)
 // HCF_ACT5_03_932
 void tablas(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int n, i;
 	system("CLS");
 

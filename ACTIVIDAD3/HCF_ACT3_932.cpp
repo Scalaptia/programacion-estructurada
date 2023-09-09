@@ -82,7 +82,7 @@ void menu()
 //*********************
 void calif(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int cal1, cal2, cal3;
 	float prom;
 	system("CLS");
@@ -144,7 +144,7 @@ void calif(void)
 //*************************
 void ppt1(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int jugador, computadora;
 	system("CLS");
 
@@ -231,7 +231,7 @@ void ppt1(void)
 //****************************
 void ppt2(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int jugador, computadora;
 	system("CLS");
 
@@ -314,7 +314,7 @@ void ppt2(void)
 //****************************
 void mayor(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int num1, num2, num3;
 	system("CLS");
 
@@ -352,7 +352,7 @@ void mayor(void)
 //****************************
 void medio(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int num1, num2, num3;
 	system("CLS");
 
@@ -390,7 +390,7 @@ void medio(void)
 //****************************
 void ascendente(void)
 {
-	//  VARIALES LOCALES
+	//  VARIABLES LOCALES
 	int num1, num2, num3;
 	system("CLS");
 
