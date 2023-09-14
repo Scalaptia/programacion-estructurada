@@ -174,12 +174,13 @@ void fibFor(void)
 		return;
 	}
 
-	for (cont = 0, ant = 0, sig = 1, res = 1; cont < n; cont++)
+	for (cont = 0, ant = -1, sig = 1, res = 0; cont < n; cont++)
 	{
-		printf("%d, ", res);
-		res = ant + sig;
 		ant = sig;
 		sig = res;
+
+		printf("%d, ", res);
+		res = ant + sig;
 	}
 
 	printf("\n");
@@ -189,7 +190,7 @@ void fibFor(void)
 void fibWhile(void)
 {
 	//  VARIABLES LOCALES
-	int n, cont = 0, ant = 0, sig = 1, res = 1;
+	int n, cont = 0, ant = -1, sig = 1, res = 0;
 	system("CLS");
 
 	//	TITULO
@@ -208,11 +209,11 @@ void fibWhile(void)
 
 	while (cont < n)
 	{
-		printf("%d, ", res);
-		res = ant + sig;
-
 		ant = sig;
 		sig = res;
+
+		printf("%d, ", res);
+		res = ant + sig;
 		cont++;
 	}
 
@@ -223,7 +224,7 @@ void fibWhile(void)
 void fibDoWhile(void)
 {
 	//  VARIABLES LOCALES
-	int n, cont = 0, ant = 0, sig = 1, res = 1;
+	int n, cont = 0, ant = -1, sig = 1, res = 0;
 	system("CLS");
 
 	//	TITULO
@@ -242,11 +243,11 @@ void fibDoWhile(void)
 
 	do
 	{
-		printf("%d, ", res);
-		res = ant + sig;
-
 		ant = sig;
 		sig = res;
+
+		printf("%d, ", res);
+		res = ant + sig;
 		cont++;
 	} while (cont < n);
 
