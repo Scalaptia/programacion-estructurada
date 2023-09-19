@@ -162,6 +162,7 @@ void tablas(void)
 		system("PAUSE");
 	}
 }
+
 //*********************
 // Leer n cantidad de números dentro de un rango dado, desplegar la suma y media.
 // HCF_ACT6_02_03_932
@@ -197,6 +198,7 @@ void sumYMed(void)
 	printf("\n");
 	system("PAUSE");
 }
+
 //*********************
 // Contar turistas que se subiran a un barco y calcular promedio de peso.
 // HCF_ACT6_02_03_932
@@ -241,6 +243,7 @@ void turistas(void)
 	printf("\n");
 	system("PAUSE");
 }
+
 //*********************
 // Determina el estado de un alumno en una asignatura en base a sus calificaciones.
 // HCF_ACT6_02_03_932
