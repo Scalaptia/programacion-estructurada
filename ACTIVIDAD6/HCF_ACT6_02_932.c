@@ -1,15 +1,16 @@
 // Fernando Haro Calvo  MATR. 372106
-// 12-SEP-2023
+// 12-SEP-2023 - 18-SEP-2023
 
+//*** LIBRERIAS		*******
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define ALUMNOS 40
+#define ALUMNOS 3
 #define MAXTURISTAS 10
 #define MAXPESO 700
 
-//*** PROTOTIPOS DE FUNCIONES  ******
+//*** PROTOTIPOS DE FUNCIONES	******
 int msges(void);
 int msgCiclos(void);
 int validar(int ri, int rf);
@@ -19,7 +20,7 @@ void sumYMed(void);
 void turistas(void);
 void asig(void);
 
-//****  MAIN PRINCIPAL  *********
+//*** MAIN PRINCIPAL	*********
 int main()
 {
 	menu();
@@ -201,7 +202,7 @@ void sumYMed(void)
 
 //*********************
 // Contar turistas que se subiran a un barco y calcular promedio de peso.
-// HCF_ACT6_02_03_932
+// HCF_ACT6_02_04_932
 void turistas(void)
 {
 	//  VARIABLES LOCALES
@@ -246,7 +247,7 @@ void turistas(void)
 
 //*********************
 // Determina el estado de un alumno en una asignatura en base a sus calificaciones.
-// HCF_ACT6_02_03_932
+// HCF_ACT6_02_05_932
 void asig(void)
 {
 	//  VARIABLES LOCALES
