@@ -15,8 +15,8 @@ void printReversa(char cadena[]);
 void printVertical(char cadena[]);
 void printVerticalReversa(char cadena[]);
 void printBorrarDer(char cadena[]);
-// void printReversaBorrarDer(char cadena[]);
-// void printBorrarIzq(char cadena[]);
+void printReversaBorrarDer(char cadena[]);
+void printBorrarIzq(char cadena[]);
 // void printReversaBorrarIzq(char cadena[]);
 // void printAlternar(char cadena[]);
 // void printVocals(char cadena[]);
@@ -86,15 +86,15 @@ void menu()
             break;
 
         case 6:
-            // printReversaBorrarDer(cadena);
+            printReversaBorrarDer(cadena);
             break;
 
         case 7:
-            // printBorrarIzq(cadena);
+            printBorrarIzq(cadena);
             break;
 
         case 8:
-            // printReversaBorrarIzq(cadena);
+            printReversaBorrarIzq(cadena);
             break;
 
         case 9:
@@ -215,5 +215,77 @@ void printBorrarDer(char cadena[])
         printf("\n");
     }
 
+    system("PAUSE");
+}
+//*********************
+// Imprime la cadena al revés, en cada ciclo borrando un caracér a la derecha.
+// HCF_ACT7_01_06_932
+void printReversaBorrarDer(char cadena[])
+{
+    // Variables Locales
+    int i, j, largo;
+
+    // Programa
+    system("CLS");
+    largo = largoCadena(cadena);
+
+    for (i = 0; i <= largo; i++)
+    {
+        for (j = largo; j >= i; j--)
+        {
+            printf("%c", cadena[j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n");
+    system("PAUSE");
+}
+//*********************
+// Imprime la cadena, en cada ciclo borrando un caracér a la izquierda.
+// HCF_ACT7_01_07_932
+void printBorrarIzq(char cadena[])
+{
+    // Variables Locales
+    int i, j, contador, largo;
+
+    // Programa
+    system("CLS");
+    largo = largoCadena(cadena);
+
+    for (i = largo; i >= 0; i--)
+    {
+        for (j = largo - i; j <= largo; j++)
+        {
+            printf("%c", cadena[j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n");
+    system("PAUSE");
+}
+//*********************
+// Imprime la cadena, en cada ciclo borrando un caracér a la izquierda.
+// HCF_ACT7_01_08_932
+void printReversaBorrarIzq(char cadena[])
+{
+    // Variables Locales
+    int i, j, largo;
+
+    // Programa
+    system("CLS");
+    largo = largoCadena(cadena);
+
+    for (i = largo; i >= 0; i--)
+    {
+        for (j = i; j >= 0; j--)
+        {
+            printf("%c", cadena[j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n");
     system("PAUSE");
 }
