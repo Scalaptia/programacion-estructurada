@@ -9,11 +9,12 @@
 int msges();
 int msgCiclos();
 void menu();
+int largoCadena(char cadena[]);
 void printNormal(char cadena[]);
-// void printReversa(char cadena[]);
-// void printVertical(char cadena[]);
-// void printVerticalReversa(char cadena[]);
-// void printBorrarDer(char cadena[]);
+void printReversa(char cadena[]);
+void printVertical(char cadena[]);
+void printVerticalReversa(char cadena[]);
+void printBorrarDer(char cadena[]);
 // void printReversaBorrarDer(char cadena[]);
 // void printBorrarIzq(char cadena[]);
 // void printReversaBorrarIzq(char cadena[]);
@@ -33,6 +34,7 @@ int main()
 int msges()
 {
     int op;
+    system("CLS");
     printf("\n   M  E   N   U \n");
     printf("1.- NORMAL \n");
     printf("2.- REVERSA \n");
@@ -54,13 +56,12 @@ void menu()
 {
     int op;
     char cadena[30];
+    system("CLS");
+    printf("Ingrese una cadena: ");
+    fflush(stdin);
+    gets(cadena);
     do
     {
-        system("CLS");
-        puts("Ingrese una cadena: ");
-        fflush(stdin);
-        gets(cadena);
-
         op = msges();
         switch (op)
         {
@@ -69,19 +70,19 @@ void menu()
             break;
 
         case 2:
-            // printReversa(cadena);
+            printReversa(cadena);
             break;
 
         case 3:
-            // printVertical(cadena);
+            printVertical(cadena);
             break;
 
         case 4:
-            // printVerticalReversa(cadena);
+            printVerticalReversa(cadena);
             break;
 
         case 5:
-            // printBorrarDer(cadena);
+            printBorrarDer(cadena);
             break;
 
         case 6:
@@ -108,16 +109,29 @@ void menu()
 }
 //*********************
 // Imprime la cadena normalmente.
+int largoCadena(char cadena[])
+{
+    int i;
+    for (i = 0; cadena[i] != '\0'; i++)
+        ;
+
+    return i - 1;
+}
+
+//*********************
+// Imprime la cadena normalmente.
 // HCF_ACT7_01_01_932
 void printNormal(char cadena[])
 {
     // Variables Locales
     int i;
 
-    // Titulo
-    system("CLS");
-
     // Programa
+    system("CLS");
+    for (i = 0; cadena[i] != '\0'; i++)
+    {
+        printf("%c", cadena[i]);
+    }
 
     printf("\n");
     system("PAUSE");
@@ -128,13 +142,78 @@ void printNormal(char cadena[])
 void printReversa(char cadena[])
 {
     // Variables Locales
-    int i;
-
-    // Titulo
-    system("CLS");
+    int i, largo;
 
     // Programa
+    system("CLS");
+    largo = largoCadena(cadena);
+
+    for (i = largo; i >= 0; i--)
+    {
+        printf("%c", cadena[i]);
+    }
 
     printf("\n");
+    system("PAUSE");
+}
+//*********************
+// Imprime la cadena normal verticalmente.
+// HCF_ACT7_01_03_932
+void printVertical(char cadena[])
+{
+    // Variables Locales
+    int i;
+
+    // Programa
+    system("CLS");
+    for (i = 0; cadena[i] != '\0'; i++)
+    {
+        printf("%c\n", cadena[i]);
+    }
+
+    printf("\n");
+    system("PAUSE");
+}
+//*********************
+// Imprime la cadena al revés y verticalmente.
+// HCF_ACT7_01_04_932
+void printVerticalReversa(char cadena[])
+{
+    // Variables Locales
+    int i, largo;
+
+    // Programa
+    system("CLS");
+    largo = largoCadena(cadena);
+
+    for (i = largo; i >= 0; i--)
+    {
+        printf("%c\n", cadena[i]);
+    }
+
+    printf("\n");
+    system("PAUSE");
+}
+//*********************
+// Imprime la cadena, en cada ciclo borrando un caracér a la derecha.
+// HCF_ACT7_01_05_932
+void printBorrarDer(char cadena[])
+{
+    // Variables Locales
+    int i, j, largo;
+
+    // Programa
+    system("CLS");
+    largo = largoCadena(cadena);
+
+    for (i = largo + 1; i >= 0; i--)
+    {
+        for (j = 0; j < i; j++)
+        {
+            printf("%c", cadena[j]);
+        }
+        printf("\n");
+    }
+
     system("PAUSE");
 }
