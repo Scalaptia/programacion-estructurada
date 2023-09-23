@@ -1,5 +1,5 @@
 // Fernando Haro Calvo  MATR. 372106
-// 19-SEP-2023 (Creado) - 23-SEP-2023 (Modificado)
+// 23-SEP-2023 (Creado)
 
 //*** LIBRERIAS     ******
 #include <stdio.h>
@@ -11,15 +11,6 @@ int msgCiclos();
 void menu();
 int largoCadena(char cadena[]);
 void printNormal(char cadena[]);
-void printReversa(char cadena[]);
-void printVertical(char cadena[]);
-void printVerticalReversa(char cadena[]);
-void printBorrarDer(char cadena[]);
-void printReversaBorrarDer(char cadena[]);
-void printBorrarIzq(char cadena[]);
-void printReversaBorrarIzq(char cadena[]);
-void printConsonantes(char cadena[]);
-void printVocales(char cadena[]);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -36,16 +27,16 @@ int msges()
     int op;
     system("CLS");
     printf("\n   M  E   N   U \n");
-    printf("1.- NORMAL \n");
-    printf("2.- REVERSA \n");
-    printf("3.- VERTICAL \n");
-    printf("4.- VERTICAL REVERSE \n");
-    printf("5.- BORRAR DERECHA \n");
-    printf("6.- REVERSA BORRAR DERECHA \n");
-    printf("7.- BORRAR IZQUIERDA \n");
-    printf("8.- REVERSA BORRAR IZQUIERDA \n");
-    printf("9.- CONSONANTES \n");
-    printf("10.- VOCALES \n");
+    printf("1.- MAYUSCULAS \n");
+    printf("2.- MINUSCULAS \n");
+    printf("3.- CAPITAL \n");
+    printf("4.- CANTIDAD CARACTERES \n");
+    printf("5.- REVERSA \n");
+    printf("6.- SIN ESPACIOS \n");
+    printf("7.- CARACTERES ALFABÉTICOS \n");
+    printf("8.- IMPRIMIR VARIAS \n");
+    printf("9.- PALINDROMO \n");
+
     printf("0.- SALIR  \n");
     printf("ESCOGE UNA OPCION: ");
     scanf("%d", &op);
@@ -98,11 +89,11 @@ void menu()
             break;
 
         case 9:
-            printConsonantes(cadena);
+            // printAlternar(cadena);
             break;
 
         case 10:
-            printVocales(cadena);
+            // printVocals(cadena);
             break;
         }
     } while (op != 0);
@@ -266,7 +257,7 @@ void printBorrarIzq(char cadena[])
     system("PAUSE");
 }
 //*********************
-// Imprime la cadena al revés, en cada ciclo borrando un caracér a la izquierda.
+// Imprime la cadena, en cada ciclo borrando un caracér a la izquierda.
 // HCF_ACT7_01_08_932
 void printReversaBorrarIzq(char cadena[])
 {
@@ -284,62 +275,6 @@ void printReversaBorrarIzq(char cadena[])
             printf("%c", cadena[j]);
         }
         printf("\n");
-    }
-
-    printf("\n");
-    system("PAUSE");
-}
-//*********************
-// Imprime solo las letras consonantes de la cadena.
-// HCF_ACT7_01_09_932
-void printConsonantes(char cadena[])
-{
-    // Variables Locales
-    int i;
-
-    // Programa
-    system("CLS");
-    for (int i = 0; cadena[i] != '\0'; i++)
-    {
-        char caracter = cadena[i];
-
-        if (caracter >= 'A' && caracter <= 'Z')
-        {
-            caracter += 32; // Convertir a minúscula (ASCII)
-        }
-
-        if ((caracter >= 'a' && caracter <= 'z') && (caracter != 'a' && caracter != 'e' && caracter != 'i' && caracter != 'o' && caracter != 'u'))
-        {
-            printf("%c", cadena[i]);
-        }
-    }
-
-    printf("\n");
-    system("PAUSE");
-}
-//*********************
-// Imprime solo las letras vocales de la cadena.
-// HCF_ACT7_01_09_932
-void printVocales(char cadena[])
-{
-    // Variables Locales
-    int i;
-
-    // Programa
-    system("CLS");
-    for (int i = 0; cadena[i] != '\0'; i++)
-    {
-        char caracter = cadena[i];
-
-        if (caracter >= 'A' && caracter <= 'Z')
-        {
-            caracter += 32; // Convertir a minúscula (ASCII)
-        }
-
-        if ((caracter >= 'a' && caracter <= 'z') && (caracter == 'a' || caracter == 'e' || caracter == 'i' || caracter == 'o' || caracter == 'u'))
-        {
-            printf("%c", cadena[i]);
-        }
     }
 
     printf("\n");
