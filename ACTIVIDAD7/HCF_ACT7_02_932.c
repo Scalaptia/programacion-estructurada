@@ -14,7 +14,7 @@ void printMinus(char cadena[]);
 void printCapital(char cadena[]);
 void printCantChar(char cadena[]);
 void printReversa(char cadena[]);
-// void printSinEspacios(char cadena[]);
+void printSinEspacios(char cadena[]);
 // void printCharAlfa(char cadena[]);
 // void printAll(char cadena[]);
 // void printPalindromo(char cadena[]);
@@ -40,7 +40,7 @@ int msges()
     printf("4.- CANTIDAD CARACTERES \n");
     printf("5.- REVERSA \n");
     printf("6.- SIN ESPACIOS \n");
-    printf("7.- CARACTERES ALFABÉTICOS \n");
+    printf("7.- CARACTERES ALFABETICOS \n");
     printf("8.- IMPRIMIR VARIAS \n");
     printf("9.- PALINDROMO \n");
     printf("0.- SALIR  \n");
@@ -83,7 +83,7 @@ void menu()
             break;
 
         case 6:
-            // printSinEspacios(cadena);
+            printSinEspacios(cadena);
             break;
 
         case 7:
@@ -110,12 +110,13 @@ void printMayus(char cadena[])
 {
     // Variables Locales
     int i;
+    char caracter;
 
     // Programa
     system("CLS");
     for (i = 0; cadena[i] != '\0'; i++)
     {
-        char caracter = cadena[i];
+        caracter = cadena[i];
 
         if (caracter >= 'a' && caracter <= 'z')
         {
@@ -132,12 +133,13 @@ void printMinus(char cadena[])
 {
     // Variables Locales
     int i;
+    char caracter;
 
     // Programa
     system("CLS");
     for (int i = 0; cadena[i] != '\0'; i++)
     {
-        char caracter = cadena[i];
+        caracter = cadena[i];
 
         if (caracter >= 'A' && caracter <= 'Z')
         {
@@ -154,21 +156,23 @@ void printCapital(char cadena[])
 {
     // Variables Locales
     int i;
+    char caracter;
 
     // Programa
     system("CLS");
 
     // Primera letra
-    if (cadena[0] >= 'a' && cadena[0] <= 'z')
+    caracter = cadena[0];
+    if (caracter >= 'a' && caracter <= 'z')
     {
-        cadena[0] -= 32; // Convertir a minúscula (ASCII)
+        caracter -= 32; // Convertir a minúscula (ASCII)
     }
-    printf("%c", cadena[0]);
+    printf("%c", caracter);
 
     // Resto de la cadena
     for (int i = 1; cadena[i] != '\0'; i++)
     {
-        char caracter = cadena[i];
+        caracter = cadena[i];
 
         if (caracter >= 'A' && caracter <= 'Z')
         {
@@ -199,15 +203,38 @@ void printCantChar(char cadena[])
 void printReversa(char cadena[])
 {
     // Variables Locales
-    int i, largo;
+    int i, j, largo;
+    char inversa[30];
 
     // Programa
     system("CLS");
     for (largo = 0; cadena[largo] != '\0'; largo++)
         ;
 
-    for (i = largo - 1; i >= 0; i--)
+    for (i = largo - 1, j = 0; i >= 0; i--, j++)
     {
-        printf("%c", cadena[i]);
+        inversa[j] = cadena[i];
+        printf("%c", inversa[j]);
+    }
+}
+//*********************
+// Imprime la cadena sin espacios.
+// HCF_ACT7_02_06_932
+void printSinEspacios(char cadena[])
+{
+    // Variables Locales
+    int i, j;
+    char cadenaSE[30];
+
+    // Programa
+    system("CLS");
+    for (i = 0, j = 0; cadena[i] != '\0'; i++)
+    {
+        if (cadena[i] != ' ')
+        {
+            cadenaSE[j] = cadena[i];
+            printf("%c", cadenaSE[j]);
+            j++;
+        }
     }
 }
