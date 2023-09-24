@@ -320,17 +320,6 @@ void printPalindromo(char cadena[])
     // Verifica si la cadena es un palíndromo
     while (inicio < fin)
     {
-        // Ignora los espacios en blanco y caracteres no alfabéticos
-        while (cadenaM[inicio] < 'A' || cadenaM[inicio] > 'Z')
-        {
-            inicio++;
-        }
-
-        while (cadenaM[fin] < 'A' || cadenaM[fin] > 'Z')
-        {
-            fin--;
-        }
-
         // Compara los caracteres en los índices inicio y fin
         if (cadenaM[inicio] != cadenaM[fin])
         {
