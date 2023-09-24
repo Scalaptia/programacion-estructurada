@@ -1,5 +1,5 @@
 // Fernando Haro Calvo  MATR. 372106
-// 19-SEP-2023 (Creado) - 23-SEP-2023 (Modificado)
+// 19-SEP-2023 (Creado) - 24-SEP-2023 (Modificado)
 
 //*** LIBRERIAS     ******
 #include <stdio.h>
@@ -9,6 +9,7 @@
 int msges();
 int msgCiclos();
 void menu();
+void mayus(char cadena[]);
 int largoCadena(char cadena[]);
 void printNormal(char cadena[]);
 void printReversa(char cadena[]);
@@ -60,6 +61,8 @@ void menu()
     printf("Ingrese una cadena: ");
     fflush(stdin);
     gets(cadena);
+    mayus(cadena);
+
     do
     {
         op = msges();
@@ -110,6 +113,27 @@ void menu()
     } while (op != 0);
 }
 //*********************
+// Convierte la cadena a mayusculas.
+void mayus(char cadena[])
+{
+    // Variables Locales
+    int i;
+
+    // Programa
+    system("CLS");
+    for (i = 0; cadena[i] != '\0'; i++)
+    {
+        char caracter = cadena[i];
+
+        if (caracter >= 'a' && caracter <= 'z')
+        {
+            caracter -= 32; // Convertir a mayúscula (ASCII)
+        }
+
+        cadena[i] = caracter;
+    }
+}
+//*********************
 // Imprime la cadena normalmente.
 int largoCadena(char cadena[])
 {
@@ -119,7 +143,6 @@ int largoCadena(char cadena[])
 
     return i - 1;
 }
-
 //*********************
 // Imprime la cadena normalmente.
 // HCF_ACT7_01_01_932
