@@ -17,7 +17,7 @@ void printReversa(char cadena[]);
 void printSinEspacios(char cadena[]);
 void printCharAlfa(char cadena[]);
 void printAll(char cadena[]);
-// void printPalindromo(char cadena[]);
+void printPalindromo(char cadena[]);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -96,7 +96,7 @@ void menu()
             break;
 
         case 9:
-            // printPalindromo(cadena);
+            printPalindromo(cadena);
             break;
 
         case 0:
@@ -263,7 +263,7 @@ void printCharAlfa(char cadena[])
 }
 //*********************
 // Imprime la cadena en mayusculas, minusculas, capital, sin espacios y alreves.
-// HCF_ACT7_02_07_932
+// HCF_ACT7_02_08_932
 void printAll(char cadena[])
 {
     // Programa
@@ -285,4 +285,62 @@ void printAll(char cadena[])
 
     printf("Al reves: \n");
     printReversa(cadena);
+}
+//*********************
+// Imprime si la cadena es un palindromo o no.
+// HCF_ACT7_02_09_932
+void printPalindromo(char cadena[])
+{
+    // Variables locales
+    int i, inicio = 0, fin, largo = 0;
+    char caracter;
+    char cadenaM[30];
+
+    // Programa
+    // Crea una nueva cadena en mayusculas y sin espacios para comparar
+    for (i = 0; cadena[i] != '\0'; i++)
+    {
+        caracter = cadena[i];
+
+        // Verifica si es minuscula y convierte a mayuscula
+        if (caracter >= 'a' && caracter <= 'z')
+        {
+            caracter -= 32; // Convertir a mayúscula (ASCII)
+        }
+
+        // Verifica si no es un espacio
+        if (caracter != ' ')
+        {
+            cadenaM[largo] = caracter;
+            largo++;
+        }
+    }
+    fin = largo - 1;
+
+    // Verifica si la cadena es un palíndromo
+    while (inicio < fin)
+    {
+        // Ignora los espacios en blanco y caracteres no alfabéticos
+        while (cadenaM[inicio] < 'A' || cadenaM[inicio] > 'Z')
+        {
+            inicio++;
+        }
+
+        while (cadenaM[fin] < 'A' || cadenaM[fin] > 'Z')
+        {
+            fin--;
+        }
+
+        // Compara los caracteres en los índices inicio y fin
+        if (cadenaM[inicio] != cadenaM[fin])
+        {
+            printf("No es un palindromo");
+            return;
+        }
+
+        inicio++;
+        fin--;
+    }
+
+    printf("Si es un palindromo");
 }
