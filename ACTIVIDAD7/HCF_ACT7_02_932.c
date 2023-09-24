@@ -10,10 +10,10 @@ int msges();
 int msgCiclos();
 void menu();
 void printMayus(char cadena[]);
-// void printMinus(char cadena[]);
-// void printCapital(char cadena[]);
-// void printCantChar(char cadena[]);
-// void printReversa(char cadena[]);
+void printMinus(char cadena[]);
+void printCapital(char cadena[]);
+void printCantChar(char cadena[]);
+void printReversa(char cadena[]);
 // void printSinEspacios(char cadena[]);
 // void printCharAlfa(char cadena[]);
 // void printAll(char cadena[]);
@@ -67,19 +67,19 @@ void menu()
             break;
 
         case 2:
-            // printMinus(cadena);
+            printMinus(cadena);
             break;
 
         case 3:
-            // printCapital(cadena);
+            printCapital(cadena);
             break;
 
         case 4:
-            // printCantChar(cadena);
+            printCantChar(cadena);
             break;
 
         case 5:
-            // printReversa(cadena);
+            printReversa(cadena);
             break;
 
         case 6:
@@ -98,6 +98,9 @@ void menu()
             // printPalindromo(cadena);
             break;
         }
+
+        printf("\n");
+        system("PAUSE");
     } while (op != 0);
 }
 //*********************
@@ -121,7 +124,90 @@ void printMayus(char cadena[])
 
         printf("%c", caracter);
     }
+}
+//*********************
+// Imprime la cadena en minuscula.
+// HCF_ACT7_02_02_932
+void printMinus(char cadena[])
+{
+    // Variables Locales
+    int i;
 
-    printf("\n");
-    system("PAUSE");
+    // Programa
+    system("CLS");
+    for (int i = 0; cadena[i] != '\0'; i++)
+    {
+        char caracter = cadena[i];
+
+        if (caracter >= 'A' && caracter <= 'Z')
+        {
+            caracter += 32; // Convertir a minúscula (ASCII)
+        }
+
+        printf("%c", caracter);
+    }
+}
+//*********************
+// Imprime la cadena capitalizada.
+// HCF_ACT7_02_03_932
+void printCapital(char cadena[])
+{
+    // Variables Locales
+    int i;
+
+    // Programa
+    system("CLS");
+
+    // Primera letra
+    if (cadena[0] >= 'a' && cadena[0] <= 'z')
+    {
+        cadena[0] -= 32; // Convertir a minúscula (ASCII)
+        printf("%c", cadena[0]);
+    }
+
+    // Resto de la cadena
+    for (int i = 1; cadena[i] != '\0'; i++)
+    {
+        char caracter = cadena[i];
+
+        if (caracter >= 'A' && caracter <= 'Z')
+        {
+            caracter += 32; // Convertir a minúscula (ASCII)
+        }
+
+        printf("%c", caracter);
+    }
+}
+//*********************
+// Imprime la cantidad de caracteres de la cadena.
+// HCF_ACT7_02_04_932
+void printCantChar(char cadena[])
+{
+    // Variables Locales
+    int i;
+
+    // Programa
+    system("CLS");
+    while (cadena[i] != '\0')
+    {
+        i++;
+    }
+
+    printf("La cadena tiene %d caracteres", i);
+}
+//*********************
+// Imprime la cadena al revés.
+// HCF_ACT7_02_05_932
+void printReversa(char cadena[])
+{
+    // Variables Locales
+    int i;
+
+    // Programa
+    system("CLS");
+
+    for (i = largo; i >= 0; i--)
+    {
+        printf("%c", cadena[i]);
+    }
 }

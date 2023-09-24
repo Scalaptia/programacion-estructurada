@@ -105,6 +105,8 @@ void menu()
             printVocales(cadena);
             break;
         }
+        printf("\n");
+        system("PAUSE");
     } while (op != 0);
 }
 //*********************
@@ -132,9 +134,6 @@ void printNormal(char cadena[])
     {
         printf("%c", cadena[i]);
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime la cadena al revés.
@@ -152,9 +151,6 @@ void printReversa(char cadena[])
     {
         printf("%c", cadena[i]);
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime la cadena normal verticalmente.
@@ -170,9 +166,6 @@ void printVertical(char cadena[])
     {
         printf("%c\n", cadena[i]);
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime la cadena al revés y verticalmente.
@@ -190,9 +183,6 @@ void printVerticalReversa(char cadena[])
     {
         printf("%c\n", cadena[i]);
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime la cadena, en cada ciclo borrando un caracér a la derecha.
@@ -214,8 +204,6 @@ void printBorrarDer(char cadena[])
         }
         printf("\n");
     }
-
-    system("PAUSE");
 }
 //*********************
 // Imprime la cadena al revés, en cada ciclo borrando un caracér a la derecha.
@@ -237,9 +225,6 @@ void printReversaBorrarDer(char cadena[])
         }
         printf("\n");
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime la cadena, en cada ciclo borrando un caracér a la izquierda.
@@ -261,9 +246,6 @@ void printBorrarIzq(char cadena[])
         }
         printf("\n");
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime la cadena al revés, en cada ciclo borrando un caracér a la izquierda.
@@ -285,9 +267,6 @@ void printReversaBorrarIzq(char cadena[])
         }
         printf("\n");
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime solo las letras consonantes de la cadena.
@@ -313,9 +292,6 @@ void printConsonantes(char cadena[])
             printf("%c", cadena[i]);
         }
     }
-
-    printf("\n");
-    system("PAUSE");
 }
 //*********************
 // Imprime solo las letras vocales de la cadena.
@@ -341,7 +317,4 @@ void printVocales(char cadena[])
             printf("%c", cadena[i]);
         }
     }
-
-    printf("\n");
-    system("PAUSE");
 }
