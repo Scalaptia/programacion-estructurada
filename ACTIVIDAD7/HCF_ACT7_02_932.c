@@ -162,8 +162,8 @@ void printCapital(char cadena[])
     if (cadena[0] >= 'a' && cadena[0] <= 'z')
     {
         cadena[0] -= 32; // Convertir a minúscula (ASCII)
-        printf("%c", cadena[0]);
     }
+    printf("%c", cadena[0]);
 
     // Resto de la cadena
     for (int i = 1; cadena[i] != '\0'; i++)
@@ -184,16 +184,14 @@ void printCapital(char cadena[])
 void printCantChar(char cadena[])
 {
     // Variables Locales
-    int i;
+    int largo;
 
     // Programa
     system("CLS");
-    while (cadena[i] != '\0')
-    {
-        i++;
-    }
+    for (largo = 0; cadena[largo] != '\0'; largo++)
+        ;
 
-    printf("La cadena tiene %d caracteres", i);
+    printf("La cadena tiene %d caracteres", largo);
 }
 //*********************
 // Imprime la cadena al revés.
@@ -201,12 +199,14 @@ void printCantChar(char cadena[])
 void printReversa(char cadena[])
 {
     // Variables Locales
-    int i;
+    int i, largo;
 
     // Programa
     system("CLS");
+    for (largo = 0; cadena[largo] != '\0'; largo++)
+        ;
 
-    for (i = largo; i >= 0; i--)
+    for (i = largo - 1; i >= 0; i--)
     {
         printf("%c", cadena[i]);
     }
