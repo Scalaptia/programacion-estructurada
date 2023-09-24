@@ -66,6 +66,7 @@ void menu()
     do
     {
         op = msges();
+        system("CLS");
         switch (op)
         {
         case 1:
@@ -107,8 +108,11 @@ void menu()
         case 10:
             printVocales(cadena);
             break;
+
+        case 0:
+            return 0;
         }
-        printf("\n");
+        printf("\n\n");
         system("PAUSE");
     } while (op != 0);
 }
@@ -120,7 +124,6 @@ void mayus(char cadena[])
     int i;
 
     // Programa
-    system("CLS");
     for (i = 0; cadena[i] != '\0'; i++)
     {
         char caracter = cadena[i];
@@ -152,7 +155,6 @@ void printNormal(char cadena[])
     int i;
 
     // Programa
-    system("CLS");
     for (i = 0; cadena[i] != '\0'; i++)
     {
         printf("%c", cadena[i]);
@@ -167,7 +169,6 @@ void printReversa(char cadena[])
     int i, largo;
 
     // Programa
-    system("CLS");
     largo = largoCadena(cadena);
 
     for (i = largo; i >= 0; i--)
@@ -184,7 +185,6 @@ void printVertical(char cadena[])
     int i;
 
     // Programa
-    system("CLS");
     for (i = 0; cadena[i] != '\0'; i++)
     {
         printf("%c\n", cadena[i]);
@@ -199,7 +199,6 @@ void printVerticalReversa(char cadena[])
     int i, largo;
 
     // Programa
-    system("CLS");
     largo = largoCadena(cadena);
 
     for (i = largo; i >= 0; i--)
@@ -216,7 +215,6 @@ void printBorrarDer(char cadena[])
     int i, j, largo;
 
     // Programa
-    system("CLS");
     largo = largoCadena(cadena);
 
     for (i = largo + 1; i >= 0; i--)
@@ -237,7 +235,6 @@ void printReversaBorrarDer(char cadena[])
     int i, j, largo;
 
     // Programa
-    system("CLS");
     largo = largoCadena(cadena);
 
     for (i = 0; i <= largo; i++)
@@ -258,7 +255,6 @@ void printBorrarIzq(char cadena[])
     int i, j, contador, largo;
 
     // Programa
-    system("CLS");
     largo = largoCadena(cadena);
 
     for (i = largo; i >= 0; i--)
@@ -279,7 +275,6 @@ void printReversaBorrarIzq(char cadena[])
     int i, j, largo;
 
     // Programa
-    system("CLS");
     largo = largoCadena(cadena);
 
     for (i = largo; i >= 0; i--)
@@ -300,7 +295,6 @@ void printConsonantes(char cadena[])
     int i;
 
     // Programa
-    system("CLS");
     for (int i = 0; cadena[i] != '\0'; i++)
     {
         char caracter = cadena[i];
@@ -325,7 +319,6 @@ void printVocales(char cadena[])
     int i;
 
     // Programa
-    system("CLS");
     for (int i = 0; cadena[i] != '\0'; i++)
     {
         char caracter = cadena[i];

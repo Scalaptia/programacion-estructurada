@@ -15,8 +15,8 @@ void printCapital(char cadena[]);
 void printCantChar(char cadena[]);
 void printReversa(char cadena[]);
 void printSinEspacios(char cadena[]);
-// void printCharAlfa(char cadena[]);
-// void printAll(char cadena[]);
+void printCharAlfa(char cadena[]);
+void printAll(char cadena[]);
 // void printPalindromo(char cadena[]);
 
 //****  MAIN PRINCIPAL  *********
@@ -60,6 +60,7 @@ void menu()
     do
     {
         op = msges();
+        system("CLS");
         switch (op)
         {
         case 1:
@@ -87,19 +88,22 @@ void menu()
             break;
 
         case 7:
-            // printCharAlfa(cadena);
+            printCharAlfa(cadena);
             break;
 
         case 8:
-            // printAll(cadena);
+            printAll(cadena);
             break;
 
         case 9:
             // printPalindromo(cadena);
             break;
+
+        case 0:
+            return 0;
         }
 
-        printf("\n");
+        printf("\n\n");
         system("PAUSE");
     } while (op != 0);
 }
@@ -113,7 +117,6 @@ void printMayus(char cadena[])
     char caracter;
 
     // Programa
-    system("CLS");
     for (i = 0; cadena[i] != '\0'; i++)
     {
         caracter = cadena[i];
@@ -136,7 +139,6 @@ void printMinus(char cadena[])
     char caracter;
 
     // Programa
-    system("CLS");
     for (int i = 0; cadena[i] != '\0'; i++)
     {
         caracter = cadena[i];
@@ -159,8 +161,6 @@ void printCapital(char cadena[])
     char caracter;
 
     // Programa
-    system("CLS");
-
     // Primera letra
     caracter = cadena[0];
     if (caracter >= 'a' && caracter <= 'z')
@@ -191,7 +191,6 @@ void printCantChar(char cadena[])
     int largo;
 
     // Programa
-    system("CLS");
     for (largo = 0; cadena[largo] != '\0'; largo++)
         ;
 
@@ -207,7 +206,6 @@ void printReversa(char cadena[])
     char inversa[30];
 
     // Programa
-    system("CLS");
     for (largo = 0; cadena[largo] != '\0'; largo++)
         ;
 
@@ -227,7 +225,6 @@ void printSinEspacios(char cadena[])
     char cadenaSE[30];
 
     // Programa
-    system("CLS");
     for (i = 0, j = 0; cadena[i] != '\0'; i++)
     {
         if (cadena[i] != ' ')
@@ -237,4 +234,55 @@ void printSinEspacios(char cadena[])
             j++;
         }
     }
+}
+//*********************
+// Imprime la cadena con solo caracteres alfabeticos y el espacio,
+// sin que empiece ni termine con espacio y sin tener dos espacios seguidos.
+// HCF_ACT7_02_07_932
+void printCharAlfa(char cadena[])
+{
+    // Variables Locales
+    int i, j;
+    char cadenaAlfa[30];
+
+    // Programa
+    for (i = 0, j = 0; cadena[i] != '\0'; i++)
+    {
+        // Verifica si es un caracter alfabetico o espacio
+        if ((cadena[i] == ' ') || (cadena[i] >= 'a' && cadena[i] <= 'z') || (cadena[i] >= 'A' && cadena[i] <= 'Z'))
+        {
+            // Verifica si no existe un doble espacio y que el primer y ultimo caracter no sean espacio.
+            if (cadena[i] != ' ' || (i > 0 && cadena[i + 1] != '\0' && cadena[i - 1] != ' '))
+            {
+                cadenaAlfa[j] = cadena[i];
+                printf("%c", cadenaAlfa[j]);
+                j++;
+            }
+        }
+    }
+}
+//*********************
+// Imprime la cadena en mayusculas, minusculas, capital, sin espacios y alreves.
+// HCF_ACT7_02_07_932
+void printAll(char cadena[])
+{
+    // Programa
+    printf("Mayusculas: \n");
+    printMayus(cadena);
+    printf("\n\n");
+
+    printf("Minusculas: \n");
+    printMinus(cadena);
+    printf("\n\n");
+
+    printf("Capital: \n");
+    printCapital(cadena);
+    printf("\n\n");
+
+    printf("Sin Espacios: \n");
+    printSinEspacios(cadena);
+    printf("\n\n");
+
+    printf("Al reves: \n");
+    printReversa(cadena);
 }
