@@ -298,14 +298,7 @@ void printConsonantes(char cadena[])
     // Programa
     for (i = 0; cadena[i] != '\0'; i++)
     {
-        char caracter = cadena[i];
-
-        if (caracter >= 'a' && caracter <= 'z')
-        {
-            caracter -= 32; // Convertir a mayuscula (ASCII)
-        }
-
-        if (caracter != 'A' && caracter != 'E' && caracter != 'I' && caracter != 'O' && caracter != 'U')
+        if (cadena[i] != 'A' && cadena[i] != 'E' && cadena[i] != 'I' && cadena[i] != 'O' && cadena[i] != 'U')
         {
             printf("%c", cadena[i]);
         }
@@ -322,14 +315,7 @@ void printVocales(char cadena[])
     // Programa
     for (i = 0; cadena[i] != '\0'; i++)
     {
-        char caracter = cadena[i];
-
-        if (caracter >= 'a' && caracter <= 'z')
-        {
-            caracter -= 32; // Convertir a mayuscula (ASCII)
-        }
-
-        if (caracter == 'A' || caracter == 'E' || caracter == 'I' || caracter == 'O' || caracter == 'U')
+        if (cadena[i] == 'A' || cadena[i] == 'E' || cadena[i] == 'I' || cadena[i] == 'O' || cadena[i] == 'U')
         {
             printf("%c", cadena[i]);
         }
