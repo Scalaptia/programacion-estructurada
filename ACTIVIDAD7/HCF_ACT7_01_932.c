@@ -300,12 +300,12 @@ void printConsonantes(char cadena[])
     {
         char caracter = cadena[i];
 
-        if (caracter >= 'A' && caracter <= 'Z')
+        if (caracter >= 'a' && caracter <= 'z')
         {
-            caracter += 32; // Convertir a minúscula (ASCII)
+            caracter -= 32; // Convertir a mayuscula (ASCII)
         }
 
-        if ((caracter >= 'a' && caracter <= 'z') && (caracter != 'a' && caracter != 'e' && caracter != 'i' && caracter != 'o' && caracter != 'u'))
+        if (caracter != 'A' && caracter != 'E' && caracter != 'I' && caracter != 'O' && caracter != 'U')
         {
             printf("%c", cadena[i]);
         }
@@ -313,7 +313,7 @@ void printConsonantes(char cadena[])
 }
 //*********************
 // Imprime solo las letras vocales de la cadena.
-// HCF_ACT7_01_09_932
+// HCF_ACT7_01_10_932
 void printVocales(char cadena[])
 {
     // Variables Locales
@@ -324,12 +324,12 @@ void printVocales(char cadena[])
     {
         char caracter = cadena[i];
 
-        if (caracter >= 'A' && caracter <= 'Z')
+        if (caracter >= 'a' && caracter <= 'z')
         {
-            caracter += 32; // Convertir a minúscula (ASCII)
+            caracter -= 32; // Convertir a mayuscula (ASCII)
         }
 
-        if ((caracter >= 'a' && caracter <= 'z') && (caracter == 'a' || caracter == 'e' || caracter == 'i' || caracter == 'o' || caracter == 'u'))
+        if (caracter == 'A' || caracter == 'E' || caracter == 'I' || caracter == 'O' || caracter == 'U')
         {
             printf("%c", cadena[i]);
         }
