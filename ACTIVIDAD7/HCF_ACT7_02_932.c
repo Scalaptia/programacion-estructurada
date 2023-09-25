@@ -308,8 +308,8 @@ void printPalindromo(char cadena[])
             caracter -= 32; // Convertir a mayúscula (ASCII)
         }
 
-        // Verifica si no es un espacio
-        if (caracter != ' ')
+        // Verifica si no es un espacio ni un numero
+        if (caracter != ' ' && !(caracter >= '0' && caracter <= '9'))
         {
             cadenaM[largo] = caracter;
             largo++;
