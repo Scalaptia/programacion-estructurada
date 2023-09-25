@@ -139,7 +139,7 @@ void printMinus(char cadena[])
     char caracter;
 
     // Programa
-    for (int i = 0; cadena[i] != '\0'; i++)
+    for (i = 0; cadena[i] != '\0'; i++)
     {
         caracter = cadena[i];
 
@@ -170,7 +170,7 @@ void printCapital(char cadena[])
     printf("%c", caracter);
 
     // Resto de la cadena
-    for (int i = 1; cadena[i] != '\0'; i++)
+    for (i = 1; cadena[i] != '\0'; i++)
     {
         caracter = cadena[i];
 

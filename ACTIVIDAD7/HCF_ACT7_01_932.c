@@ -141,6 +141,7 @@ void mayus(char cadena[])
 int largoCadena(char cadena[])
 {
     int i;
+
     for (i = 0; cadena[i] != '\0'; i++)
         ;
 
@@ -295,7 +296,7 @@ void printConsonantes(char cadena[])
     int i;
 
     // Programa
-    for (int i = 0; cadena[i] != '\0'; i++)
+    for (i = 0; cadena[i] != '\0'; i++)
     {
         char caracter = cadena[i];
 
@@ -319,7 +320,7 @@ void printVocales(char cadena[])
     int i;
 
     // Programa
-    for (int i = 0; cadena[i] != '\0'; i++)
+    for (i = 0; cadena[i] != '\0'; i++)
     {
         char caracter = cadena[i];
 
