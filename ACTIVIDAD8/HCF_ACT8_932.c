@@ -4,11 +4,13 @@
 //*** LIBRERIAS     ******
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 //*** PROTOTIPOS DE FUNCIONES  ******
-int msges();
-int msgCiclos();
-void menu();
+int msges(void);
+int msgCiclos(void);
+void menu(void);
+int validar(char msg[], int ri, int rf);
 void llenarVectManual(int vector[], int m);
 void llenarVectAuto(int vector[], int m);
 void llenarVectConVectores(int vector1[], int m, int vector2[], int n, int vector3[], int p);
@@ -24,8 +26,7 @@ int main()
     return 0;
 }
 
-//  *** DESARROLLO DE LAS FUNCIONES  ******
-//*********************
+//**** DESARROLLO DE LAS FUNCIONES  ******
 int msges()
 {
     int op;
@@ -43,6 +44,7 @@ int msges()
     scanf("%d", &op);
     return op;
 }
+
 //*********************
 void menu()
 {
@@ -58,27 +60,27 @@ void menu()
         switch (op)
         {
         case 1:
-            llenarVectManual(vector1[10], 10);
+            llenarVectManual(vector1, 10);
             break;
 
         case 2:
-            llenarVectAuto(vector2[10], 10);
+            llenarVectAuto(vector2, 10);
             break;
 
         case 3:
-            llenarVectConVectores(vector1[10], 10, vector2[10], 10, vector3[20], 20);
+            llenarVectConVectores(vector1, 10, vector2, 10, vector3, 20);
             break;
 
         case 4:
-            imprimirVectores(vector1[10], 10, vector2[10], 10, vector3[20], 20);
+            imprimirVectores(vector1, 10, vector2, 10, vector3, 20);
             break;
 
         case 5:
-            llenarMatriz4x4(vector1[10], 10, vector2[10], 10, matriz4x4[4][4]);
+            llenarMatriz4x4(vector1, 10, vector2, 10, matriz4x4);
             break;
 
         case 6:
-            imprimirMatriz(matriz4x4[4][4]);
+            imprimirMatriz(matriz4x4);
             break;
 
         case 0:
@@ -91,10 +93,36 @@ void menu()
 }
 
 //*********************
+// Valida la entrada del usuario en un rango de numeros.
+int validar(char msg[], int ri, int rf)
+{
+    char cadena[50];
+    int num;
+
+    do
+    {
+        printf("%s", msg);
+        fflush(stdin);
+        gets(cadena);
+        num = atoi(cadena);
+    } while (num < ri || num > rf);
+
+    return num;
+}
+
+//*********************
 // Llena el vector con valores introducidos por el usuario del 30 al 70.
 // HCF_ACT8_01_932
 void llenarVectManual(int vector[], int m)
 {
+    int i, num;
+
+    for (i = 0; i < m; i++)
+    {
+        printf("Valor %d -> ", i + 1);
+        num = validar("Ingrese un numero entre 30-70: ", 30, 70);
+        vector[i] = num;
+    }
 }
 
 //*********************
