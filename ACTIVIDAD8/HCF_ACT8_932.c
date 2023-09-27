@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
@@ -21,6 +22,7 @@ void imprimirMatriz(int matriz[][4]);
 //****  MAIN PRINCIPAL  *********
 int main()
 {
+    srand(time(NULL));
     menu();
 
     return 0;
@@ -130,6 +132,29 @@ void llenarVectManual(int vector[], int m)
 // HCF_ACT8_02_932
 void llenarVectAuto(int vector[], int m)
 {
+    int i, j, num, band;
+
+    for (i = 0; i < m; i++)
+    {
+        do
+        {
+            band = 0;
+            num = rand() % 20 + 1;
+
+            // Validar en cada espacio el numero
+            for (j = 0; j < i; j++)
+            {
+                if (vector[j] == num)
+                {
+                    band = 1; // Marcar como numero repetido
+                }
+            }
+        } while (band != 0);
+
+        vector[i] = num;
+    }
+
+    printf("Vector llenado con exito!");
 }
 
 //*********************
@@ -137,6 +162,22 @@ void llenarVectAuto(int vector[], int m)
 // HCF_ACT8_03_932
 void llenarVectConVectores(int vector1[], int m, int vector2[], int n, int vector3[], int p)
 {
+    int i;
+
+    // Validar si existen suficientes numeros para llenar el vector.
+    if (m < p / 2 || n < p / 2)
+    {
+        printf("Los vectores no son suficientemente grandes para llenar el vector");
+        system("PAUSE");
+        return;
+    }
+
+    // Llenar vector3 con vector 1 y 2.
+    for (i = 0; i < p / 2; i++)
+    {
+        vector3[i] = vector1[i];
+        vector3[p / 2 + i] = vector2[i];
+    }
 }
 
 //*********************
@@ -144,6 +185,25 @@ void llenarVectConVectores(int vector1[], int m, int vector2[], int n, int vecto
 // HCF_ACT8_04_932
 void imprimirVectores(int vector1[], int m, int vector2[], int n, int vector3[], int p)
 {
+    int i;
+
+    printf("Vector 1:\n");
+    for (i = 0; i < m; i++)
+    {
+        printf("[%d]\n", vector1[i]);
+    }
+
+    printf("\nVector 2:\n");
+    for (i = 0; i < n; i++)
+    {
+        printf("[%d]\n", vector2[i]);
+    }
+
+    printf("\nVector 3:\n");
+    for (i = 0; i < p; i++)
+    {
+        printf("[%d]\n", vector3[i]);
+    }
 }
 
 //*********************
