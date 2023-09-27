@@ -138,7 +138,7 @@ void llenarVectAuto(int vector[], int m)
     {
         do
         {
-            band = 0;
+            band = 0; // Reinicia bandera
             num = rand() % 20 + 1;
 
             // Validar en cada espacio el numero
@@ -146,7 +146,7 @@ void llenarVectAuto(int vector[], int m)
             {
                 if (vector[j] == num)
                 {
-                    band = 1; // Marcar como numero repetido
+                    band = 1; // Activa bandera
                 }
             }
         } while (band != 0);
@@ -211,6 +211,22 @@ void imprimirVectores(int vector1[], int m, int vector2[], int n, int vector3[],
 // HCF_ACT8_05_932
 void llenarMatriz4x4(int vector1[], int m, int vector2[], int n, int matriz[][4])
 {
+    int i, j, k;
+
+    for (i = 0, k = 0; i < 4; i++)
+    {
+        for (j = 0; j < 4; j++, k++)
+        {
+            if (k < m)
+            {
+                matriz[i][j] = vector1[k];
+            }
+            else
+            {
+                matriz[i][j] = vector2[k - m];
+            }
+        }
+    }
 }
 
 //*********************
@@ -218,4 +234,14 @@ void llenarMatriz4x4(int vector1[], int m, int vector2[], int n, int matriz[][4]
 // HCF_ACT8_06_932
 void imprimirMatriz(int matriz[][4])
 {
+    int i, j;
+
+    for (i = 0; i < 4; i++)
+    {
+        for (j = 0; j < 4; i++)
+        {
+            printf("[%d]", matriz[i][j]);
+        }
+        printf("\n");
+    }
 }
