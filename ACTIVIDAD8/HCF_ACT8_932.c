@@ -178,6 +178,8 @@ void llenarVectConVectores(int vector1[], int m, int vector2[], int n, int vecto
         vector3[i] = vector1[i];
         vector3[p / 2 + i] = vector2[i];
     }
+
+    printf("Vector llenado con exito!");
 }
 
 //*********************
@@ -190,19 +192,19 @@ void imprimirVectores(int vector1[], int m, int vector2[], int n, int vector3[],
     printf("Vector 1:\n");
     for (i = 0; i < m; i++)
     {
-        printf("[%d]\n", vector1[i]);
+        printf("[%2d]\n", vector1[i]);
     }
 
     printf("\nVector 2:\n");
     for (i = 0; i < n; i++)
     {
-        printf("[%d]\n", vector2[i]);
+        printf("[%2d]\n", vector2[i]);
     }
 
     printf("\nVector 3:\n");
     for (i = 0; i < p; i++)
     {
-        printf("[%d]\n", vector3[i]);
+        printf("[%2d]\n", vector3[i]);
     }
 }
 
@@ -211,22 +213,28 @@ void imprimirVectores(int vector1[], int m, int vector2[], int n, int vector3[],
 // HCF_ACT8_05_932
 void llenarMatriz4x4(int vector1[], int m, int vector2[], int n, int matriz[][4])
 {
-    int i, j, k;
+    int i, j, cont;
 
-    for (i = 0, k = 0; i < 4; i++)
+    for (i = 0, cont = 0; i < 4; i++)
     {
-        for (j = 0; j < 4; j++, k++)
+        for (j = 0; j < 4; j++, cont++)
         {
-            if (k < m)
+            if (cont < m) // Mientras vector1 tenga datos
             {
-                matriz[i][j] = vector1[k];
+                matriz[i][j] = vector1[cont];
             }
-            else
+            else if (cont < (m + n)) // Mientras vector2 tenga datos
             {
-                matriz[i][j] = vector2[k - m];
+                matriz[i][j] = vector2[cont - m];
+            }
+            else // Ambos vectores vacios, asignar 0.
+            {
+                matriz[i][j] = 0;
             }
         }
     }
+
+    printf("Matriz llenada con exito!");
 }
 
 //*********************
@@ -238,9 +246,9 @@ void imprimirMatriz(int matriz[][4])
 
     for (i = 0; i < 4; i++)
     {
-        for (j = 0; j < 4; i++)
+        for (j = 0; j < 4; j++)
         {
-            printf("[%d]", matriz[i][j]);
+            printf("[%2d]", matriz[i][j]);
         }
         printf("\n");
     }
