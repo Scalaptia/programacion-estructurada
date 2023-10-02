@@ -1,5 +1,5 @@
 // Fernando Haro Calvo  MATR. 372106
-// 25-SEP-2023 (Creado)
+// 25-SEP-2023 (Creado) - 30-SEP-2023 (Modificado)
 
 //*** LIBRERIAS     ******
 #include <stdio.h>
@@ -86,7 +86,7 @@ void menu()
             break;
 
         case 0:
-            return 0;
+            return;
         }
 
         printf("\n\n");
