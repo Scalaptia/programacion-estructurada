@@ -38,7 +38,7 @@ int msges()
 //*********************
 void menu()
 {
-    int op;
+    int op, num, indice;
     int vect[15];
     int mat[4][4];
     system("CLS");
@@ -66,9 +66,19 @@ void menu()
             break;
 
         case 5:
+            ordVect(vect, 15);
             break;
 
         case 6:
+            printf("Ingrese un numero entre 100-200 para buscar en el vector: ");
+            num = valiNum(100, 200);
+            indice = busqSeqVect(vect, 15, num);
+
+            if (indice)
+            {
+                printf("El numero %d se ", num, indice);
+            }
+
             break;
 
         case 0:

@@ -12,6 +12,7 @@ int busqSeqVect(int vect[], int n, int num);
 int busqSeqMat(int mat[][50], int m, int n, int num);
 void imprVect(int vect[], int n);
 void imprMat(int mat[][50], int m, int n);
+void ordVect(int vect[], int n);
 
 //*** FUNCIONES *****
 
@@ -132,5 +133,25 @@ void imprMat(int mat[][50], int m, int n)
             printf("[%3d]", mat[i][j]);
         }
         printf("\n");
+    }
+}
+
+// Ordena el vector usando una mezcla de bubble e insertion sort.
+void ordVect(int vect[], int n)
+{
+    int i, j;
+    int temp;
+
+    for (i = 0; i < n - 1; i++)
+    {
+        for (j = i + 1; j < n; j++)
+        {
+            if (vect[j] < vect[i])
+            {
+                temp = vect[i];
+                vect[i] = vect[j];
+                vect[j] = temp;
+            }
+        }
     }
 }
