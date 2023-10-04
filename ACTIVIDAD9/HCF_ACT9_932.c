@@ -40,7 +40,7 @@ void menu()
 {
     int op;
     int vect[15];
-    int matriz[4][4];
+    int mat[4][4];
     system("CLS");
 
     do
@@ -54,12 +54,15 @@ void menu()
             break;
 
         case 2:
+            llenarMatSinRep(mat, 4, 4, 1, 16);
             break;
 
         case 3:
+            imprVect(vect, 15);
             break;
 
         case 4:
+            imprMat(mat, 4, 4);
             break;
 
         case 5:
@@ -72,7 +75,7 @@ void menu()
             return;
         }
 
-        printf("\n\n");
+        printf("\n");
         system("PAUSE");
     } while (op != 0);
 }
