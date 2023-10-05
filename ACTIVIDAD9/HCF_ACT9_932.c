@@ -32,7 +32,7 @@ int msges()
     printf("6.- BUSCAR VALOR EN VECTOR \n");
     printf("0.- SALIR  \n");
     printf("ESCOGE UNA OPCION: ");
-    scanf("%d", &op);
+    op = valiNum(0, 6);
     return op;
 }
 
