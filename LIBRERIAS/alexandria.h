@@ -7,11 +7,11 @@
 int valiNum(int ri, int rf);
 int numAleatorio(int ri, int rf);
 void llenarVectSinRep(int vect[], int n, int ri, int rf);
-void llenarMatSinRep(int mat[][50], int m, int n, int ri, int rf);
+void llenarMatSinRep(int mat[][4], int m, int n, int ri, int rf);
 int busqSeqVect(int vect[], int n, int num);
-int busqSeqMat(int mat[][50], int m, int n, int num);
+int busqSeqMat(int mat[][4], int m, int n, int num);
 void imprVect(int vect[], int n);
-void imprMat(int mat[][50], int m, int n);
+void imprMat(int mat[][4], int m, int n);
 void ordVect(int vect[], int n);
 
 //*** FUNCIONES *****
@@ -58,11 +58,11 @@ void llenarVectSinRep(int vect[], int n, int ri, int rf)
 }
 
 // Llena una matriz con numeros aleatorios sin repetir.
-void llenarMatSinRep(int mat[][50], int m, int n, int ri, int rf)
+void llenarMatSinRep(int mat[][4], int m, int n, int ri, int rf)
 {
     int i, j, cont, num, largo;
-
     largo = m * n;
+
     int vect[largo];
     llenarVectSinRep(vect, largo, ri, rf);
 
@@ -92,7 +92,7 @@ int busqSeqVect(int vect[], int n, int num)
 }
 
 // Busca un número en una matriz de forma secuencial.
-int busqSeqMat(int mat[][50], int m, int n, int num)
+int busqSeqMat(int mat[][4], int m, int n, int num)
 {
     int i, j;
 
@@ -122,7 +122,7 @@ void imprVect(int vect[], int n)
 }
 
 // Imprime una matriz.
-void imprMat(int mat[][50], int m, int n)
+void imprMat(int mat[][4], int m, int n)
 {
     int i, j;
 
@@ -130,7 +130,7 @@ void imprMat(int mat[][50], int m, int n)
     {
         for (j = 0; j < n; j++)
         {
-            printf("[%3d]", mat[i][j]);
+            printf("[%2d]", mat[i][j]);
         }
         printf("\n");
     }
@@ -146,7 +146,7 @@ void ordVect(int vect[], int n)
     {
         for (j = i + 1; j < n; j++)
         {
-            if (vect[j] < vect[i])
+            if (vect[j] <= vect[i])
             {
                 temp = vect[i];
                 vect[i] = vect[j];

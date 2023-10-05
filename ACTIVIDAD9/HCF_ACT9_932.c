@@ -7,6 +7,7 @@
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
+void buscarVect(int vect[]);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -38,7 +39,7 @@ int msges()
 //*********************
 void menu()
 {
-    int op, num, indice;
+    int op;
     int vect[15];
     int mat[4][4];
     system("CLS");
@@ -70,15 +71,7 @@ void menu()
             break;
 
         case 6:
-            printf("Ingrese un numero entre 100-200 para buscar en el vector: ");
-            num = valiNum(100, 200);
-            indice = busqSeqVect(vect, 15, num);
-
-            if (indice)
-            {
-                printf("El numero %d se encuentra en el vector en el indice ", num, indice);
-            }
-
+            buscarVect(vect);
             break;
 
         case 0:
@@ -88,4 +81,21 @@ void menu()
         printf("\n");
         system("PAUSE");
     } while (op != 0);
+}
+
+void buscarVect(int vect[])
+{
+    int num, indice;
+    printf("Ingrese un numero entre 100-200 para buscar en el vector: ");
+    num = valiNum(100, 200);
+    indice = busqSeqVect(vect, 15, num);
+
+    if (indice != -1)
+    {
+        printf("El numero %d se encuentra en el vector en el indice %d", num, indice);
+    }
+    else
+    {
+        printf("El numero %d no se encuentra en el vector", num);
+    }
 }
