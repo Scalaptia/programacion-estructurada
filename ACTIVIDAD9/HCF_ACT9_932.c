@@ -76,7 +76,7 @@ void menu()
 
             if (indice)
             {
-                printf("El numero %d se ", num, indice);
+                printf("El numero %d se encuentra en el vector en el indice ", num, indice);
             }
 
             break;
