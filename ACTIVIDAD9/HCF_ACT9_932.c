@@ -2,7 +2,7 @@
 // 03-OCT-2023 (Creado)
 
 //*** LIBRERIAS     ******
-#include "../LIBRERIAS/alexandria.h"
+#include "alexandria.h"
 
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
