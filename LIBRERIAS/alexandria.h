@@ -13,6 +13,8 @@ int busqSeqMat(int mat[][4], int m, int n, int num);
 void imprVect(int vect[], int n);
 void imprMat(int mat[][4], int m, int n);
 void ordVect(int vect[], int n);
+void mayus(char cadena[]);
+int largoCadena(char cadena[]);
 
 //*** FUNCIONES *****
 
@@ -154,4 +156,35 @@ void ordVect(int vect[], int n)
             }
         }
     }
+}
+
+// Convierte la cadena a mayusculas.
+void mayus(char cadena[])
+{
+    // Variables Locales
+    int i;
+
+    // Programa
+    for (i = 0; cadena[i] != '\0'; i++)
+    {
+        char caracter = cadena[i];
+
+        if (caracter >= 'a' && caracter <= 'z')
+        {
+            caracter -= 32; // Convertir a mayúscula (ASCII)
+        }
+
+        cadena[i] = caracter;
+    }
+}
+
+// Retorna la longitud de la cadena.
+int largoCadena(char cadena[])
+{
+    int i;
+
+    for (i = 0; cadena[i] != '\0'; i++)
+        ;
+
+    return i - 1;
 }
