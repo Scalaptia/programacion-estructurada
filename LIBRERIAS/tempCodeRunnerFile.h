@@ -1,1 +1,0 @@
-usqSeqVect(vect, i, num
