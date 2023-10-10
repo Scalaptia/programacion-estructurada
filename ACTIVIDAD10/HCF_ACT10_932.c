@@ -2,7 +2,7 @@
 // 05-OCT-2023 (Creado)
 
 //***  LIBRERIAS  ******
-#include "../LIBRERIAS/alexandria.h"
+#include "alexandria.h"
 
 //***  STRUCTS  *****
 struct _alum
@@ -15,17 +15,18 @@ struct _alum
     int edad;
     int sexo; // 1 Hombre - 2 Mujer
 };
-typedef _alum alumno;
+
+typedef struct _alum Talum;
 
 ///***  NOMBRES ******
-char nombresH[20] = {"Juan", "Pedro", "Luis", "Carlos", "Miguel", "José", "Antonio", "Francisco", "Manuel", "Javier", "Alejandro", "David", "Fernando", "Roberto", "Rafael", "José Luis", "Daniel", "Alberto", "Mario", "Andrés"};
-char nombresM[20] = {"María", "Ana", "Laura", "Luisa", "Sofía", "Isabel", "Carmen", "Rosa", "Elena", "Lucía", "Patricia", "Lourdes", "Marta", "Raquel", "Julia", "Clara", "Mónica", "Diana", "Valentina", "Carolina"};
-char apellidos[40] = {"González", "Rodríguez", "Pérez", "Fernández", "López", "Martínez", "Gómez", "Sánchez", "Díaz", "Torres", "Vargas", "Ruiz", "Ramírez", "Hernández", "Flores", "Jiménez", "Moreno", "Alvarez", "Castro", "Ortega", "Silva", "Núñez", "Mendoza", "Rojas", "Vega", "Cruz", "Morales", "Guerrero", "Romero", "Valdez", "Gutiérrez", "Reyes", "Soto", "Chavez", "Navarro", "Zapata", "Acosta", "Fuentes", "Lara"};
+char nombresH[20][30] = {"Juan", "Pedro", "Luis", "Carlos", "Miguel", "José", "Antonio", "Francisco", "Manuel", "Javier", "Alejandro", "David", "Fernando", "Roberto", "Rafael", "José Luis", "Daniel", "Alberto", "Mario", "Andrés"};
+char nombresM[20][30] = {"María", "Ana", "Laura", "Luisa", "Sofía", "Isabel", "Carmen", "Rosa", "Elena", "Lucía", "Patricia", "Lourdes", "Marta", "Raquel", "Julia", "Clara", "Mónica", "Diana", "Valentina", "Carolina"};
+char apellidos[40][30] = {"González", "Rodríguez", "Pérez", "Fernández", "López", "Martínez", "Gómez", "Sánchez", "Díaz", "Torres", "Vargas", "Ruiz", "Ramírez", "Hernández", "Flores", "Jiménez", "Moreno", "Alvarez", "Castro", "Ortega", "Silva", "Núñez", "Mendoza", "Rojas", "Vega", "Cruz", "Morales", "Guerrero", "Romero", "Valdez", "Gutiérrez", "Reyes", "Soto", "Chavez", "Navarro", "Zapata", "Acosta", "Fuentes", "Lara"};
 
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
-void genAlum(alumno vect[], int n, int num);
+void genAlum(Talum vect[], int n, int *alumnos, int num);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -58,7 +59,8 @@ int msges()
 void menu()
 {
     int op;
-    alumno vect[500];
+    Talum ingenieros[500];
+    int alumnos = 0;
 
     system("CLS");
 
@@ -66,9 +68,11 @@ void menu()
     {
         op = msges();
         system("CLS");
+
         switch (op)
         {
         case 1:
+            genAlum(ingenieros, 500, &alumnos, 10);
             break;
 
         case 2:
@@ -96,28 +100,38 @@ void menu()
 }
 
 // Genera n cantidad de registros de alumnos aleatoriamente dentro del vector de alumnos especificado.
-void genAlum(alumno vect[], int n, int num)
+void genAlum(Talum vect[], int n, int *alumnos, int num)
 {
     int i;
 
     for (i = 0; i < num; i++)
     {
-        alumno alum;
+        if ((*alumnos + 1) > n)
+        {
+            printf("Ha llegado al maximo de alumnos");
+            system("PAUSE");
+            return;
+        }
+
+        alumnos++;
+        Talum alum;
 
         alum.status = 1;
         alum.matricula = numAleatorio(300000, 399999); // Falta validar repeticiones
-        alum.apPat = apellidos[numAleatorio(0, 40)];
-        alum.apMat = apellidos[numAleatorio(0, 40)];
+        alum.apPat[30] = *apellidos[numAleatorio(0, 40)];
+        alum.apMat[30] = *apellidos[numAleatorio(0, 40)];
         alum.edad = numAleatorio(18, 30);
         alum.sexo = numAleatorio(1, 2);
 
         if (alum.sexo == 1)
         {
-            alum.nombre = nombresH[numAleatorio(0, 20)];
+            alum.nombre[30] = *nombresH[numAleatorio(0, 20)];
         }
         else
         {
-            alum.nombre = nombresM[numAleatorio(0, 20)];
+            alum.nombre[30] = *nombresM[numAleatorio(0, 20)];
         }
+
+        vect[*alumnos] = alum;
     }
 }

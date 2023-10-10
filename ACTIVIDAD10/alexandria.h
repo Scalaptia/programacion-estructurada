@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <bool.h>
+#include <stdbool.h>
 
 //*** PROTOTIPOS *****
 int valiNum(int ri, int rf);
