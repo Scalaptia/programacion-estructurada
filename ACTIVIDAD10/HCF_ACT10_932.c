@@ -113,7 +113,7 @@ void genAlum(Talum vect[], int n, int *alumnos, int num)
             return;
         }
 
-        alumnos++;
+        *alumnos = *alumnos + 1;
         Talum alum;
 
         alum.status = 1;
