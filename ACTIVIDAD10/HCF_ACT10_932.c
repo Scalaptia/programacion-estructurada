@@ -19,7 +19,7 @@ typedef struct _alum
 ///***  NOMBRES ******
 char nombresH[20][30] = {"JUAN", "PEDRO", "LUIS", "CARLOS", "MIGUEL", "JOSE", "ANTONIO", "FRANCISCO", "MANUEL", "JAVIER", "ALEJANDRO", "DAVID", "FERNANDO", "ROBERTO", "RAFAEL", "JOSE LUIS", "DANIEL", "ALBERTO", "MARIO", "ANDRES"};
 char nombresM[20][30] = {"MARIA", "ANA", "LAURA", "LUISA", "SOFIA", "ISABEL", "CARMEN", "ROSA", "ELENA", "LUCIA", "PATRICIA", "LOURDES", "MARTA", "RAQUEL", "JULIA", "CLARA", "MONICA", "DIANA", "VALENTINA", "CAROLINA"};
-char apellidos[40][30] = {"GONZALEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "LOPEZ", "MARTINEZ", "GOMEZ", "SANCHEZ", "DIAZ", "TORRES", "VARGAS", "RUIZ", "RAMIREZ", "HERNANDEZ", "FLORES", "JIMENEZ", "MORENO", "ALVAREZ", "CASTRO", "ORTEGA", "SILVA", "NUNEZ", "MENDOZA", "ROJAS", "VEGA", "CRUZ", "MORALES", "GUERRERO", "ROMERO", "VALDEZ", "GUTIERREZ", "REYES", "SOTO", "CHAVEZ", "NAVARRO", "ZAPATA", "ACOSTA", "FUENTES", "LARA", " "};
+char apellidos[40][30] = {"GONZALEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "LOPEZ", "MARTINEZ", "GOMEZ", "SANCHEZ", "DIAZ", "TORRES", "VARGAS", "RUIZ", "RAMIREZ", "HERNANDEZ", "FLORES", "JIMENEZ", "MORENO", "ALVAREZ", "CASTRO", "ORTEGA", "SILVA", "NUNEZ", "MENDOZA", "ROJAS", "VEGA", "CRUZ", "MORALES", "GUERRERO", "ROMERO", "VALDEZ", "GUTIERREZ", "REYES", "SOTO", "CHAVEZ", "NAVARRO", "ZAPATA", "ACOSTA", "FUENTES", "LARA", "YEPIZ"};
 
 #define N 50
 
@@ -28,6 +28,7 @@ int msges(void);
 void menu(void);
 int busqMatri(Talum vect[], int n, int matri);
 Talum genAlumAlea(void);
+Talum genAlumMan(void);
 
 void imprAlumnos(Talum vect[], int n);
 
@@ -124,30 +125,6 @@ void menu()
     } while (op != 0);
 }
 
-// Genera n cantidad de registros de alumnos aleatoriamente dentro del vector de alumnos especificado.
-Talum genAlumAlea()
-{
-    Talum alum;
-
-    alum.status = 1;
-    alum.matricula = numAleatorio(300000, 399999);
-    strcpy(alum.apPat, apellidos[numAleatorio(0, 40)]);
-    strcpy(alum.apMat, apellidos[numAleatorio(0, 40)]);
-    alum.edad = numAleatorio(18, 30);
-    alum.sexo = numAleatorio(1, 2);
-
-    if (alum.sexo == 1)
-    {
-        strcpy(alum.nombre, nombresH[numAleatorio(0, 20)]);
-    }
-    else
-    {
-        strcpy(alum.nombre, nombresM[numAleatorio(0, 20)]);
-    }
-
-    return alum;
-}
-
 // Busca una matricula en un arreglo de alumnos NO ORDENADO.
 int busqMatri(Talum vect[], int n, int matri)
 {
@@ -164,6 +141,58 @@ int busqMatri(Talum vect[], int n, int matri)
     return -1; // No se encontró
 }
 
+// Genera n cantidad de registros de alumnos aleatoriamente dentro del vector de alumnos especificado.
+Talum genAlumAlea()
+{
+    Talum alum;
+
+    alum.status = 1;
+    alum.matricula = numAleatorio(300000, 399999);
+    strcpy(alum.apPat, apellidos[numAleatorio(0, 39)]);
+    strcpy(alum.apMat, apellidos[numAleatorio(0, 39)]);
+    alum.edad = numAleatorio(18, 30);
+    alum.sexo = numAleatorio(1, 2);
+
+    if (alum.sexo == 1)
+    {
+        strcpy(alum.nombre, nombresH[numAleatorio(0, 19)]);
+    }
+    else
+    {
+        strcpy(alum.nombre, nombresM[numAleatorio(0, 19)]);
+    }
+
+    return alum;
+}
+
+Talum genAlumMan()
+{
+    Talum alum;
+
+    alum.status = 1;
+
+    printf("Ingresa una matricula (300000 - 399999): ");
+    alum.matricula = valiNum(300000, 399999);
+
+    strcpy(alum.apPat, apellidos[numAleatorio(0, 40)]);
+
+    strcpy(alum.apMat, apellidos[numAleatorio(0, 40)]);
+    alum.edad = numAleatorio(18, 30);
+    alum.sexo = numAleatorio(1, 2);
+
+    if (alum.sexo == 1)
+    {
+        strcpy(alum.nombre, nombresH[numAleatorio(0, 20)]);
+    }
+    else
+    {
+        strcpy(alum.nombre, nombresM[numAleatorio(0, 20)]);
+    }
+
+    return alum;
+}
+
+// Imprime todos los alumnos en un vector dado.
 void imprAlumnos(Talum vect[], int n)
 {
     int i;
