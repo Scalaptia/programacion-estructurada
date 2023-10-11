@@ -5,7 +5,7 @@
 #include "alexandria.h"
 
 //***  STRUCTS  *****
-struct _alum
+typedef struct _alum
 {
     int status;    // 0 Inactivo - 1 Activo
     int matricula; // 300000 - 399999
@@ -14,9 +14,7 @@ struct _alum
     char nombre[30];
     int edad;
     int sexo; // 1 Hombre - 2 Mujer
-};
-
-typedef struct _alum Talum;
+} Talum;
 
 ///***  NOMBRES ******
 char nombresH[20][30] = {"Juan", "Pedro", "Luis", "Carlos", "Miguel", "José", "Antonio", "Francisco", "Manuel", "Javier", "Alejandro", "David", "Fernando", "Roberto", "Rafael", "José Luis", "Daniel", "Alberto", "Mario", "Andrés"};
@@ -26,7 +24,8 @@ char apellidos[40][30] = {"González", "Rodríguez", "Pérez", "Fernández", "L�
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
-void genAlum(Talum vect[], int n, int *alumnos, int num);
+int busqMatri(Talum vect[], int n, int matri);
+Talum genAlumAlea(void);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -58,9 +57,15 @@ int msges()
 //*********************
 void menu()
 {
+    int i;
     int op;
-    Talum ingenieros[500];
+    int n = 50;
     int alumnos = 0;
+
+    Talum ingenieros[n];
+    int matriculas[n];
+
+    Talum alum;
 
     system("CLS");
 
@@ -72,7 +77,26 @@ void menu()
         switch (op)
         {
         case 1:
-            genAlum(ingenieros, 500, &alumnos, 10);
+            if ((alumnos + 10) <= n)
+            {
+                for (i = 0; i < 10; i++)
+                {
+                    alumnos++;
+                    alum = genAlumAlea();
+
+                    while (busqMatri(ingenieros, alumnos, alum.matricula) != -1) // Valida matricula unica
+                    {
+                        alum.matricula = numAleatorio(300000, 399999);
+                    }
+
+                    ingenieros[i++] = alum;
+                }
+            }
+            else
+            {
+                printf("Ha llegado al maximo de alumnos\n");
+            }
+
             break;
 
         case 2:
@@ -100,38 +124,41 @@ void menu()
 }
 
 // Genera n cantidad de registros de alumnos aleatoriamente dentro del vector de alumnos especificado.
-void genAlum(Talum vect[], int n, int *alumnos, int num)
+Talum genAlumAlea()
+{
+    Talum alum;
+
+    alum.status = 1;
+    alum.matricula = numAleatorio(300000, 399999);
+    strcpy(alum.apPat, apellidos[numAleatorio(0, 40)]);
+    strcpy(alum.apMat, apellidos[numAleatorio(0, 40)]);
+    alum.edad = numAleatorio(18, 30);
+    alum.sexo = numAleatorio(1, 2);
+
+    if (alum.sexo == 1)
+    {
+        strcpy(alum.nombre, nombresH[numAleatorio(0, 20)]);
+    }
+    else
+    {
+        strcpy(alum.nombre, nombresM[numAleatorio(0, 20)]);
+    }
+
+    return alum;
+}
+
+// Busca una matricula en un arreglo de alumnos NO ORDENADO.
+int busqMatri(Talum vect[], int n, int matri)
 {
     int i;
 
-    for (i = 0; i < num; i++)
+    for (i = 0; i < n; i++)
     {
-        if ((*alumnos + 1) > n)
+        if (vect[i].matricula == matri)
         {
-            printf("Ha llegado al maximo de alumnos");
-            system("PAUSE");
-            return;
+            return i; // Retorna índice
         }
-
-        *alumnos = *alumnos + 1;
-        Talum alum;
-
-        alum.status = 1;
-        alum.matricula = numAleatorio(300000, 399999); // Falta validar repeticiones
-        alum.apPat[30] = *apellidos[numAleatorio(0, 40)];
-        alum.apMat[30] = *apellidos[numAleatorio(0, 40)];
-        alum.edad = numAleatorio(18, 30);
-        alum.sexo = numAleatorio(1, 2);
-
-        if (alum.sexo == 1)
-        {
-            alum.nombre[30] = *nombresH[numAleatorio(0, 20)];
-        }
-        else
-        {
-            alum.nombre[30] = *nombresM[numAleatorio(0, 20)];
-        }
-
-        vect[*alumnos] = alum;
     }
+
+    return -1; // No se encontró
 }

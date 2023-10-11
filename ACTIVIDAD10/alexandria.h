@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <string.h>
 
 //*** PROTOTIPOS *****
 int valiNum(int ri, int rf);
