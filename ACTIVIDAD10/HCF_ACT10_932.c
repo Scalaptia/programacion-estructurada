@@ -17,15 +17,19 @@ typedef struct _alum
 } Talum;
 
 ///***  NOMBRES ******
-char nombresH[20][30] = {"Juan", "Pedro", "Luis", "Carlos", "Miguel", "José", "Antonio", "Francisco", "Manuel", "Javier", "Alejandro", "David", "Fernando", "Roberto", "Rafael", "José Luis", "Daniel", "Alberto", "Mario", "Andrés"};
-char nombresM[20][30] = {"María", "Ana", "Laura", "Luisa", "Sofía", "Isabel", "Carmen", "Rosa", "Elena", "Lucía", "Patricia", "Lourdes", "Marta", "Raquel", "Julia", "Clara", "Mónica", "Diana", "Valentina", "Carolina"};
-char apellidos[40][30] = {"González", "Rodríguez", "Pérez", "Fernández", "López", "Martínez", "Gómez", "Sánchez", "Díaz", "Torres", "Vargas", "Ruiz", "Ramírez", "Hernández", "Flores", "Jiménez", "Moreno", "Alvarez", "Castro", "Ortega", "Silva", "Núñez", "Mendoza", "Rojas", "Vega", "Cruz", "Morales", "Guerrero", "Romero", "Valdez", "Gutiérrez", "Reyes", "Soto", "Chavez", "Navarro", "Zapata", "Acosta", "Fuentes", "Lara"};
+char nombresH[20][30] = {"JUAN", "PEDRO", "LUIS", "CARLOS", "MIGUEL", "JOSE", "ANTONIO", "FRANCISCO", "MANUEL", "JAVIER", "ALEJANDRO", "DAVID", "FERNANDO", "ROBERTO", "RAFAEL", "JOSE LUIS", "DANIEL", "ALBERTO", "MARIO", "ANDRES"};
+char nombresM[20][30] = {"MARIA", "ANA", "LAURA", "LUISA", "SOFIA", "ISABEL", "CARMEN", "ROSA", "ELENA", "LUCIA", "PATRICIA", "LOURDES", "MARTA", "RAQUEL", "JULIA", "CLARA", "MONICA", "DIANA", "VALENTINA", "CAROLINA"};
+char apellidos[40][30] = {"GONZALEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "LOPEZ", "MARTINEZ", "GOMEZ", "SANCHEZ", "DIAZ", "TORRES", "VARGAS", "RUIZ", "RAMIREZ", "HERNANDEZ", "FLORES", "JIMENEZ", "MORENO", "ALVAREZ", "CASTRO", "ORTEGA", "SILVA", "NUNEZ", "MENDOZA", "ROJAS", "VEGA", "CRUZ", "MORALES", "GUERRERO", "ROMERO", "VALDEZ", "GUTIERREZ", "REYES", "SOTO", "CHAVEZ", "NAVARRO", "ZAPATA", "ACOSTA", "FUENTES", "LARA", " "};
+
+#define N 50
 
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
 int busqMatri(Talum vect[], int n, int matri);
 Talum genAlumAlea(void);
+
+void imprAlumnos(Talum vect[], int n);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -57,14 +61,10 @@ int msges()
 //*********************
 void menu()
 {
-    int i;
-    int op;
-    int n = 50;
+    int op, i;
     int alumnos = 0;
 
-    Talum ingenieros[n];
-    int matriculas[n];
-
+    Talum ingenieros[N];
     Talum alum;
 
     system("CLS");
@@ -77,11 +77,10 @@ void menu()
         switch (op)
         {
         case 1:
-            if ((alumnos + 10) <= n)
+            if ((alumnos + 10) <= N)
             {
                 for (i = 0; i < 10; i++)
                 {
-                    alumnos++;
                     alum = genAlumAlea();
 
                     while (busqMatri(ingenieros, alumnos, alum.matricula) != -1) // Valida matricula unica
@@ -89,7 +88,8 @@ void menu()
                         alum.matricula = numAleatorio(300000, 399999);
                     }
 
-                    ingenieros[i++] = alum;
+                    ingenieros[alumnos] = alum;
+                    alumnos++;
                 }
             }
             else
@@ -112,6 +112,7 @@ void menu()
             break;
 
         case 6:
+            imprAlumnos(ingenieros, alumnos);
             break;
 
         case 0:
@@ -161,4 +162,27 @@ int busqMatri(Talum vect[], int n, int matri)
     }
 
     return -1; // No se encontró
+}
+
+void imprAlumnos(Talum vect[], int n)
+{
+    int i;
+
+    printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            EDAD   SEXO  \n\n");
+    for (i = 0; i < n; i++)
+    {
+        if (vect[i].status != 0)
+        {
+            printf("%-9d   %-30s   %-30s   %-30s   %-4d   ", vect[i].matricula, vect[i].nombre, vect[i].apPat, vect[i].apMat, vect[i].edad);
+
+            if (vect[i].sexo == 1)
+            {
+                printf("HOMBRE\n");
+            }
+            else
+            {
+                printf("MUJER\n");
+            }
+        }
+    }
 }
