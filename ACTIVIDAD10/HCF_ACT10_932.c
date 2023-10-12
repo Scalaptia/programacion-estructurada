@@ -26,6 +26,7 @@ char apellidos[40][30] = {"GONZALEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "LOPEZ"
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
+int valiCad(char cadena[]);
 int busqMatri(Talum vect[], int n, int matri);
 Talum genAlumAlea(void);
 Talum genAlumMan(void);
@@ -101,6 +102,25 @@ void menu()
             break;
 
         case 2:
+            if ((alumnos + 1) <= N)
+            {
+                alum = genAlumMan();
+
+                while (busqMatri(ingenieros, alumnos, alum.matricula) != -1) // Valida matricula unica
+                {
+                    system("CLS");
+                    printf("Matricula repetida, ingrese una nueva: ");
+                    alum.matricula = valiNum(300000, 399999);
+                }
+
+                ingenieros[alumnos] = alum;
+                alumnos++;
+            }
+            else
+            {
+                printf("Ha llegado al maximo de alumnos\n");
+            }
+
             break;
 
         case 3:
@@ -123,6 +143,24 @@ void menu()
         printf("\n");
         system("PAUSE");
     } while (op != 0);
+}
+
+// Valida que no haya caracteres especiales en una cadena.s
+int valiCad(char cadena[])
+{
+    int i = 0;
+    mayus(cadena);
+
+    while (cadena[i] != '\0')
+    {
+        if (cadena[i] < 'A' && cadena[i] > 'Z')
+        {
+            return 0; // La cadena contiene un carácter no válido
+        }
+        i++;
+    }
+
+    return 1; // Todos los caracteres son alfabéticos
 }
 
 // Busca una matricula en un arreglo de alumnos NO ORDENADO.
@@ -168,26 +206,47 @@ Talum genAlumAlea()
 Talum genAlumMan()
 {
     Talum alum;
+    char cad[30];
 
     alum.status = 1;
 
     printf("Ingresa una matricula (300000 - 399999): ");
     alum.matricula = valiNum(300000, 399999);
 
-    strcpy(alum.apPat, apellidos[numAleatorio(0, 40)]);
-
-    strcpy(alum.apMat, apellidos[numAleatorio(0, 40)]);
-    alum.edad = numAleatorio(18, 30);
-    alum.sexo = numAleatorio(1, 2);
-
-    if (alum.sexo == 1)
+    do
     {
-        strcpy(alum.nombre, nombresH[numAleatorio(0, 20)]);
-    }
-    else
+        system("CLS");
+        printf("Ingresa el apellido paterno: ");
+        fflush(stdin);
+        gets(cad);
+    } while (valiCad(cad) == 0);
+    strcpy(alum.apPat, cad);
+
+    do
     {
-        strcpy(alum.nombre, nombresM[numAleatorio(0, 20)]);
-    }
+        system("CLS");
+        printf("Ingresa el apellido materno: ");
+        fflush(stdin);
+        gets(cad);
+    } while (valiCad(cad) == 0);
+    strcpy(alum.apMat, cad);
+
+    do
+    {
+        system("CLS");
+        printf("Ingresa el/los nombre/s: ");
+        fflush(stdin);
+        gets(cad);
+    } while (valiCad(cad) == 0);
+    strcpy(alum.nombre, cad);
+
+    system("CLS");
+    printf("Ingresa la edad: ");
+    alum.edad = valiNum(17, 100);
+
+    system("CLS");
+    printf("Ingresa el sexo (1- Hombre, 2- Mujer): ");
+    alum.sexo = valiNum(1, 2);
 
     return alum;
 }
