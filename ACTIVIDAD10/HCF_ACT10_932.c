@@ -30,6 +30,7 @@ int valiCad(char cadena[]);
 int busqSeqMatri(Talum vect[], int n, int matri);
 int busqBinMatri(Talum vect[], int n, int matri);
 int busqMatri(Talum vect[], int n, int matri, bool band);
+bool ordMatri(Talum vect[], int n);
 
 Talum genAlumAlea(void);
 Talum genAlumMan(void);
@@ -97,6 +98,7 @@ void menu()
                     ingenieros[alumnos] = alum;
                     alumnos++;
                 }
+                band = false;
             }
             else
             {
@@ -119,6 +121,7 @@ void menu()
 
                 ingenieros[alumnos] = alum;
                 alumnos++;
+                band = false;
             }
             else
             {
@@ -139,16 +142,16 @@ void menu()
                 if (ingenieros[i].status != 0)
                 {
                     ingenieros[i].status = 0;
-                    printf("Matricula eliminada con exito");
+                    printf("Matricula eliminada con exito\n");
                 }
                 else
                 {
-                    printf("El alumno ya se encuentra inactivo");
+                    printf("El alumno ya se encuentra inactivo\n");
                 }
             }
             else
             {
-                printf("Matricula no encontrada");
+                printf("Matricula no encontrada\n");
             }
 
             break;
@@ -163,16 +166,18 @@ void menu()
 
             if (i != -1)
             {
-                printf("La matricula %d SI se encuentra en el vector", num);
+                printf("La matricula %d SI se encuentra en el vector\n", num);
             }
             else
             {
-                printf("La matricula %d NO se encuentra en el vector", num);
+                printf("La matricula %d NO se encuentra en el vector\n", num);
             }
 
             break;
 
         case 5:
+            band = ordMatri(ingenieros, alumnos);
+            printf("El vector ha sido ordenado\n");
             break;
 
         case 6:
@@ -270,6 +275,28 @@ int busqMatri(Talum vect[], int n, int matri, bool band)
     }
 
     return i;
+}
+
+// Ordena el vector de alumnos usando una mezcla de bubble e insertion sort.
+bool ordMatri(Talum vect[], int n)
+{
+    int i, j;
+    Talum temp;
+
+    for (i = 0; i < n - 1; i++)
+    {
+        for (j = i + 1; j < n; j++)
+        {
+            if (vect[j].matricula <= vect[i].matricula)
+            {
+                temp = vect[i];
+                vect[i] = vect[j];
+                vect[j] = temp;
+            }
+        }
+    }
+
+    return true;
 }
 
 // Genera n cantidad de registros de alumnos aleatoriamente dentro del vector de alumnos especificado.
