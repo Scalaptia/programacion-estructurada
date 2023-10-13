@@ -28,8 +28,10 @@ int msges(void);
 void menu(void);
 int valiCad(char cadena[]);
 int busqMatri(Talum vect[], int n, int matri);
+
 Talum genAlumAlea(void);
 Talum genAlumMan(void);
+void elimReg(int matricula);
 
 void imprAlumnos(Talum vect[], int n);
 
@@ -63,7 +65,7 @@ int msges()
 //*********************
 void menu()
 {
-    int op, i;
+    int op, i, num;
     int alumnos = 0;
 
     Talum ingenieros[N];
@@ -124,6 +126,18 @@ void menu()
             break;
 
         case 3:
+            num = valiNum(300000, 399999);
+
+            if (busqMatri(ingenieros, alumnos, num) != -1)
+            {
+                // elimReg(num);
+                printf("Matricula eliminada con exito");
+            }
+            else
+            {
+                printf("Matricula no encontrada");
+            }
+
             break;
 
         case 4:
@@ -145,22 +159,22 @@ void menu()
     } while (op != 0);
 }
 
-// Valida que no haya caracteres especiales en una cadena.s
+// Valida que no haya caracteres especiales en una cadena.
 int valiCad(char cadena[])
 {
-    int i = 0;
     mayus(cadena);
 
-    while (cadena[i] != '\0')
+    if (valiAlfa(cadena) == 0)
     {
-        if (cadena[i] < 'A' && cadena[i] > 'Z')
-        {
-            return 0; // La cadena contiene un carácter no válido
-        }
-        i++;
+        return 0;
     }
 
-    return 1; // Todos los caracteres son alfabéticos
+    if (valiEspacios(cadena) == 0)
+    {
+        return 0;
+    }
+
+    return 1;
 }
 
 // Busca una matricula en un arreglo de alumnos NO ORDENADO.
@@ -184,7 +198,7 @@ Talum genAlumAlea()
 {
     Talum alum;
 
-    alum.status = 1;
+    alum.status = numAleatorio(0, 1);
     alum.matricula = numAleatorio(300000, 399999);
     strcpy(alum.apPat, apellidos[numAleatorio(0, 39)]);
     strcpy(alum.apMat, apellidos[numAleatorio(0, 39)]);
@@ -208,8 +222,10 @@ Talum genAlumMan()
     Talum alum;
     char cad[30];
 
-    alum.status = 1;
+    printf("Ingresa el status (0- No Activo, 1- Activo): ");
+    alum.status = valiNum(0, 1);
 
+    system("CLS");
     printf("Ingresa una matricula (300000 - 399999): ");
     alum.matricula = valiNum(300000, 399999);
 
