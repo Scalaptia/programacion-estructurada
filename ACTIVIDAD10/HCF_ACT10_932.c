@@ -27,11 +27,12 @@ char apellidos[40][30] = {"GONZALEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "LOPEZ"
 int msges(void);
 void menu(void);
 int valiCad(char cadena[]);
-int busqMatri(Talum vect[], int n, int matri);
+int busqSeqMatri(Talum vect[], int n, int matri);
+int busqBinMatri(Talum vect[], int n, int matri);
+int busqMatri(Talum vect[], int n, int matri, bool band);
 
 Talum genAlumAlea(void);
 Talum genAlumMan(void);
-void elimReg(int matricula);
 
 void imprAlumnos(Talum vect[], int n);
 
@@ -67,6 +68,7 @@ void menu()
 {
     int op, i, num;
     int alumnos = 0;
+    bool band;
 
     Talum ingenieros[N];
     Talum alum;
@@ -87,7 +89,7 @@ void menu()
                 {
                     alum = genAlumAlea();
 
-                    while (busqMatri(ingenieros, alumnos, alum.matricula) != -1) // Valida matricula unica
+                    while (busqSeqMatri(ingenieros, alumnos, alum.matricula) != -1) // Valida matricula unica
                     {
                         alum.matricula = numAleatorio(300000, 399999);
                     }
@@ -108,7 +110,7 @@ void menu()
             {
                 alum = genAlumMan();
 
-                while (busqMatri(ingenieros, alumnos, alum.matricula) != -1) // Valida matricula unica
+                while (busqSeqMatri(ingenieros, alumnos, alum.matricula) != -1) // Valida matricula unica
                 {
                     system("CLS");
                     printf("Matricula repetida, ingrese una nueva: ");
@@ -126,12 +128,23 @@ void menu()
             break;
 
         case 3:
+            printf("Ingrese la matricula del estudiante que desea eliminar: ");
             num = valiNum(300000, 399999);
 
-            if (busqMatri(ingenieros, alumnos, num) != -1)
+            system("CLS");
+            i = busqMatri(ingenieros, alumnos, num, band);
+
+            if (i != -1)
             {
-                // elimReg(num);
-                printf("Matricula eliminada con exito");
+                if (ingenieros[i].status != 0)
+                {
+                    ingenieros[i].status = 0;
+                    printf("Matricula eliminada con exito");
+                }
+                else
+                {
+                    printf("El alumno ya se encuentra inactivo");
+                }
             }
             else
             {
@@ -141,6 +154,22 @@ void menu()
             break;
 
         case 4:
+            printf("Ingrese la matricula del estudiante que desea buscar: ");
+            num = valiNum(300000, 399999);
+            system("CLS");
+
+            // Verifica si está ordenado el vector
+            i = busqMatri(ingenieros, alumnos, num, band);
+
+            if (i != -1)
+            {
+                printf("La matricula %d SI se encuentra en el vector", num);
+            }
+            else
+            {
+                printf("La matricula %d NO se encuentra en el vector", num);
+            }
+
             break;
 
         case 5:
@@ -178,7 +207,7 @@ int valiCad(char cadena[])
 }
 
 // Busca una matricula en un arreglo de alumnos NO ORDENADO.
-int busqMatri(Talum vect[], int n, int matri)
+int busqSeqMatri(Talum vect[], int n, int matri)
 {
     int i;
 
@@ -191,6 +220,56 @@ int busqMatri(Talum vect[], int n, int matri)
     }
 
     return -1; // No se encontró
+}
+
+// Busca una matricula en un arreglo de alumnos ORDENADO.
+int busqBinMatri(Talum vect[], int n, int matri)
+{
+    int med;
+    int ri = 0;
+    int rf = n - 1;
+
+    while (ri <= rf)
+    {
+        med = ri + (rf - ri) / 2;
+
+        if (vect[med].matricula == matri)
+        {
+            return med; // Valor encontrado en indice med
+        }
+        else
+        {
+            // Verifica si es menor o mayor
+            if (matri < vect[med].matricula)
+            {
+                rf = med--;
+            }
+            else
+            {
+                ri = med++;
+            }
+        }
+    }
+
+    return -1; // No se encontró
+}
+
+// Busca una matricula en un arreglo usando el algoritmo optimo
+int busqMatri(Talum vect[], int n, int matri, bool band)
+{
+    int i;
+    if (band)
+    {
+        printf("Buscando con busqueda binaria...\n\n");
+        i = busqBinMatri(vect, n, matri);
+    }
+    else
+    {
+        printf("Buscando con busqueda secuencial...\n\n");
+        i = busqSeqMatri(vect, n, matri);
+    }
+
+    return i;
 }
 
 // Genera n cantidad de registros de alumnos aleatoriamente dentro del vector de alumnos especificado.
