@@ -232,7 +232,7 @@ int busqBinMatri(Talum vect[], int n, int matri)
 {
     int med;
     int ri = 0;
-    int rf = n - 1;
+    int rf = n;
 
     while (ri <= rf)
     {
@@ -304,7 +304,7 @@ Talum genAlumAlea()
 {
     Talum alum;
 
-    alum.status = numAleatorio(0, 1);
+    alum.status = 1;
     alum.matricula = numAleatorio(300000, 399999);
     strcpy(alum.apPat, apellidos[numAleatorio(0, 39)]);
     strcpy(alum.apMat, apellidos[numAleatorio(0, 39)]);
