@@ -26,7 +26,6 @@ char apellidos[40][30] = {"GONZALEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "LOPEZ"
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
-int valiCad(char cadena[]);
 int busqSeqMatri(Talum vect[], int n, int matri);
 int busqBinMatri(Talum vect[], int n, int matri);
 int busqMatri(Talum vect[], int n, int matri, bool band);
@@ -176,8 +175,15 @@ void menu()
             break;
 
         case 5:
-            band = ordMatri(ingenieros, alumnos);
-            printf("El vector ha sido ordenado\n");
+            if (band == false)
+            {
+                band = ordMatri(ingenieros, alumnos);
+                printf("El vector ha sido ordenado\n");
+            }
+            else
+            {
+                printf("El vector ya estaba ordenado\n");
+            }
             break;
 
         case 6:
@@ -191,24 +197,6 @@ void menu()
         printf("\n");
         system("PAUSE");
     } while (op != 0);
-}
-
-// Valida que no haya caracteres especiales en una cadena.
-int valiCad(char cadena[])
-{
-    mayus(cadena);
-
-    if (valiAlfa(cadena) == 0)
-    {
-        return 0;
-    }
-
-    if (valiEspacios(cadena) == 0)
-    {
-        return 0;
-    }
-
-    return 1;
 }
 
 // Busca una matricula en un arreglo de alumnos NO ORDENADO.
@@ -326,7 +314,6 @@ Talum genAlumAlea()
 Talum genAlumMan()
 {
     Talum alum;
-    char cad[30];
 
     printf("Ingresa el status (0- No Activo, 1- Activo): ");
     alum.status = valiNum(0, 1);
@@ -340,27 +327,24 @@ Talum genAlumMan()
         system("CLS");
         printf("Ingresa el apellido paterno: ");
         fflush(stdin);
-        gets(cad);
-    } while (valiCad(cad) == 0);
-    strcpy(alum.apPat, cad);
+        gets(alum.apPat);
+    } while (valiCad(alum.apPat) == 0);
 
     do
     {
         system("CLS");
         printf("Ingresa el apellido materno: ");
         fflush(stdin);
-        gets(cad);
-    } while (valiCad(cad) == 0);
-    strcpy(alum.apMat, cad);
+        gets(alum.apMat);
+    } while (valiCad(alum.apMat) == 0);
 
     do
     {
         system("CLS");
         printf("Ingresa el/los nombre/s: ");
         fflush(stdin);
-        gets(cad);
-    } while (valiCad(cad) == 0);
-    strcpy(alum.nombre, cad);
+        gets(alum.nombre);
+    } while (valiCad(alum.nombre) == 0);
 
     system("CLS");
     printf("Ingresa la edad: ");

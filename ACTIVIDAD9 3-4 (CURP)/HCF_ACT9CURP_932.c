@@ -2,12 +2,17 @@
 // 05-OCT-2023 (Creado)
 
 //*** LIBRERIAS     ******
-#include "../LIBRERIAS/alexandria.h"
+#include "alexandria.h"
+#include <ctype.h>
 
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
 void generarCURP(void);
+
+bool esAnioBisiesto(int anio);
+bool esFechaValida(int dia, int mes, int anio);
+char calcularLetraCURP(char apellidoPaterno[], char apellidoMaterno[], char nombre[], int dia, int mes, int anio, char sexo);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -55,6 +60,93 @@ void menu()
     } while (op != 0);
 }
 
+bool esAnioBisiesto(int anio)
+{
+    if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool esFechaValida(int dia, int mes, int anio)
+{
+    if (mes == 4 || mes == 6 || mes == 9 || mes == 11)
+    {
+        if (dia > 30)
+        {
+            return false; // Abril, junio, septiembre y noviembre tienen hasta 30 días.
+        }
+    }
+    else if (mes == 2)
+    {
+        if (dia > 29)
+        {
+            return false; // Febrero puede tener hasta 29 días en un año bisiesto.
+        }
+
+        if (dia == 29 && !esAnioBisiesto(anio))
+        {
+            return false; // Febrero no puede tener 29 días en años no bisiestos.
+        }
+    }
+
+    return true;
+}
+
 void generarCURP(void)
 {
+    char apellidoPaterno[30], apellidoMaterno[30], nombre[30], sexo[2];
+    int dia, mes, anio;
+
+    do
+    {
+        system("CLS");
+        printf("Ingresa el apellido paterno: ");
+        fflush(stdin);
+        gets(apellidoPaterno);
+    } while (valiCad(apellidoPaterno) == 0 && largoCadena(apellidoPaterno) < 2);
+
+    do
+    {
+        system("CLS");
+        printf("Ingresa el apellido materno: ");
+        fflush(stdin);
+        gets(apellidoMaterno);
+    } while (valiCad(apellidoMaterno) == 0 && largoCadena(apellidoMaterno) < 2);
+
+    do
+    {
+        system("CLS");
+        printf("Ingresa el/los nombre/s: ");
+        fflush(stdin);
+        gets(nombre);
+    } while (valiCad(nombre) == 0 && largoCadena(nombre) < 2);
+
+    do
+    {
+        system("CLS");
+        printf("Ingresa el dia de nacimiento: ");
+        dia = valiNum(1, 31);
+
+        system("CLS");
+        printf("Ingresa el mes de nacimiento: ");
+        mes = valiNum(1, 12);
+
+        system("CLS");
+        printf("Ingresa el anio de nacimiento: ");
+        anio = valiNum(1900, 2023);
+    } while (!esFechaValida(dia, mes, anio));
+
+    do
+    {
+        system("CLS");
+        printf("Ingrese el sexo (H/M): ");
+        fflush(stdin);
+        gets(sexo);
+        mayus(sexo);
+    } while (strcmp(sexo, "H") != 0 && strcmp(sexo, "M") != 0);
+
+    printf("El CURP es: %c %c %c %c %02d %02d %02d %c\n", apellidoPaterno[0], apellidoPaterno[1], apellidoMaterno[0], nombre[0], anio % 100, mes, dia);
 }

@@ -2,10 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <bool.h>
+#include <stdbool.h>
+#include <string.h>
 
 //*** PROTOTIPOS *****
 int valiNum(int ri, int rf);
+int valiEspacios(char cadena[]);
+int valiAlfa(char cadena[]);
 int numAleatorio(int ri, int rf);
 bool llenarVectSinRep(int vect[], int n, int ri, int rf);
 bool llenarMatSinRep(int mat[][4], int m, int n, int ri, int rf);
@@ -34,6 +37,60 @@ int valiNum(int ri, int rf)
     } while (num < ri || num > rf);
 
     return num;
+}
+
+// Valida que una cadena no inicie o termine con espacios, o contenga dobles espacios.
+int valiEspacios(char cadena[])
+{
+    int i = 0;
+
+    // Inicia con espacio
+    if (cadena[0] == ' ') // no puede iniciar con espacios
+    {
+        return 0;
+    }
+
+    // Termina con espacio
+    if (cadena[largoCadena(cadena)] == ' ')
+    {
+        return 0;
+    }
+
+    // 2 espacios seguidos
+    while (cadena[i] != '\0')
+    {
+        if (cadena[i] == ' ')
+        {
+            if (cadena[i + 1] == ' ')
+            {
+                return 0;
+            }
+        }
+        i++;
+    }
+
+    return 1;
+}
+
+// Valida que la cadena solo tenga caracteres alfabeticos
+int valiAlfa(char cadena[])
+{
+    int i = 0;
+
+    while (cadena[i] != '\0')
+    {
+        if (cadena[i] != ' ')
+        {
+            if (cadena[i] < 'A' || cadena[i] > 'Z')
+            {
+                return 0; // La cadena contiene un carácter no válido
+            }
+        }
+
+        i++;
+    }
+
+    return 1;
 }
 
 // Genera un numero aleatorio en un rango de numeros enteros.
