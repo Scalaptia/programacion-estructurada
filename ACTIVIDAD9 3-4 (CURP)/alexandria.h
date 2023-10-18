@@ -4,7 +4,6 @@
 #include <time.h>
 #include <stdbool.h>
 #include <string.h>
-#include <structs.h>
 
 /********* STRUCTS *********/
 typedef long Tkey;
@@ -21,8 +20,6 @@ int valiAlfa(char cadena[]);
 int valiCad(char cadena[]);
 
 int numAleatorio(int ri, int rf);
-bool llenarVectSinRep(int vect[], int n, int ri, int rf);
-bool llenarMatSinRep(int mat[][4], int m, int n, int ri, int rf);
 
 int busqSeq(Tprogra vect[], int n, Tkey num);
 int busqSeqOrd(Tprogra vect[], int n, Tkey num);
@@ -38,6 +35,7 @@ bool ordVect(int vect[], int n);
 void mayus(char cadena[]);
 int largoCadena(char cadena[]);
 
+bool valiMes(int mes, int anio);
 bool esAnioBisiesto(int anio);
 bool esFechaValida(int dia, int mes, int anio);
 
@@ -139,45 +137,6 @@ int numAleatorio(int ri, int rf)
     int rango = (rf - ri + 1);
 
     return rand() % rango + ri;
-}
-
-// Llena el vector con valores aleatorios dentro de un rango de numeros sin repetir.
-bool llenarVectSinRep(int vect[], int n, int ri, int rf)
-{
-    int i, num, rango;
-    rango = rf - ri + 1;
-
-    for (i = 0; i < n; i++)
-    {
-        do
-        {
-            num = (rand() % rango) + ri;
-        } while (busqSeqVect(vect, i, num) != -1);
-
-        vect[i] = num;
-    }
-
-    return false;
-}
-
-// Llena una matriz con numeros aleatorios sin repetir.
-bool llenarMatSinRep(int mat[][4], int m, int n, int ri, int rf)
-{
-    int i, j, cont, num, largo;
-    largo = m * n;
-
-    int vect[largo];
-    llenarVectSinRep(vect, largo, ri, rf);
-
-    for (i = 0, cont = 0; i < 4; i++)
-    {
-        for (j = 0; j < 4; j++, cont++)
-        {
-            mat[i][j] = vect[cont];
-        }
-    }
-
-    return false;
 }
 
 /********* BUSQUEDA *********/
@@ -375,6 +334,19 @@ int largoCadena(char cadena[])
 }
 
 /********* FECHAS *********/
+
+bool valiMes(int mes, int anio)
+{
+    if (anio == 2023)
+    {
+        if (mes > 10)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 bool esAnioBisiesto(int anio)
 {
