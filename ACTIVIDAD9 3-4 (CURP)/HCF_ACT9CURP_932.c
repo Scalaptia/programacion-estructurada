@@ -1,20 +1,15 @@
 // Fernando Haro Calvo  MATR. 372106
 // 05-OCT-2023 (Creado)
 
-//*** LIBRERIAS     ******
+/********* LIBRERIAS *********/
 #include "alexandria.h"
-#include <ctype.h>
 
-//*** PROTOTIPOS DE FUNCIONES  ******
+/********* PROTOTIPOS DE FUNCIONES *********/
 int msges(void);
 void menu(void);
 void generarCURP(void);
 
-bool esAnioBisiesto(int anio);
-bool esFechaValida(int dia, int mes, int anio);
-char calcularLetraCURP(char apellidoPaterno[], char apellidoMaterno[], char nombre[], int dia, int mes, int anio, char sexo);
-
-//****  MAIN PRINCIPAL  *********
+/*********  MAIN PRINCIPAL *********/
 int main()
 {
     menu();
@@ -22,7 +17,7 @@ int main()
     return 0;
 }
 
-//**** DESARROLLO DE LAS FUNCIONES  ******
+/********* FUNCIONES *********/
 int msges()
 {
     int op;
@@ -35,7 +30,6 @@ int msges()
     return op;
 }
 
-//*********************
 void menu()
 {
     int op;
@@ -58,41 +52,6 @@ void menu()
         printf("\n");
         system("PAUSE");
     } while (op != 0);
-}
-
-bool esAnioBisiesto(int anio)
-{
-    if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0))
-    {
-        return true;
-    }
-
-    return false;
-}
-
-bool esFechaValida(int dia, int mes, int anio)
-{
-    if (mes == 4 || mes == 6 || mes == 9 || mes == 11)
-    {
-        if (dia > 30)
-        {
-            return false; // Abril, junio, septiembre y noviembre tienen hasta 30 días.
-        }
-    }
-    else if (mes == 2)
-    {
-        if (dia > 29)
-        {
-            return false; // Febrero puede tener hasta 29 días en un año bisiesto.
-        }
-
-        if (dia == 29 && !esAnioBisiesto(anio))
-        {
-            return false; // Febrero no puede tener 29 días en años no bisiestos.
-        }
-    }
-
-    return true;
 }
 
 void generarCURP(void)
@@ -127,16 +86,16 @@ void generarCURP(void)
     do
     {
         system("CLS");
-        printf("Ingresa el dia de nacimiento: ");
-        dia = valiNum(1, 31);
+        printf("Ingresa el anio de nacimiento: ");
+        anio = valiNum(1900, 2023);
 
         system("CLS");
         printf("Ingresa el mes de nacimiento: ");
-        mes = valiNum(1, 12);
+        mes = valiNum(1, 12)
 
-        system("CLS");
-        printf("Ingresa el anio de nacimiento: ");
-        anio = valiNum(1900, 2023);
+            system("CLS");
+        printf("Ingresa el dia de nacimiento: ");
+        dia = valiNum(1, 31);
     } while (!esFechaValida(dia, mes, anio));
 
     do

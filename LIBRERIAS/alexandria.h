@@ -1,27 +1,47 @@
-//*** LIBRERIAS *****
+/********* LIBRERIAS *********/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
 #include <string.h>
+#include <structs.h>
 
-//*** PROTOTIPOS *****
+/********* STRUCTS *********/
+typedef long Tkey;
+
+typedef struct _progra
+{
+    Tkey key;
+} Tprogra;
+
+/********* PROTOTIPOS *********/
 int valiNum(int ri, int rf);
 int valiEspacios(char cadena[]);
 int valiAlfa(char cadena[]);
+int valiCad(char cadena[]);
+
 int numAleatorio(int ri, int rf);
 bool llenarVectSinRep(int vect[], int n, int ri, int rf);
 bool llenarMatSinRep(int mat[][4], int m, int n, int ri, int rf);
-int busqSeqVect(int vect[], int n, int num);
-int busqSeqVectOrd(int vect[], int n, int num);
+
+int busqSeq(Tprogra vect[], int n, Tkey num);
+int busqSeqOrd(Tprogra vect[], int n, Tkey num);
+int busqBin(Tprogra vect[], int n, Tkey num);
+int busqOpt(Tprogra vect[], int n, Tkey num, bool band);
 int busqSeqMat(int mat[][4], int m, int n, int num);
+
 void imprVect(int vect[], int n);
 void imprMat(int mat[][4], int m, int n);
+
 bool ordVect(int vect[], int n);
+
 void mayus(char cadena[]);
 int largoCadena(char cadena[]);
 
-//*** FUNCIONES *****
+bool esAnioBisiesto(int anio);
+bool esFechaValida(int dia, int mes, int anio);
+
+/********* VALIDACIÓN *********/
 
 // Valida la entrada del usuario en un rango de numeros enteros.
 int valiNum(int ri, int rf)
@@ -93,6 +113,26 @@ int valiAlfa(char cadena[])
     return 1;
 }
 
+// Valida que no haya caracteres especiales en una cadena.
+int valiCad(char cadena[])
+{
+    mayus(cadena);
+
+    if (valiAlfa(cadena) == 0)
+    {
+        return 0;
+    }
+
+    if (valiEspacios(cadena) == 0)
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+/********* LLENADO ALEATORIO *********/
+
 // Genera un numero aleatorio en un rango de numeros enteros.
 int numAleatorio(int ri, int rf)
 {
@@ -101,7 +141,7 @@ int numAleatorio(int ri, int rf)
     return rand() % rango + ri;
 }
 
-// Llena el vector con valores aleatorio dentro de un rango de numeros sin repetir.
+// Llena el vector con valores aleatorios dentro de un rango de numeros sin repetir.
 bool llenarVectSinRep(int vect[], int n, int ri, int rf)
 {
     int i, num, rango;
@@ -140,14 +180,16 @@ bool llenarMatSinRep(int mat[][4], int m, int n, int ri, int rf)
     return false;
 }
 
-// Busca un número en un arreglo NO ORDENADO de forma secuencial.
-int busqSeqVect(int vect[], int n, int num)
+/********* BUSQUEDA *********/
+
+// Busca un valor en un arreglo NO ORDENADO de forma secuencial.
+int busqSeq(Tprogra vect[], int n, Tkey num)
 {
     int i;
 
     for (i = 0; i < n; i++)
     {
-        if (vect[i] == num)
+        if (vect[i].key == num)
         {
             return i; // Retorna índice
         }
@@ -156,16 +198,16 @@ int busqSeqVect(int vect[], int n, int num)
     return -1; // No se encontró
 }
 
-// Busca un número en un arreglo ORDENADO de forma secuencial.
-int busqSeqVectOrd(int vect[], int n, int num)
+// Busca un valor en un arreglo ORDENADO de forma secuencial.
+int busqSeqOrd(Tprogra vect[], int n, Tkey num)
 {
     int i = 0;
 
     while (i < n)
     {
-        if (num >= vect[i])
+        if (num >= vect[i].key)
         {
-            if (vect[i] == num)
+            if (vect[i].key == num)
             {
                 return i; // Retorna índice
             }
@@ -179,7 +221,56 @@ int busqSeqVectOrd(int vect[], int n, int num)
     return -1; // No se encontró
 }
 
-// Busca un número en una matriz de forma secuencial.
+// Busca un valor en un arreglo ORDENADO usando busqueda binaria.
+int busqBin(Tprogra vect[], int n, Tkey num)
+{
+    int med;
+    int ri = 0;
+    int rf = n;
+
+    while (ri <= rf)
+    {
+        med = ri + (rf - ri) / 2;
+
+        if (vect[med].key == num)
+        {
+            return med; // Valor encontrado en indice med
+        }
+        else
+        {
+            // Verifica si es menor o mayor
+            if (num < vect[med].key)
+            {
+                rf = med--;
+            }
+            else
+            {
+                ri = med++;
+            }
+        }
+    }
+
+    return -1; // No se encontró
+}
+
+// Busca un valor en un arreglo usando el algoritmo optimo
+int busqOpt(Tprogra vect[], int n, Tkey num, bool band)
+{
+    int i;
+
+    if (band)
+    {
+        i = busqBin(vect, n, num);
+    }
+    else
+    {
+        i = busqSeq(vect, n, num);
+    }
+
+    return i;
+}
+
+// Busca un valor en una matriz de forma secuencial.
 int busqSeqMat(int mat[][4], int m, int n, int num)
 {
     int i, j;
@@ -197,6 +288,8 @@ int busqSeqMat(int mat[][4], int m, int n, int num)
 
     return -1; // No se encontró
 }
+
+/********* IMPRIMIR *********/
 
 // Imprime un vector.
 void imprVect(int vect[], int n)
@@ -224,6 +317,8 @@ void imprMat(int mat[][4], int m, int n)
     }
 }
 
+/********* ORDENAR *********/
+
 // Ordena el vector usando una mezcla de bubble e insertion sort.
 bool ordVect(int vect[], int n)
 {
@@ -245,6 +340,8 @@ bool ordVect(int vect[], int n)
 
     return true;
 }
+
+/********* CADENAS *********/
 
 // Convierte la cadena a mayusculas.
 void mayus(char cadena[])
@@ -275,4 +372,41 @@ int largoCadena(char cadena[])
         ;
 
     return i - 1;
+}
+
+/********* FECHAS *********/
+
+bool esAnioBisiesto(int anio)
+{
+    if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool esFechaValida(int dia, int mes, int anio)
+{
+    if (mes == 4 || mes == 6 || mes == 9 || mes == 11)
+    {
+        if (dia > 30)
+        {
+            return false; // Abril, junio, septiembre y noviembre tienen hasta 30 días.
+        }
+    }
+    else if (mes == 2)
+    {
+        if (dia > 29)
+        {
+            return false; // Febrero puede tener hasta 29 días en un año bisiesto.
+        }
+
+        if (dia == 29 && !esAnioBisiesto(anio))
+        {
+            return false; // Febrero no puede tener 29 días en años no bisiestos.
+        }
+    }
+
+    return true;
 }
