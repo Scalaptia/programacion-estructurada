@@ -1,0 +1,4 @@
+Nombre: Fernando
+Edad: 19
+Lugar: Ensenada
+
