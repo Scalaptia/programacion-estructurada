@@ -364,21 +364,24 @@ bool esFechaValida(int dia, int mes, int anio)
     {
         if (dia > 30)
         {
-            return false; // Abril, junio, septiembre y noviembre tienen hasta 30 días.
+            return false;
         }
     }
-    else if (mes == 2)
+    else
     {
-        if (dia > 29)
+        if (mes == 2)
         {
-            return false; // Febrero puede tener hasta 29 días en un año bisiesto.
+            if (dia > 29)
+            {
+                return false;
+            }
+
+            if (dia == 29 && !esAnioBisiesto(anio))
+            {
+                return false;
+            }
         }
 
-        if (dia == 29 && !esAnioBisiesto(anio))
-        {
-            return false; // Febrero no puede tener 29 días en años no bisiestos.
-        }
+        return true;
     }
-
-    return true;
 }
