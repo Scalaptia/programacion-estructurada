@@ -429,12 +429,31 @@ bool esFechaValida(int dia, int mes, int anio)
 
 /********* CURP *********/
 
-// Busca la primera consonante en una cadena
+// Busca la segunda consonante en una cadena
 char buscaCons(char cad[])
 {
     int i;
-    int n = largoCadena(cad);
+    int n = largoCadena(cad) + 1;
     i = 1;
+
+    while (i < n)
+    {
+        if (cad[i] != 'A' && cad[i] != 'E' && cad[i] != 'I' && cad[i] != 'O' && cad[i] != 'U' && cad[i] != ' ')
+        {
+            return cad[i];
+        }
+        i++;
+    }
+
+    return 'X';
+}
+
+// Busca la primera consonante en una cadena
+char buscaPrimCons(char cad[])
+{
+    int i;
+    int n = largoCadena(cad) + 1;
+    i = 0;
 
     while (i < n)
     {

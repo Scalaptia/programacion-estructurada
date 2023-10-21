@@ -36,6 +36,8 @@ char letraNom(char nombre[]);
 char consoInterNom(char nombre[]);
 char homonimia(int anio);
 char vocalApe(char ape[]);
+char consApe(char ape[]);
+void palabrasIncon(char CURP[]);
 
 /*********  MAIN PRINCIPAL *********/
 int main()
@@ -142,7 +144,7 @@ void cadenaCURP(Tpersona pers, char CURP[])
     sprintf(anioCad, "%02d", pers.anio % 100);
 
     CURP[0] = letraNom(pers.appat) ? letraNom(pers.appat) : 'X';
-    CURP[1] = vocalApe(pers.appat) ? vocalApe(pers.appat) : 'X';
+    CURP[1] = vocalApe(pers.appat);
     CURP[2] = letraNom(pers.apmat) ? letraNom(pers.apmat) : 'X';
     CURP[3] = letraNom(pers.nombre);
     CURP[4] = anioCad[0];
@@ -154,12 +156,14 @@ void cadenaCURP(Tpersona pers, char CURP[])
     CURP[10] = pers.sexo[0];
     CURP[11] = pers.edo.codigo[0];
     CURP[12] = pers.edo.codigo[1];
-    CURP[13] = buscaCons(pers.appat);
-    CURP[14] = buscaCons(pers.apmat);
+    CURP[13] = consApe(pers.appat);
+    CURP[14] = consApe(pers.apmat);
     CURP[15] = consoInterNom(pers.nombre);
     CURP[16] = homonimia(pers.anio);
     CURP[17] = numAleatorio(0, 9) + '0';
     CURP[18] = '\0';
+
+    palabrasIncon(CURP);
 }
 
 void generarCURP(void)
@@ -247,11 +251,9 @@ char letraNom(char nombre[])
         {
             separarNombres(segNom, primNom, segNom);
         }
-
-        return primNom[0];
     }
 
-    return nombre[0];
+    return primNom[0];
 }
 
 char consoInterNom(char nombre[])
@@ -260,9 +262,19 @@ char consoInterNom(char nombre[])
     char primNom[largo], segNom[largo];
     separarNombres(nombre, primNom, segNom);
 
-    if (segNom[0] != '\0' && valiMariaJose(primNom))
+    if (valiMariaJose(primNom))
     {
-        return buscaCons(segNom);
+        return buscaPrimCons(segNom);
+    }
+
+    if (valiPrepos(primNom))
+    {
+        separarNombres(segNom, primNom, segNom);
+
+        while (valiPrepos(primNom) && segNom[0] != '\0')
+        {
+            separarNombres(segNom, primNom, segNom);
+        }
     }
 
     return buscaCons(primNom);
@@ -287,6 +299,25 @@ char vocalApe(char ape[])
     return buscaVocal(primApe);
 }
 
+char consApe(char ape[])
+{
+    int largo = largoCadena(ape);
+    char primApe[largo], segApe[largo];
+    separarNombres(ape, primApe, segApe);
+
+    if (valiPrepos(primApe))
+    {
+        separarNombres(segApe, primApe, segApe);
+
+        while (valiPrepos(primApe) && segApe[0] != '\0')
+        {
+            separarNombres(segApe, primApe, segApe);
+        }
+    }
+
+    return buscaCons(primApe);
+}
+
 char homonimia(int anio)
 {
     if (anio < 2000)
@@ -309,6 +340,23 @@ char homonimia(int anio)
             {
                 return 'C';
             }
+        }
+    }
+}
+
+void palabrasIncon(char CURP[])
+{
+    char lista[81][5] = {"BACA", "BAKA", "BUEI", "BUEY", "CACA", "CACO", "CAGA", "CAGO", "CAKA", "CAKO", "COGE", "COGI", "COJA", "COJE", "COJI", "COJO", "COLA", "CULO", "FALO", "FETO", "GETA", "GUEI", "GUEY", "JETA", "JOTO", "KACA", "KACO", "KAGA", "KAGO", "KAKA", "KAKO", "KOGE", "KOGI", "KOJA", "KOJE", "KOJI", "KOJO", "KOLA", "KULO", "LILO", "LOCA", "LOCO", "LOKA", "LOKO", "MAME", "MAMO", "MEAR", "MEAS", "MEON", "MIAR", "MION", "MOCO", "MOKO", "MULA", "MULO", "NACA", "NACO", "PEDA", "PEDO", "PENE", "PIPI", "PITO", "POPO", "PUTA", "PUTO", "QULO", "RATA", "ROBA", "ROBE", "ROBO", "RUIN", "SENO", "TETA", "VACA", "VAGA", "VAGO", "VAKA", "VUEI", "VUEY", "WUEI", "WUEY"};
+
+    int i;
+    char veri[5];
+    strncpy(veri, CURP, 4);
+
+    for (i = 0; i < 81; i++)
+    {
+        if (strcmp(veri, lista[i]) == 0)
+        {
+            CURP[1] = 'X';
         }
     }
 }
