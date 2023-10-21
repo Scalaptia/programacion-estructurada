@@ -140,9 +140,9 @@ void cadenaCURP(Tpersona pers, char CURP[])
     sprintf(mesCad, "%02d", pers.mes);
     sprintf(anioCad, "%02d", pers.anio % 100);
 
-    CURP[0] = pers.appat[0];
+    CURP[0] = pers.appat[0] ? pers.appat[0] : 'X';
     CURP[1] = buscaVocal(pers.appat);
-    CURP[2] = pers.apmat[0];
+    CURP[2] = pers.apmat[0] ? pers.apmat[0] : 'X';
     CURP[3] = letraNom(pers.nombre);
     CURP[4] = anioCad[0];
     CURP[5] = anioCad[1];
@@ -187,7 +187,7 @@ void generarCURP(void)
         printf("Ingresa el/los nombre/s: ");
         fflush(stdin);
         gets(pers.nombre);
-    } while (valiCad(pers.nombre) == 0);
+    } while (valiCad(pers.nombre) == 0 || pers.nombre[0] == '\0');
 
     system("CLS");
     printf("Ingresa el anio de nacimiento: ");
@@ -235,7 +235,6 @@ void generarCURP(void)
 char letraNom(char nombre[])
 {
     int i;
-    bool esJoM = false;
     char joseMaria[6][6] = {"MARIA", "MAX", "MA", "JOSE", "JX", "J"};
 
     int largo = largoCadena(nombre);
@@ -244,18 +243,13 @@ char letraNom(char nombre[])
 
     for (i = 0; i < 6; i++)
     {
-        if (strcmp(primNom, joseMaria[i]))
+        if (strcmp(primNom, joseMaria[i]) == 0)
         {
-            esJoM = true;
+            return segNom[0];
         }
     }
 
-    if (segNom[0] != '\0' && esJoM == true)
-    {
-        return segNom[0];
-    }
-
-    return primNom[0];
+    return nombre[0];
 }
 
 char consoInterNom(char nombre[])
