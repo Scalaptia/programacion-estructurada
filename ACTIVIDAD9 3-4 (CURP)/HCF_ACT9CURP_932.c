@@ -35,6 +35,7 @@ void codigoEstado(char codigo[], char nomEstado[]);
 char letraNom(char nombre[]);
 char consoInterNom(char nombre[]);
 char homonimia(int anio);
+char vocalApe(char ape[]);
 
 /*********  MAIN PRINCIPAL *********/
 int main()
@@ -140,9 +141,9 @@ void cadenaCURP(Tpersona pers, char CURP[])
     sprintf(mesCad, "%02d", pers.mes);
     sprintf(anioCad, "%02d", pers.anio % 100);
 
-    CURP[0] = pers.appat[0] ? pers.appat[0] : 'X';
-    CURP[1] = buscaVocal(pers.appat);
-    CURP[2] = pers.apmat[0] ? pers.apmat[0] : 'X';
+    CURP[0] = letraNom(pers.appat) ? letraNom(pers.appat) : 'X';
+    CURP[1] = vocalApe(pers.appat) ? vocalApe(pers.appat) : 'X';
+    CURP[2] = letraNom(pers.apmat) ? letraNom(pers.apmat) : 'X';
     CURP[3] = letraNom(pers.nombre);
     CURP[4] = anioCad[0];
     CURP[5] = anioCad[1];
@@ -234,19 +235,20 @@ void generarCURP(void)
 
 char letraNom(char nombre[])
 {
-    int i;
-    char joseMaria[6][6] = {"MARIA", "MAX", "MA", "JOSE", "JX", "J"};
-
     int largo = largoCadena(nombre);
     char primNom[largo], segNom[largo];
     separarNombres(nombre, primNom, segNom);
 
-    for (i = 0; i < 6; i++)
+    if (valiMariaJose(primNom) || valiPrepos(primNom))
     {
-        if (strcmp(primNom, joseMaria[i]) == 0)
+        separarNombres(segNom, primNom, segNom);
+
+        while (valiPrepos(primNom) && segNom[0] != '\0')
         {
-            return segNom[0];
+            separarNombres(segNom, primNom, segNom);
         }
+
+        return primNom[0];
     }
 
     return nombre[0];
@@ -254,28 +256,35 @@ char letraNom(char nombre[])
 
 char consoInterNom(char nombre[])
 {
-    int i;
-    bool esJoM = false;
-    char joseMaria[8][6] = {"MARIA", "MAX", "MA", "MX", "M", "JOSE", "JX", "J"};
-
     int largo = largoCadena(nombre);
     char primNom[largo], segNom[largo];
     separarNombres(nombre, primNom, segNom);
 
-    for (i = 0; i < 8; i++)
-    {
-        if (strcmp(primNom, joseMaria[i]))
-        {
-            esJoM = true;
-        }
-    }
-
-    if (segNom[0] != '\0' && esJoM == true)
+    if (segNom[0] != '\0' && valiMariaJose(primNom))
     {
         return buscaCons(segNom);
     }
 
     return buscaCons(primNom);
+}
+
+char vocalApe(char ape[])
+{
+    int largo = largoCadena(ape);
+    char primApe[largo], segApe[largo];
+    separarNombres(ape, primApe, segApe);
+
+    if (valiPrepos(primApe))
+    {
+        separarNombres(segApe, primApe, segApe);
+
+        while (valiPrepos(primApe) && segApe[0] != '\0')
+        {
+            separarNombres(segApe, primApe, segApe);
+        }
+    }
+
+    return buscaVocal(primApe);
 }
 
 char homonimia(int anio)

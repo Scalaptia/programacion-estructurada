@@ -495,3 +495,35 @@ void separarNombres(char cadena[], char primerNombre[], char restoNombres[])
         restoNombres[0] = '\0';
     }
 }
+
+bool valiPrepos(char cadena[])
+{
+    int i;
+    char lista[19][4] = {"DA", "DAS", "DE", "DEL", "DER", "DI", "DIE", "DD", "Y", "EL", "LA", "LOS", "LAS", "LE", "LES", "MAC", "MC", "VAN", "VON"};
+
+    for (i = 0; i < 19; i++)
+    {
+        if (strcmp(cadena, lista[i]) == 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool valiMariaJose(char cadena[])
+{
+    int i;
+    char lista[8][6] = {"MARIA", "MAX", "MA", "MX", "M", "JOSE", "JX", "J"};
+
+    for (i = 0; i < 8; i++)
+    {
+        if (strcmp(cadena, lista[i]) == 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
