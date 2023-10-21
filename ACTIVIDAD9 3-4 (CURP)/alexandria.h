@@ -319,37 +319,37 @@ void mayus(char cadena[])
         }
         else
         {
-            if ((unsigned char)caracter == 142 || (unsigned char)caracter == 132)
+            if ((unsigned char)caracter == 142 || (unsigned char)caracter == 132 || (unsigned char)caracter == 160 || (unsigned char)caracter == 181)
             {
                 caracter = 'A';
             }
             else
             {
-                if ((unsigned char)caracter == 211 || (unsigned char)caracter == 137)
+                if ((unsigned char)caracter == 211 || (unsigned char)caracter == 137 || (unsigned char)caracter == 130 || (unsigned char)caracter == 144)
                 {
                     caracter = 'E';
                 }
                 else
                 {
-                    if ((unsigned char)caracter == 216 || (unsigned char)caracter == 139)
+                    if ((unsigned char)caracter == 216 || (unsigned char)caracter == 139 || (unsigned char)caracter == 161 || (unsigned char)caracter == 214)
                     {
                         caracter = 'I';
                     }
                     else
                     {
-                        if ((unsigned char)caracter == 153 || (unsigned char)caracter == 148)
+                        if ((unsigned char)caracter == 153 || (unsigned char)caracter == 148 || (unsigned char)caracter == 162 || (unsigned char)caracter == 224)
                         {
                             caracter = 'O';
                         }
                         else
                         {
-                            if ((unsigned char)caracter == 154 || (unsigned char)caracter == 129)
+                            if ((unsigned char)caracter == 154 || (unsigned char)caracter == 129 || (unsigned char)caracter == 163 || (unsigned char)caracter == 233)
                             {
                                 caracter = 'U';
                             }
                             else
                             {
-                                if (caracter == -91 || caracter == -92 || caracter == 47 || caracter == 45 || caracter == 46)
+                                if (caracter == -91 || caracter == -92 || (caracter >= 44 && caracter <= 47) || caracter == 39 || (unsigned char)caracter == 239) // ñ Ñ , - . / ' ´
                                 {
                                     caracter = 'X';
                                 }
