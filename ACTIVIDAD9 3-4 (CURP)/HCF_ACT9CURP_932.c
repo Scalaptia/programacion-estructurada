@@ -31,6 +31,8 @@ void menu(void);
 void generarCURP(void);
 void cadenaCURP(Tpersona pers, char CURP[]);
 void codigoEstado(char codigo[], char nomEstado[]);
+
+char letraNom(char nombre[]);
 char consoInterNom(char nombre[]);
 char homonimia(int anio);
 
@@ -139,9 +141,9 @@ void cadenaCURP(Tpersona pers, char CURP[])
     sprintf(anioCad, "%02d", pers.anio % 100);
 
     CURP[0] = pers.appat[0];
-    CURP[1] = pers.appat[1];
+    CURP[1] = buscaVocal(pers.appat);
     CURP[2] = pers.apmat[0];
-    CURP[3] = pers.nombre[0];
+    CURP[3] = letraNom(pers.nombre);
     CURP[4] = anioCad[0];
     CURP[5] = anioCad[1];
     CURP[6] = mesCad[0];
@@ -230,31 +232,56 @@ void generarCURP(void)
     printf("El CURP es: %s\n", pers.CURP);
 }
 
+char letraNom(char nombre[])
+{
+    int i;
+    bool esJoM = false;
+    char joseMaria[6][6] = {"MARIA", "MAX", "MA", "JOSE", "JX", "J"};
+
+    int largo = largoCadena(nombre);
+    char primNom[largo], segNom[largo];
+    separarNombres(nombre, primNom, segNom);
+
+    for (i = 0; i < 6; i++)
+    {
+        if (strcmp(primNom, joseMaria[i]))
+        {
+            esJoM = true;
+        }
+    }
+
+    if (segNom[0] != '\0' && esJoM == true)
+    {
+        return segNom[0];
+    }
+
+    return primNom[0];
+}
+
 char consoInterNom(char nombre[])
 {
-    int band, i;
-    char joseMaria[] = {"MARIA", "MAX", "MA", "MX", "M", "JOSE", "JX", "J"};
+    int i;
+    bool esJoM = false;
+    char joseMaria[8][6] = {"MARIA", "MAX", "MA", "MX", "M", "JOSE", "JX", "J"};
 
-    char *primEsp = strchr(nombre, ' ');
-    int largo = strlen(primEsp + 1);
-    char segNom[largo + 1];
-
-    if (primEsp)
-    {
-        strcpy(segNom, primEsp + 1);
-    }
+    int largo = largoCadena(nombre);
+    char primNom[largo], segNom[largo];
+    separarNombres(nombre, primNom, segNom);
 
     for (i = 0; i < 8; i++)
     {
-        strcmp(nombre, joseMaria[i]);
+        if (strcmp(primNom, joseMaria[i]))
+        {
+            esJoM = true;
+        }
     }
 
-    if (band == false)
+    if (segNom[0] != '\0' && esJoM == true)
     {
         return buscaCons(segNom);
     }
 
-    return buscaCons(nombre);
+    return buscaCons(primNom);
 }
 
 char homonimia(int anio)

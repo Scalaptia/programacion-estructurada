@@ -101,7 +101,7 @@ int valiAlfa(char cadena[])
         {
             if (cadena[i] < 'A' || cadena[i] > 'Z')
             {
-                return 0; // La cadena contiene un carácter no válido
+                return 0;
             }
         }
 
@@ -315,9 +315,50 @@ void mayus(char cadena[])
 
         if (caracter >= 'a' && caracter <= 'z')
         {
-            caracter -= 32; // Convertir a mayúscula (ASCII)
+            caracter -= 32;
         }
-
+        else
+        {
+            if ((unsigned char)caracter == 142 || (unsigned char)caracter == 132)
+            {
+                caracter = 'A';
+            }
+            else
+            {
+                if ((unsigned char)caracter == 211 || (unsigned char)caracter == 137)
+                {
+                    caracter = 'E';
+                }
+                else
+                {
+                    if ((unsigned char)caracter == 216 || (unsigned char)caracter == 139)
+                    {
+                        caracter = 'I';
+                    }
+                    else
+                    {
+                        if ((unsigned char)caracter == 153 || (unsigned char)caracter == 148)
+                        {
+                            caracter = 'O';
+                        }
+                        else
+                        {
+                            if ((unsigned char)caracter == 154 || (unsigned char)caracter == 129)
+                            {
+                                caracter = 'U';
+                            }
+                            else
+                            {
+                                if (caracter == -91 || caracter == -92 || caracter == 47 || caracter == 45 || caracter == 46)
+                                {
+                                    caracter = 'X';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         cadena[i] = caracter;
     }
 }
@@ -386,12 +427,13 @@ bool esFechaValida(int dia, int mes, int anio)
     }
 }
 
+/********* CURP *********/
+
 // Busca la primera consonante en una cadena
 char buscaCons(char cad[])
 {
-    char vocal;
-    int n, i;
-    int largo = largoCadena(cad);
+    int i;
+    int n = largoCadena(cad);
     i = 1;
 
     while (i < n)
@@ -404,4 +446,52 @@ char buscaCons(char cad[])
     }
 
     return 'X';
+}
+
+// Busca la primera vocal en una cadena
+char buscaVocal(char cad[])
+{
+    int i;
+    int n = largoCadena(cad);
+    i = 1;
+
+    while (i < n)
+    {
+        if (cad[i] == 'A' || cad[i] == 'E' || cad[i] == 'I' || cad[i] == 'O' || cad[i] == 'U')
+        {
+            return cad[i];
+        }
+        i++;
+    }
+
+    return 'X';
+}
+
+// Separa primer y segundo nombre
+void separarNombres(char cadena[], char primerNombre[], char restoNombres[])
+{
+    int i = 0;
+    while (cadena[i] != ' ' && cadena[i] != '\0')
+    {
+        primerNombre[i] = cadena[i];
+        i++;
+    }
+    primerNombre[i] = '\0';
+
+    if (cadena[i] != '\0')
+    {
+        i++; // Saltar el espacio en blanco
+        int j = 0;
+        while (cadena[i] != '\0')
+        {
+            restoNombres[j] = cadena[i];
+            i++;
+            j++;
+        }
+        restoNombres[j] = '\0';
+    }
+    else
+    {
+        restoNombres[0] = '\0';
+    }
 }
