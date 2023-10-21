@@ -22,14 +22,17 @@ typedef struct _persona
     int dia;
     char sexo[7];
     Testado edo;
+    char CURP[18];
 } Tpersona;
 
 /********* PROTOTIPOS DE FUNCIONES *********/
 int msges(void);
 void menu(void);
 void generarCURP(void);
-void cadenaCURP(char CURP[], Tpersona pers);
+void cadenaCURP(Tpersona pers, char CURP[]);
 void codigoEstado(char codigo[], char nomEstado[]);
+char consoInterNom(char nombre[]);
+char homonimia(int anio);
 
 /*********  MAIN PRINCIPAL *********/
 int main()
@@ -56,6 +59,7 @@ void menu()
 {
     int op;
     system("CLS");
+    srand(time(NULL));
 
     do
     {
@@ -126,7 +130,7 @@ void codigoEstado(char codigo[], char nomEstado[])
     strcpy(codigo, "X"); // No encontrado
 }
 
-void cadenaCURP(char CURP[], Tpersona pers)
+void cadenaCURP(Tpersona pers, char CURP[])
 {
     // Convertir fecha a cadena
     char diaCad[3], mesCad[3], anioCad[3];
@@ -147,12 +151,12 @@ void cadenaCURP(char CURP[], Tpersona pers)
     CURP[10] = pers.sexo[0];
     CURP[11] = pers.edo.codigo[0];
     CURP[12] = pers.edo.codigo[1];
-    CURP[13] = ' ';
-    CURP[14] = ' ';
-    CURP[15] = ' ';
-    CURP[16] = ' ';
-    CURP[17] = ' ';
-    CURP[18] = ' ';
+    CURP[13] = buscaCons(pers.appat);
+    CURP[14] = buscaCons(pers.apmat);
+    CURP[15] = consoInterNom(pers.nombre);
+    CURP[16] = homonimia(pers.anio);
+    CURP[17] = numAleatorio(0, 9) + '0';
+    CURP[18] = '\0';
 }
 
 void generarCURP(void)
@@ -222,7 +226,59 @@ void generarCURP(void)
     } while (!strcmp(pers.edo.codigo, "X"));
 
     system("CLS");
-    char curp[18];
-    cadenaCURP(curp, pers);
-    printf("El CURP es: %s\n", curp);
+    cadenaCURP(pers, pers.CURP);
+    printf("El CURP es: %s\n", pers.CURP);
+}
+
+char consoInterNom(char nombre[])
+{
+    int band, i;
+    char joseMaria[] = {"MARIA", "MAX", "MA", "MX", "M", "JOSE", "JX", "J"};
+
+    char *primEsp = strchr(nombre, ' ');
+    int largo = strlen(primEsp + 1);
+    char segNom[largo + 1];
+
+    if (primEsp)
+    {
+        strcpy(segNom, primEsp + 1);
+    }
+
+    for (i = 0; i < 8; i++)
+    {
+        strcmp(nombre, joseMaria[i]);
+    }
+
+    if (band == false)
+    {
+        return buscaCons(segNom);
+    }
+
+    return buscaCons(nombre);
+}
+
+char homonimia(int anio)
+{
+    if (anio < 2000)
+    {
+        return '0';
+    }
+    else
+    {
+        if (anio >= 2000 && anio <= 2009)
+        {
+            return 'A';
+        }
+        else
+        {
+            if (anio >= 2010 && anio <= 2019)
+            {
+                return 'B';
+            }
+            else
+            {
+                return 'C';
+            }
+        }
+    }
 }
