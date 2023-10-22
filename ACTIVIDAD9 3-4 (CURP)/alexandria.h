@@ -305,61 +305,68 @@ bool ordVect(int vect[], int n)
 // Convierte la cadena a mayusculas.
 void mayus(char cadena[])
 {
-    // Variables Locales
-    int i;
+    int i = 0;
+    unsigned char caracter;
 
-    // Programa
-    for (i = 0; cadena[i] != '\0'; i++)
+    while (cadena[i] != '\0')
     {
-        char caracter = cadena[i];
-
+        caracter = (unsigned char)cadena[i];
         if (caracter >= 'a' && caracter <= 'z')
         {
-            caracter -= 32;
+            cadena[i] -= 32;
         }
         else
         {
-            if ((unsigned char)caracter == 142 || (unsigned char)caracter == 132 || (unsigned char)caracter == 160 || (unsigned char)caracter == 181)
+            switch (caracter)
             {
-                caracter = 'A';
-            }
-            else
-            {
-                if ((unsigned char)caracter == 211 || (unsigned char)caracter == 137 || (unsigned char)caracter == 130 || (unsigned char)caracter == 144)
-                {
-                    caracter = 'E';
-                }
-                else
-                {
-                    if ((unsigned char)caracter == 216 || (unsigned char)caracter == 139 || (unsigned char)caracter == 161 || (unsigned char)caracter == 214)
-                    {
-                        caracter = 'I';
-                    }
-                    else
-                    {
-                        if ((unsigned char)caracter == 153 || (unsigned char)caracter == 148 || (unsigned char)caracter == 162 || (unsigned char)caracter == 224)
-                        {
-                            caracter = 'O';
-                        }
-                        else
-                        {
-                            if ((unsigned char)caracter == 154 || (unsigned char)caracter == 129 || (unsigned char)caracter == 163 || (unsigned char)caracter == 233)
-                            {
-                                caracter = 'U';
-                            }
-                            else
-                            {
-                                if (caracter == -91 || caracter == -92 || (caracter >= 44 && caracter <= 47) || caracter == 39 || (unsigned char)caracter == 239) // ñ Ñ , - . / ' ´
-                                {
-                                    caracter = 'X';
-                                }
-                            }
-                        }
-                    }
-                }
+            case 160: // á
+            case 181: // Á
+            case 132: // ä
+            case 142: // Ä
+                cadena[i] = 'A';
+                break;
+
+            case 130: // é
+            case 144: // É
+            case 137: // ë
+            case 211: // Ë
+                cadena[i] = 'E';
+                break;
+
+            case 161: // í
+            case 214: // Í
+            case 139: // ï
+            case 216: // Ï
+                cadena[i] = 'I';
+                break;
+
+            case 162: // ó
+            case 224: // Ó
+            case 148: // ö
+            case 153: // Ö
+                cadena[i] = 'O';
+                break;
+
+            case 163: // ú
+            case 233: // Ú
+            case 129: // ü
+            case 154: // Ü
+                cadena[i] = 'U';
+                break;
+
+            case 164: // ñ
+            case 165: // Ñ
+            case 44:  // ,
+            case 45:  // -
+            case 46:  // .
+            case 47:  // /
+            case 39:  // '
+            case 239: // ´
+                cadena[i] = 'X';
+                break;
             }
         }
-        cadena[i] = caracter;
+        i++;
     }
 }
 
@@ -425,124 +432,4 @@ bool esFechaValida(int dia, int mes, int anio)
 
         return true;
     }
-}
-
-/********* CURP *********/
-
-// Busca la segunda consonante en una cadena
-char buscaCons(char cad[])
-{
-    int i;
-    int n = largoCadena(cad) + 1;
-    i = 1;
-
-    while (i < n)
-    {
-        if (cad[i] != 'A' && cad[i] != 'E' && cad[i] != 'I' && cad[i] != 'O' && cad[i] != 'U' && cad[i] != ' ')
-        {
-            return cad[i];
-        }
-        i++;
-    }
-
-    return 'X';
-}
-
-// Busca la primera consonante en una cadena
-char buscaPrimCons(char cad[])
-{
-    int i;
-    int n = largoCadena(cad) + 1;
-    i = 0;
-
-    while (i < n)
-    {
-        if (cad[i] != 'A' && cad[i] != 'E' && cad[i] != 'I' && cad[i] != 'O' && cad[i] != 'U' && cad[i] != ' ')
-        {
-            return cad[i];
-        }
-        i++;
-    }
-
-    return 'X';
-}
-
-// Busca la primera vocal en una cadena
-char buscaVocal(char cad[])
-{
-    int i;
-    int n = largoCadena(cad);
-    i = 1;
-
-    while (i < n)
-    {
-        if (cad[i] == 'A' || cad[i] == 'E' || cad[i] == 'I' || cad[i] == 'O' || cad[i] == 'U')
-        {
-            return cad[i];
-        }
-        i++;
-    }
-
-    return 'X';
-}
-
-// Separa primer y segundo nombre
-void separarNombres(char cadena[], char primerNombre[], char restoNombres[])
-{
-    int i = 0;
-    while (cadena[i] != ' ' && cadena[i] != '\0')
-    {
-        primerNombre[i] = cadena[i];
-        i++;
-    }
-    primerNombre[i] = '\0';
-
-    if (cadena[i] != '\0')
-    {
-        i++; // Saltar el espacio en blanco
-        int j = 0;
-        while (cadena[i] != '\0')
-        {
-            restoNombres[j] = cadena[i];
-            i++;
-            j++;
-        }
-        restoNombres[j] = '\0';
-    }
-    else
-    {
-        restoNombres[0] = '\0';
-    }
-}
-
-bool valiPrepos(char cadena[])
-{
-    int i;
-    char lista[19][4] = {"DA", "DAS", "DE", "DEL", "DER", "DI", "DIE", "DD", "Y", "EL", "LA", "LOS", "LAS", "LE", "LES", "MAC", "MC", "VAN", "VON"};
-
-    for (i = 0; i < 19; i++)
-    {
-        if (strcmp(cadena, lista[i]) == 0)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool valiMariaJose(char cadena[])
-{
-    int i;
-    char lista[8][6] = {"MARIA", "MAX", "MA", "MX", "M", "JOSE", "JX", "J"};
-
-    for (i = 0; i < 8; i++)
-    {
-        if (strcmp(cadena, lista[i]) == 0)
-        {
-            return true;
-        }
-    }
-
-    return false;
 }
