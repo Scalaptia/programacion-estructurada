@@ -261,6 +261,11 @@ char letraNom(char nombre[])
         }
     }
 
+    if (primNom[0] == ',')
+    {
+        return 'X';
+    }
+
     return primNom[0];
 }
 
@@ -316,6 +321,11 @@ char vocalApe(char ape[])
         }
     }
 
+    if (primApe[1] == ',')
+    {
+        return 'X';
+    }
+
     return buscaVocal(primApe);
 }
 
@@ -333,6 +343,11 @@ char consApe(char ape[])
         {
             separarNombres(segApe, primApe, segApe);
         }
+    }
+
+    if (primApe[1] == ',')
+    {
+        return 'X';
     }
 
     return buscaCons(primApe);

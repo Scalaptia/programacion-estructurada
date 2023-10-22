@@ -99,7 +99,7 @@ int valiAlfa(char cadena[])
 
     while (cadena[i] != '\0')
     {
-        if (cadena[i] != ' ')
+        if (cadena[i] != ' ' && cadena[i] != ',')
         {
             if (cadena[i] < 'A' || cadena[i] > 'Z')
             {
@@ -442,13 +442,18 @@ void valiChars(char cadena[])
 
             case 164: // ñ
             case 165: // Ñ
+                cadena[i] = 'X';
+                break;
+
+            case 39:  // '
             case 44:  // ,
             case 45:  // -
             case 46:  // .
             case 47:  // /
-            case 39:  // '
+            case 96:  // `
             case 239: // ´
-                cadena[i] = 'X';
+            case 249: // ¨
+                cadena[i] = ',';
                 break;
             }
         }
