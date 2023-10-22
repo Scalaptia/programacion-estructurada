@@ -38,6 +38,8 @@ int largoCadena(char cadena[]);
 bool valiMes(int mes, int anio);
 bool esAnioBisiesto(int anio);
 bool esFechaValida(int dia, int mes, int anio);
+void valiChars(char cadena[]);
+bool valiCadena(char cadena[]);
 
 /********* VALIDACIÓN *********/
 
@@ -305,68 +307,20 @@ bool ordVect(int vect[], int n)
 // Convierte la cadena a mayusculas.
 void mayus(char cadena[])
 {
-    int i = 0;
-    unsigned char caracter;
+    // Variables Locales
+    int i;
 
-    while (cadena[i] != '\0')
+    // Programa
+    for (i = 0; cadena[i] != '\0'; i++)
     {
-        caracter = (unsigned char)cadena[i];
+        char caracter = cadena[i];
+
         if (caracter >= 'a' && caracter <= 'z')
         {
-            cadena[i] -= 32;
+            caracter -= 32; // Convertir a mayúscula (ASCII)
         }
-        else
-        {
-            switch (caracter)
-            {
-            case 160: // á
-            case 181: // Á
-            case 132: // ä
-            case 142: // Ä
-                cadena[i] = 'A';
-                break;
 
-            case 130: // é
-            case 144: // É
-            case 137: // ë
-            case 211: // Ë
-                cadena[i] = 'E';
-                break;
-
-            case 161: // í
-            case 214: // Í
-            case 139: // ï
-            case 216: // Ï
-                cadena[i] = 'I';
-                break;
-
-            case 162: // ó
-            case 224: // Ó
-            case 148: // ö
-            case 153: // Ö
-                cadena[i] = 'O';
-                break;
-
-            case 163: // ú
-            case 233: // Ú
-            case 129: // ü
-            case 154: // Ü
-                cadena[i] = 'U';
-                break;
-
-            case 164: // ñ
-            case 165: // Ñ
-            case 44:  // ,
-            case 45:  // -
-            case 46:  // .
-            case 47:  // /
-            case 39:  // '
-            case 239: // ´
-                cadena[i] = 'X';
-                break;
-            }
-        }
-        i++;
+        cadena[i] = caracter;
     }
 }
 
@@ -432,4 +386,89 @@ bool esFechaValida(int dia, int mes, int anio)
 
         return true;
     }
+}
+
+/* CURP */
+void valiChars(char cadena[])
+{
+    int i = 0;
+    unsigned char caracter;
+
+    while (cadena[i] != '\0')
+    {
+        caracter = (unsigned char)cadena[i];
+        if (caracter >= 'a' && caracter <= 'z')
+        {
+            cadena[i] -= 32;
+        }
+        else
+        {
+            switch (caracter)
+            {
+            case 160: // á
+            case 181: // Á
+            case 132: // ä
+            case 142: // Ä
+                cadena[i] = 'A';
+                break;
+
+            case 130: // é
+            case 144: // É
+            case 137: // ë
+            case 211: // Ë
+                cadena[i] = 'E';
+                break;
+
+            case 161: // í
+            case 214: // Í
+            case 139: // ï
+            case 216: // Ï
+                cadena[i] = 'I';
+                break;
+
+            case 162: // ó
+            case 224: // Ó
+            case 148: // ö
+            case 153: // Ö
+                cadena[i] = 'O';
+                break;
+
+            case 163: // ú
+            case 233: // Ú
+            case 129: // ü
+            case 154: // Ü
+                cadena[i] = 'U';
+                break;
+
+            case 164: // ñ
+            case 165: // Ñ
+            case 44:  // ,
+            case 45:  // -
+            case 46:  // .
+            case 47:  // /
+            case 39:  // '
+            case 239: // ´
+                cadena[i] = 'X';
+                break;
+            }
+        }
+        i++;
+    }
+}
+
+bool valiCadena(char cadena[])
+{
+    valiChars(cadena);
+
+    if (valiAlfa(cadena) == 0)
+    {
+        return false;
+    }
+
+    if (valiEspacios(cadena) == 0)
+    {
+        return false;
+    }
+
+    return true;
 }

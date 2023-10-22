@@ -104,7 +104,7 @@ void generarCURP(void)
         printf("Ingresa el apellido paterno: ");
         fflush(stdin);
         gets(pers.appat);
-    } while (valiCad(pers.appat) == 0);
+    } while (valiCadena(pers.appat) == 0);
 
     do
     {
@@ -112,7 +112,7 @@ void generarCURP(void)
         printf("Ingresa el apellido materno: ");
         fflush(stdin);
         gets(pers.apmat);
-    } while (valiCad(pers.apmat) == 0);
+    } while (valiCadena(pers.apmat) == 0);
 
     do
     {
@@ -120,7 +120,7 @@ void generarCURP(void)
         printf("Ingresa el/los nombre/s: ");
         fflush(stdin);
         gets(pers.nombre);
-    } while (valiCad(pers.nombre) == 0 || pers.nombre[0] == '\0');
+    } while (valiCadena(pers.nombre) == 0 || pers.nombre[0] == '\0');
 
     system("CLS");
     printf("Ingresa el anio de nacimiento: ");
@@ -146,7 +146,7 @@ void generarCURP(void)
         printf("Ingrese el sexo (H/M): ");
         fflush(stdin);
         gets(pers.sexo);
-        mayus(pers.sexo);
+        valiChars(pers.sexo);
     } while (strcmp(pers.sexo, "H") != 0 && strcmp(pers.sexo, "M") != 0);
     (strcmp(pers.sexo, "M")) ? strcpy(pers.sexo, "HOMBRE") : strcpy(pers.sexo, "MUJER");
 
@@ -156,7 +156,7 @@ void generarCURP(void)
         printf("Ingresa el estado de nacimiento (o 'extranjero'): ");
         fflush(stdin);
         gets(pers.edo.nombre);
-        mayus(pers.edo.nombre);
+        valiChars(pers.edo.nombre);
         codigoEstado(pers.edo.codigo, pers.edo.nombre);
     } while (!strcmp(pers.edo.codigo, "X"));
 
@@ -272,7 +272,19 @@ char consoInterNom(char nombre[])
 
     if (valiMariaJose(primNom))
     {
-        return buscaPrimCons(segNom);
+        separarNombres(segNom, primNom, segNom);
+
+        if (valiPrepos(primNom))
+        {
+            separarNombres(segNom, primNom, segNom);
+
+            while (valiPrepos(primNom) && segNom[0] != '\0')
+            {
+                separarNombres(segNom, primNom, segNom);
+            }
+        }
+
+        return buscaCons(primNom);
     }
 
     if (valiPrepos(primNom))
