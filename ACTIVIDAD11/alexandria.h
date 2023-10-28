@@ -43,6 +43,7 @@ int valiAlfa(char cadena[]);
 int valiCad(char cadena[]);
 
 int numAleatorio(int ri, int rf);
+int matriAlea(void);
 
 int busqSeq(Tprogra vect[], int n, Tkey num);
 int busqSeqOrd(Tprogra vect[], int n, Tkey num);
@@ -53,7 +54,7 @@ int busqSeqMat(int mat[][4], int m, int n, int num);
 void imprVect(int vect[], int n);
 void imprMat(int mat[][4], int m, int n);
 
-bool ordVect(int vect[], int n);
+bool ordVect(Tprogra vect[], int n);
 
 void mayus(char cadena[]);
 int largoCadena(char cadena[]);
@@ -164,6 +165,17 @@ int numAleatorio(int ri, int rf)
     int rango = (rf - ri + 1);
 
     return rand() % rango + ri;
+}
+
+int matriAlea(void)
+{
+    int matri, mid, low;
+    mid = rand() % 100 * 1000;
+    low = rand() % 100;
+
+    matri = 300000 + mid + low;
+
+    return matri;
 }
 
 /********* BUSQUEDA *********/
@@ -306,16 +318,16 @@ void imprMat(int mat[][4], int m, int n)
 /********* ORDENAR *********/
 
 // Ordena el vector usando una mezcla de bubble e insertion sort.
-bool ordVect(int vect[], int n)
+bool ordVect(Tprogra vect[], int n)
 {
     int i, j;
-    int temp;
+    Tprogra temp;
 
     for (i = 0; i < n - 1; i++)
     {
         for (j = i + 1; j < n; j++)
         {
-            if (vect[j] <= vect[i])
+            if (vect[j].key <= vect[i].key)
             {
                 temp = vect[i];
                 vect[i] = vect[j];
@@ -407,6 +419,20 @@ bool esFechaValida(int dia, int mes, int anio)
     }
 
     return true;
+}
+
+int calculaEdad(Tfecha fecha)
+{
+    int edad, anioAct, mesAct, diaAct;
+    anioAct = 2023, mesAct = 10, diaAct = 28;
+
+    edad = anioAct - fecha.anio;
+    if (mesAct < fecha.mes || (mesAct == fecha.mes && diaAct < fecha.mes))
+    {
+        edad--;
+    }
+
+    return edad;
 }
 
 /********* DATOS ALEATORIOS *********/

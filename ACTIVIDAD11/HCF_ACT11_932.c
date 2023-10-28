@@ -14,6 +14,7 @@ void menu(void);
 Tprogra genPersAlea(void);
 Tprogra genPersMan(void);
 void imprPersonas(Tprogra vect[], int n);
+void imprReg(Tprogra pers);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -88,11 +89,12 @@ void menu()
                     {
                         pers = genPersMan();
 
-                        while (busqSeq(ingenieros, nPers, pers.matricula) != -1) // Valida matricula unica
+                        while (busqSeq(ingenieros, nPers, pers.key) != -1) // Valida matricula unica
                         {
                             system("CLS");
                             printf("Matricula repetida, ingrese una nueva: ");
                             pers.matricula = valiNum(300000, 399999);
+                            pers.key = pers.matricula;
                         }
 
                         ingenieros[nPers] = pers;
@@ -114,16 +116,17 @@ void menu()
                         {
                             pers = genPersAlea();
 
-                            while (busqSeq(ingenieros, nPers, pers.matricula) != -1) // Valida matricula unica
+                            while (busqSeq(ingenieros, nPers, pers.key) != -1) // Valida matricula unica
                             {
-                                pers.matricula = numAleatorio(300000, 399999);
+                                pers.matricula = matriAlea();
+                                pers.key = pers.matricula;
                             }
 
                             ingenieros[nPers] = pers;
                             nPers++;
                         }
                         band = false;
-                        printf("Se han añadido %d personas\n", nAuto);
+                        printf("Se han agregado %d personas\n", nAuto);
                     }
                     else
                     {
@@ -137,7 +140,73 @@ void menu()
                     break;
                 }
             } while (op != 3);
+            break;
 
+        case 2:
+            printf("Ingrese la matricula del estudiante que desea eliminar: ");
+            num = valiNum(300000, 399999);
+            system("CLS");
+
+            i = busqOpt(ingenieros, nPers, num, band);
+
+            if (i != -1)
+            {
+                if (ingenieros[i].status != 0)
+                {
+                    imprReg(pers);
+                    printf("\n\nDesea eliminar el registro? (1 - Si, 2 - No) ");
+                    op = valiNum(1, 2);
+                    system("CLS");
+
+                    if (op == 1)
+                    {
+                        ingenieros[i].status = 0;
+                        printf("Matricula eliminada con exito\n");
+                    }
+                    else
+                    {
+                        printf("Matricula no eliminada\n");
+                    }
+                }
+                else
+                {
+                    printf("El alumno ya se encuentra inactivo\n");
+                }
+            }
+            else
+            {
+                printf("Matricula no encontrada\n");
+            }
+            break;
+
+        case 3:
+            printf("Ingrese la matricula del estudiante que desea buscar: ");
+            num = valiNum(300000, 399999);
+            system("CLS");
+
+            i = busqOpt(ingenieros, nPers, num, band);
+
+            if (i != -1)
+            {
+                printf("Matricula encontrada\n", num);
+                imprReg(pers);
+            }
+            else
+            {
+                printf("La matricula %d no se encuentra en el vector\n", num);
+            }
+            break;
+
+        case 4:
+            if (band == false)
+            {
+                band = ordVect(ingenieros, nPers);
+                printf("El vector ha sido ordenado\n");
+            }
+            else
+            {
+                printf("El vector ya estaba ordenado\n");
+            }
             break;
 
         case 5:
@@ -155,52 +224,22 @@ void menu()
 
 /********* FUNCIONES *********/
 
-// Genera n cantidad de registros de personas aleatoriamente dentro del vector de personas especificado.
-Tprogra genPersAlea(void)
-{
-    Tprogra pers;
-    int sexo;
-
-    pers.status = 1;
-    pers.matricula = numAleatorio(300000, 399999);
-    genAp(pers.appat);
-    genAp(pers.apmat);
-    sexo = numAleatorio(1, 2);
-    do
-    {
-        pers.fecha.dia = numAleatorio(1, 31);
-        pers.fecha.mes = numAleatorio(1, 12);
-        pers.fecha.anio = numAleatorio(1980, 2020);
-    } while (esFechaValida(pers.fecha.dia, pers.fecha.mes, pers.fecha.anio) == false);
-
-    pers.edad = 2023 - pers.fecha.anio;
-    if (11 < pers.fecha.mes || (11 == pers.fecha.mes && 31 < pers.fecha.mes)) // 11 mes 31 dia
-    {
-        pers.edad--;
-    }
-
-    if (sexo == 1)
-    {
-        genNomH(pers.nombre);
-        strcpy(pers.sexo, "HOMBRE");
-    }
-    else
-    {
-        genNomM(pers.nombre);
-        strcpy(pers.sexo, "MUJER");
-    }
-
-    genEdoAlea(pers.edo.nombre, pers.edo.codigo);
-
-    cadenaCURP(pers, pers.CURP);
-
-    return pers;
-}
-
 // Genera una persona de forma manual
 Tprogra genPersMan(void)
 {
     Tprogra pers;
+
+    system("CLS");
+    printf("Ingresa la matricula (300000 - 399999): ");
+    pers.matricula = valiNum(300000, 399999);
+
+    do
+    {
+        system("CLS");
+        printf("Ingresa el/los nombre/s: ");
+        fflush(stdin);
+        gets(pers.nombre);
+    } while (valiCadena(pers.nombre) == 0 || pers.nombre[0] == '\0');
 
     do
     {
@@ -217,14 +256,6 @@ Tprogra genPersMan(void)
         fflush(stdin);
         gets(pers.apmat);
     } while (valiCadena(pers.apmat) == 0);
-
-    do
-    {
-        system("CLS");
-        printf("Ingresa el/los nombre/s: ");
-        fflush(stdin);
-        gets(pers.nombre);
-    } while (valiCadena(pers.nombre) == 0 || pers.nombre[0] == '\0');
 
     system("CLS");
     printf("Ingresa el anio de nacimiento: ");
@@ -243,6 +274,8 @@ Tprogra genPersMan(void)
         printf("Ingresa el dia de nacimiento: ");
         pers.fecha.dia = valiNum(1, 31);
     } while (esFechaValida(pers.fecha.dia, pers.fecha.mes, pers.fecha.anio) == false);
+
+    pers.edad = calculaEdad(pers.fecha);
 
     do
     {
@@ -266,6 +299,47 @@ Tprogra genPersMan(void)
 
     cadenaCURP(pers, pers.CURP);
 
+    pers.key = pers.matricula;
+
+    return pers;
+}
+
+// Genera n cantidad de registros de personas aleatoriamente dentro del vector de personas especificado.
+Tprogra genPersAlea(void)
+{
+    Tprogra pers;
+    int sexo;
+
+    pers.status = 1;
+    pers.matricula = matriAlea();
+    genAp(pers.appat);
+    genAp(pers.apmat);
+    sexo = numAleatorio(1, 2);
+    do
+    {
+        pers.fecha.dia = numAleatorio(1, 31);
+        pers.fecha.mes = numAleatorio(1, 12);
+        pers.fecha.anio = numAleatorio(1980, 2020);
+    } while (esFechaValida(pers.fecha.dia, pers.fecha.mes, pers.fecha.anio) == false);
+
+    pers.edad = calculaEdad(pers.fecha);
+
+    if (sexo == 1)
+    {
+        genNomH(pers.nombre);
+        strcpy(pers.sexo, "HOMBRE");
+    }
+    else
+    {
+        genNomM(pers.nombre);
+        strcpy(pers.sexo, "MUJER");
+    }
+
+    genEdoAlea(pers.edo.nombre, pers.edo.codigo);
+
+    cadenaCURP(pers, pers.CURP);
+
+    pers.key = pers.matricula;
     return pers;
 }
 
@@ -282,4 +356,11 @@ void imprPersonas(Tprogra vect[], int n)
             printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
         }
     }
+}
+
+// Imprime el registro de una persona.
+void imprReg(Tprogra pers)
+{
+    printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
+    printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", pers.matricula, pers.nombre, pers.appat, pers.apmat, pers.fecha.dia, pers.fecha.mes, pers.fecha.anio, pers.edad, pers.sexo, pers.edo.nombre, pers.CURP);
 }
