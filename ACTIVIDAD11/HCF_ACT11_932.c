@@ -334,7 +334,7 @@ Tprogra genPersAlea(void)
     {
         pers.fecha.dia = numAleatorio(1, 31);
         pers.fecha.mes = numAleatorio(1, 12);
-        pers.fecha.anio = numAleatorio(1980, 2020);
+        pers.fecha.anio = numAleatorio(1990, 2003);
     } while (esFechaValida(pers.fecha.dia, pers.fecha.mes, pers.fecha.anio) == false);
 
     pers.edad = calculaEdad(pers.fecha);
