@@ -8,6 +8,13 @@
 /********* STRUCTS *********/
 typedef long Tkey;
 
+typedef struct _nom
+{
+    char nombre[30];
+    char appat[30];
+    char apmat[30];
+} Tnombre;
+
 typedef struct _fecha
 {
     int dia;
@@ -26,9 +33,7 @@ typedef struct _progra
     int status;
     Tkey key;
     int matricula;
-    char nombre[30];
-    char appat[30];
-    char apmat[30];
+    Tnombre nombre;
     Tfecha fecha;
     int edad;
     char sexo[7];
@@ -125,11 +130,11 @@ int valiAlfa(char cadena[])
 
     while (cadena[i] != '\0')
     {
-        if (cadena[i] != ' ')
+        if (cadena[i] != ' ' && cadena[i] != ',')
         {
             if (cadena[i] < 'A' || cadena[i] > 'Z')
             {
-                return 0; // La cadena contiene un carácter no válido
+                return 0;
             }
         }
 

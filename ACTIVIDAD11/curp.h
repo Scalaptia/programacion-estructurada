@@ -28,10 +28,10 @@ void cadenaCURP(Tprogra pers, char CURP[])
     sprintf(mesCad, "%02d", pers.fecha.mes);
     sprintf(anioCad, "%02d", pers.fecha.anio % 100);
 
-    CURP[0] = letraNom(pers.appat) ? letraNom(pers.appat) : 'X';
-    CURP[1] = vocalApe(pers.appat);
-    CURP[2] = letraNom(pers.apmat) ? letraNom(pers.apmat) : 'X';
-    CURP[3] = letraNom(pers.nombre);
+    CURP[0] = letraNom(pers.nombre.appat) ? letraNom(pers.nombre.appat) : 'X';
+    CURP[1] = vocalApe(pers.nombre.appat);
+    CURP[2] = letraNom(pers.nombre.apmat) ? letraNom(pers.nombre.apmat) : 'X';
+    CURP[3] = letraNom(pers.nombre.nombre);
     CURP[4] = anioCad[0];
     CURP[5] = anioCad[1];
     CURP[6] = mesCad[0];
@@ -41,9 +41,9 @@ void cadenaCURP(Tprogra pers, char CURP[])
     CURP[10] = pers.sexo[0];
     CURP[11] = pers.edo.codigo[0];
     CURP[12] = pers.edo.codigo[1];
-    CURP[13] = consApe(pers.appat);
-    CURP[14] = consApe(pers.apmat);
-    CURP[15] = consoInterNom(pers.nombre);
+    CURP[13] = consApe(pers.nombre.appat);
+    CURP[14] = consApe(pers.nombre.apmat);
+    CURP[15] = consoInterNom(pers.nombre.nombre);
     CURP[16] = homonimia(pers.fecha.anio);
     CURP[17] = numAleatorio(0, 9) + '0';
     CURP[18] = '\0';
@@ -309,6 +309,11 @@ char buscaCons(char cad[])
     {
         if (cad[i] != 'A' && cad[i] != 'E' && cad[i] != 'I' && cad[i] != 'O' && cad[i] != 'U' && cad[i] != ' ')
         {
+            if (cad[i] == ',')
+            {
+                return 'X';
+            }
+
             return cad[i];
         }
         i++;

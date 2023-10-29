@@ -100,6 +100,9 @@ void menu()
                         ingenieros[nPers] = pers;
                         nPers++;
                         band = false;
+                        system("CLS");
+                        printf("Registro Agregado: \n");
+                        imprReg(pers);
                     }
                     else
                     {
@@ -238,24 +241,24 @@ Tprogra genPersMan(void)
         system("CLS");
         printf("Ingresa el/los nombre/s: ");
         fflush(stdin);
-        gets(pers.nombre);
-    } while (valiCadena(pers.nombre) == 0 || pers.nombre[0] == '\0');
+        gets(pers.nombre.nombre);
+    } while (valiCadena(pers.nombre.nombre) == 0 || pers.nombre.nombre[0] == '\0');
 
     do
     {
         system("CLS");
         printf("Ingresa el apellido paterno: ");
         fflush(stdin);
-        gets(pers.appat);
-    } while (valiCadena(pers.appat) == 0);
+        gets(pers.nombre.appat);
+    } while (valiCadena(pers.nombre.appat) == 0);
 
     do
     {
         system("CLS");
         printf("Ingresa el apellido materno: ");
         fflush(stdin);
-        gets(pers.apmat);
-    } while (valiCadena(pers.apmat) == 0);
+        gets(pers.nombre.apmat);
+    } while (valiCadena(pers.nombre.apmat) == 0);
 
     system("CLS");
     printf("Ingresa el anio de nacimiento: ");
@@ -312,8 +315,8 @@ Tprogra genPersAlea(void)
 
     pers.status = 1;
     pers.matricula = matriAlea();
-    genAp(pers.appat);
-    genAp(pers.apmat);
+    genAp(pers.nombre.appat);
+    genAp(pers.nombre.apmat);
     sexo = numAleatorio(1, 2);
     do
     {
@@ -326,12 +329,12 @@ Tprogra genPersAlea(void)
 
     if (sexo == 1)
     {
-        genNomH(pers.nombre);
+        genNomH(pers.nombre.nombre);
         strcpy(pers.sexo, "HOMBRE");
     }
     else
     {
-        genNomM(pers.nombre);
+        genNomM(pers.nombre.nombre);
         strcpy(pers.sexo, "MUJER");
     }
 
@@ -353,7 +356,7 @@ void imprPersonas(Tprogra vect[], int n)
     {
         if (vect[i].status != 0)
         {
-            printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
+            printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
         }
     }
 }
@@ -362,5 +365,5 @@ void imprPersonas(Tprogra vect[], int n)
 void imprReg(Tprogra pers)
 {
     printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
-    printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", pers.matricula, pers.nombre, pers.appat, pers.apmat, pers.fecha.dia, pers.fecha.mes, pers.fecha.anio, pers.edad, pers.sexo, pers.edo.nombre, pers.CURP);
+    printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", pers.matricula, pers.nombre.nombre, pers.nombre.appat, pers.nombre.apmat, pers.fecha.dia, pers.fecha.mes, pers.fecha.anio, pers.edad, pers.sexo, pers.edo.nombre, pers.CURP);
 }
