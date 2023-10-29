@@ -15,6 +15,7 @@ Tprogra genPersAlea(void);
 Tprogra genPersMan(void);
 void imprPersonas(Tprogra vect[], int n);
 void imprReg(Tprogra pers);
+void escrArch(Tprogra vect[], int n);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -156,7 +157,7 @@ void menu()
             {
                 if (ingenieros[i].status != 0)
                 {
-                    imprReg(pers);
+                    imprReg(ingenieros[i]);
                     printf("\n\nDesea eliminar el registro? (1 - Si, 2 - No) ");
                     op = valiNum(1, 2);
                     system("CLS");
@@ -180,6 +181,8 @@ void menu()
             {
                 printf("Matricula no encontrada\n");
             }
+            printf("\n");
+            system("PAUSE");
             break;
 
         case 3:
@@ -192,12 +195,14 @@ void menu()
             if (i != -1)
             {
                 printf("Matricula encontrada\n", num);
-                imprReg(pers);
+                imprReg(ingenieros[i]);
             }
             else
             {
                 printf("La matricula %d no se encuentra en el vector\n", num);
             }
+            printf("\n");
+            system("PAUSE");
             break;
 
         case 4:
@@ -210,18 +215,25 @@ void menu()
             {
                 printf("El vector ya estaba ordenado\n");
             }
+            printf("\n");
+            system("PAUSE");
             break;
 
         case 5:
             imprPersonas(ingenieros, nPers);
+            printf("\n");
+            system("PAUSE");
+            break;
+
+        case 6:
+            escrArch(ingenieros, nPers);
+            printf("\n");
+            system("PAUSE");
             break;
 
         case 0:
             return;
         }
-
-        printf("\n");
-        system("PAUSE");
     } while (op != 0);
 }
 
@@ -349,14 +361,25 @@ Tprogra genPersAlea(void)
 // Imprime todas las personas en un vector dado.
 void imprPersonas(Tprogra vect[], int n)
 {
-    int i;
+    int i, activos;
 
+    printf("Registros 1 - 40\n\n");
     printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
-    for (i = 0; i < n; i++)
+    for (i = 0, activos = 0; i < n; i++)
     {
         if (vect[i].status != 0)
         {
             printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
+            activos++;
+        }
+
+        if ((activos) % 40 == 0 && activos < n)
+        {
+            printf("\n\n");
+            system("PAUSE");
+            system("CLS");
+            printf("Registros %d - %d\n\n", activos + 1, (activos + 41) > n ? n : (activos + 41));
+            printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
         }
     }
 }
@@ -366,4 +389,23 @@ void imprReg(Tprogra pers)
 {
     printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
     printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", pers.matricula, pers.nombre.nombre, pers.nombre.appat, pers.nombre.apmat, pers.fecha.dia, pers.fecha.mes, pers.fecha.anio, pers.edad, pers.sexo, pers.edo.nombre, pers.CURP);
+}
+
+// Escribe el archivo con los registros.
+void escrArch(Tprogra vect[], int n)
+{
+    int i;
+    FILE *fa;
+    fa = fopen("registros.txt", "w");
+    fprintf(fa, "MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
+    for (i = 0; i < n; i++)
+    {
+        if (vect[i].status != 0)
+        {
+            fprintf(fa, "%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
+        }
+    }
+
+    printf("Archivo escrito con exito");
+    fclose(fa);
 }
