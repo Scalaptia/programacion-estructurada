@@ -15,7 +15,7 @@ Tprogra genPersAlea(void);
 Tprogra genPersMan(void);
 void imprPersonas(Tprogra vect[], int n);
 void imprReg(Tprogra pers);
-void escrArch(Tprogra vect[], int n);
+void escrArch(char nomArchivo[], Tprogra vect[], int n);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -64,6 +64,7 @@ void menu()
     int nPers = 0;
     int nAuto = 100;
     bool band;
+    char nomArchivo[15];
 
     Tprogra ingenieros[N];
     Tprogra pers;
@@ -90,7 +91,7 @@ void menu()
                     {
                         pers = genPersMan();
 
-                        while (busqSeq(ingenieros, nPers, pers.key) != -1) // Valida matricula unica
+                        while (busqSeq(ingenieros, nPers, pers.key) != -1)
                         {
                             system("CLS");
                             printf("Matricula repetida, ingrese una nueva: ");
@@ -120,7 +121,7 @@ void menu()
                         {
                             pers = genPersAlea();
 
-                            while (busqSeq(ingenieros, nPers, pers.key) != -1) // Valida matricula unica
+                            while (busqSeq(ingenieros, nPers, pers.key) != -1)
                             {
                                 pers.matricula = matriAlea();
                                 pers.key = pers.matricula;
@@ -226,7 +227,12 @@ void menu()
             break;
 
         case 6:
-            escrArch(ingenieros, nPers);
+            printf("Ingresa el nombre del archivo: ");
+            fflush(stdin);
+            gets(nomArchivo);
+            valiCadena(nomArchivo);
+
+            escrArch(nomArchivo, ingenieros, nPers);
             printf("\n");
             system("PAUSE");
             break;
@@ -245,6 +251,8 @@ Tprogra genPersMan(void)
     Tprogra pers;
 
     system("CLS");
+    pers.status = 1;
+
     printf("Ingresa la matricula (300000 - 399999): ");
     pers.matricula = valiNum(300000, 399999);
 
@@ -361,7 +369,7 @@ Tprogra genPersAlea(void)
 // Imprime todas las personas en un vector dado.
 void imprPersonas(Tprogra vect[], int n)
 {
-    int i, activos;
+    int i, activos, op;
 
     printf("Registros 1 - 40\n\n");
     printf("NO     MATRICULA   APPAT                            APMAT                            NOMBRE                           EDAD   SEXO      CURP              \n\n");
@@ -376,10 +384,19 @@ void imprPersonas(Tprogra vect[], int n)
         if ((activos) % 40 == 0 && activos < n)
         {
             printf("\n\n");
-            system("PAUSE");
-            system("CLS");
-            printf("Registros %d - %d\n\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
-            printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
+            printf("Desea continuar? (0 - Si, 1 - No): ");
+            op = valiNum(0, 1);
+
+            if (op == 0)
+            {
+                system("CLS");
+                printf("Registros %d - %d\n\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
+                printf("NO     MATRICULA   APPAT                            APMAT                            NOMBRE                           EDAD   SEXO      CURP              \n\n");
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
@@ -387,6 +404,8 @@ void imprPersonas(Tprogra vect[], int n)
 // Imprime el registro de una persona.
 void imprReg(Tprogra pers)
 {
+    printf("STATUS: ");
+    printf("%s\n", pers.status == 1 ? "ACTIVO" : "NO ACTIVO");
     printf("MATRICULA: ");
     printf("%d\n", pers.matricula);
     printf("NOMBRE: ");
@@ -408,11 +427,13 @@ void imprReg(Tprogra pers)
 }
 
 // Escribe el archivo con los registros.
-void escrArch(Tprogra vect[], int n)
+void escrArch(char nomArchivo[], Tprogra vect[], int n)
 {
     int i;
     FILE *fa;
-    fa = fopen("registros.txt", "w");
+
+    strcat(nomArchivo, ".txt");
+    fa = fopen(nomArchivo, "w");
     fprintf(fa, "MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
     for (i = 0; i < n; i++)
     {

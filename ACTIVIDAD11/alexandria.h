@@ -179,7 +179,7 @@ int matriAlea(void)
 {
     int matri, mid, low;
     mid = rand() % 100 * 1000;
-    low = rand() % 100;
+    low = rand() % 1000;
 
     matri = 300000 + mid + low;
 
