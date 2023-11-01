@@ -59,7 +59,10 @@ int busqSeqMat(int mat[][4], int m, int n, int num);
 void imprVect(int vect[], int n);
 void imprMat(int mat[][4], int m, int n);
 
-bool ordVect(Tprogra vect[], int n);
+bool ordBubble(Tprogra vect[], int n);
+bool ordQuick(Tprogra vect[], int n);
+void qs(Tprogra vect[], int limite_izq, int limite_der);
+bool ordOpt(Tprogra vect[], int n);
 
 void mayus(char cadena[]);
 int largoCadena(char cadena[]);
@@ -323,7 +326,7 @@ void imprMat(int mat[][4], int m, int n)
 /********* ORDENAR *********/
 
 // Ordena el vector usando una mezcla de bubble e insertion sort.
-bool ordVect(Tprogra vect[], int n)
+bool ordBubble(Tprogra vect[], int n)
 {
     int i, j;
     Tprogra temp;
@@ -339,6 +342,73 @@ bool ordVect(Tprogra vect[], int n)
                 vect[j] = temp;
             }
         }
+    }
+
+    return true;
+}
+
+// Ordena el vector usando quick sort.
+bool ordQuick(Tprogra vect[], int n)
+{
+    qs(vect, 0, n - 1);
+
+    return true;
+}
+
+void qs(Tprogra vect[], int limite_izq, int limite_der)
+{
+    int izq, der, pivote;
+    Tprogra temp;
+
+    izq = limite_izq;
+    der = limite_der;
+    pivote = vect[(izq + der) / 2].key;
+
+    do
+    {
+        while (vect[izq].key < pivote && izq < limite_der)
+        {
+            izq++;
+        }
+
+        while (pivote < vect[der].key && der > limite_izq)
+        {
+            der--;
+        }
+
+        if (izq <= der)
+        {
+            temp = vect[izq];
+            vect[izq] = vect[der];
+            vect[der] = temp;
+            izq++;
+            der--;
+        }
+    } while (izq <= der);
+
+    if (limite_izq < der)
+    {
+        qs(vect, limite_izq, der);
+    }
+
+    if (limite_der > izq)
+    {
+        qs(vect, izq, limite_der);
+    }
+}
+
+// Ordena un vector usando el algoritmo optimo
+bool ordOpt(Tprogra vect[], int n)
+{
+    int i;
+
+    if (n <= 200)
+    {
+        ordBubble(vect, n);
+    }
+    else
+    {
+        ordQuick(vect, n);
     }
 
     return true;

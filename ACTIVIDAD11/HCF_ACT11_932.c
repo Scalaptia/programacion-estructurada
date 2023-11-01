@@ -102,7 +102,7 @@ void menu()
                         nPers++;
                         band = false;
                         system("CLS");
-                        printf("Registro Agregado: \n");
+                        printf("Registro Agregado: \n\n");
                         imprReg(pers);
                     }
                     else
@@ -194,7 +194,7 @@ void menu()
 
             if (i != -1)
             {
-                printf("Matricula encontrada\n", num);
+                printf("Matricula encontrada\n\n", num);
                 imprReg(ingenieros[i]);
             }
             else
@@ -208,7 +208,7 @@ void menu()
         case 4:
             if (band == false)
             {
-                band = ordVect(ingenieros, nPers);
+                band = ordOpt(ingenieros, nPers);
                 printf("El vector ha sido ordenado\n");
             }
             else
@@ -364,12 +364,12 @@ void imprPersonas(Tprogra vect[], int n)
     int i, activos;
 
     printf("Registros 1 - 40\n\n");
-    printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
+    printf("NO     MATRICULA   APPAT                            APMAT                            NOMBRE                           EDAD   SEXO      CURP              \n\n");
     for (i = 0, activos = 0; i < n; i++)
     {
         if (vect[i].status != 0)
         {
-            printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
+            printf("%-4d   %-9d   %-30s   %-30s   %-30s   %-4d   %-7s   %-18s\n", i + 1, vect[i].matricula, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].nombre.nombre, vect[i].edad, vect[i].sexo, vect[i].CURP);
             activos++;
         }
 
@@ -378,7 +378,7 @@ void imprPersonas(Tprogra vect[], int n)
             printf("\n\n");
             system("PAUSE");
             system("CLS");
-            printf("Registros %d - %d\n\n", activos + 1, (activos + 41) > n ? n : (activos + 41));
+            printf("Registros %d - %d\n\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
             printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
         }
     }
@@ -387,8 +387,24 @@ void imprPersonas(Tprogra vect[], int n)
 // Imprime el registro de una persona.
 void imprReg(Tprogra pers)
 {
-    printf("MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
-    printf("%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", pers.matricula, pers.nombre.nombre, pers.nombre.appat, pers.nombre.apmat, pers.fecha.dia, pers.fecha.mes, pers.fecha.anio, pers.edad, pers.sexo, pers.edo.nombre, pers.CURP);
+    printf("MATRICULA: ");
+    printf("%d\n", pers.matricula);
+    printf("NOMBRE: ");
+    printf("%s\n", pers.nombre.nombre);
+    printf("AP. PATERNO: ");
+    printf("%s\n", pers.nombre.appat);
+    printf("AP. MATERNO: ");
+    printf("%s\n", pers.nombre.apmat);
+    printf("FECHA NAC: ");
+    printf("%02d-%02d-%4d\n", pers.fecha.dia, pers.fecha.mes, pers.fecha.anio);
+    printf("EDAD: ");
+    printf("%d\n", pers.edad);
+    printf("SEXO: ");
+    printf("%s\n", pers.sexo);
+    printf("LUGAR NAC: ");
+    printf("%s\n", pers.edo.nombre);
+    printf("CURP: ");
+    printf("%s\n", pers.CURP);
 }
 
 // Escribe el archivo con los registros.
