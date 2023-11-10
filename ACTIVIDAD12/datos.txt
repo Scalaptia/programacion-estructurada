@@ -1,0 +1,313 @@
+  0.-  310442      MARIA           SOTO             PEREZ               33      FEMENINO   
+  1.-  312191      LUNA            CONTRERAS        PEREZ               33      FEMENINO   
+  2.-  314712      ROSA            CONTRERAS        NUNEZ               28      FEMENINO   
+  3.-  327078      CRISTINA        YEPIZ            SOTO                35      FEMENINO   
+  4.-  308622      REYNA           NUNEZ            ACOSTA              22      FEMENINO   
+  5.-  329090      MARIA           SOTO             CONTRERAS           24      FEMENINO   
+  6.-  319280      JOFREY          PEREZ            SOTO                37      MASCULINO  
+  7.-  321612      JOFREY          TORRES           NUNEZ               20      MASCULINO  
+  8.-  320482      KAKAROTO        LOPEZ            PEREZ               47      MASCULINO  
+  9.-  305964      MARIA           MORALES          MORALES             34      FEMENINO
+ 10.-  300383      JOFREY          GARCIA           SOTO                44      MASCULINO  
+ 11.-  300425      PEDRO           LOPEZ            CONTRERAS           26      MASCULINO  
+ 12.-  300429      KASSANDRA       ACOSTA           TORRES              20      FEMENINO   
+ 13.-  300518      ROSA            LOPEZ            YEPIZ               54      FEMENINO   
+ 14.-  300587      CRISTINA        TORRES           MORALES             43      FEMENINO   
+ 15.-  300620      ROSA            TORRES           ACOSTA              37      FEMENINO   
+ 16.-  300676      REYNA           NUNEZ            LOPEZ               18      FEMENINO   
+ 17.-  300785      LUPITA          TORRES           LOPEZ               21      FEMENINO   
+ 18.-  300809      VEGUETA         TORRES           GARCIA              43      MASCULINO  
+ 19.-  300811      CRISTINA        ACOSTA           ACOSTA              36      FEMENINO   
+ 20.-  300834      GOHAN           CONTRERAS        LOPEZ               28      MASCULINO  
+ 21.-  300856      KASSANDRA       ACOSTA           TORRES              52      FEMENINO   
+ 22.-  300858      PANFILA         NUNEZ            NUNEZ               53      FEMENINO   
+ 23.-  300941      JOFREY          MORALES          ACOSTA              50      MASCULINO  
+ 24.-  301131      PEDRO           CONTRERAS        GARCIA              24      MASCULINO  
+ 25.-  301145      MARIA           PEREZ            NUNEZ               33      FEMENINO   
+ 26.-  301164      KASSANDRA       MORALES          LOPEZ               33      FEMENINO   
+ 27.-  301185      BRENDA          PEREZ            YEPIZ               18      FEMENINO   
+ 28.-  301258      KASSANDRA       LOPEZ            TORRES              48      FEMENINO   
+ 29.-  301423      KASSANDRA       TORRES           MORALES             37      FEMENINO   
+ 30.-  301430      PEDRO           TORRES           CONTRERAS           30      MASCULINO  
+ 31.-  301469      LUNA            NUNEZ            TORRES              33      FEMENINO   
+ 32.-  301877      ROSA            ACOSTA           CONTRERAS           49      FEMENINO   
+ 33.-  302053      GOKU            TORRES           ACOSTA              28      MASCULINO  
+ 34.-  302187      GOTEM           NUNEZ            ACOSTA              38      MASCULINO  
+ 35.-  302269      ROSA            TORRES           MORALES             28      FEMENINO   
+ 36.-  302376      GOHAN           SOTO             LOPEZ               25      MASCULINO  
+ 37.-  302505      ROSA            MORALES          CONTRERAS           15      FEMENINO   
+ 38.-  302522      KAKAROTO        SOTO             CONTRERAS           40      MASCULINO  
+ 39.-  302532      GOKU            LOPEZ            LOPEZ               15      MASCULINO  
+ 40.-  302724      PANFILA         LOPEZ            GARCIA              47      FEMENINO   
+ 41.-  302898      REYNA           YEPIZ            PEREZ               43      FEMENINO   
+ 42.-  303024      BRENDA          YEPIZ            SOTO                16      FEMENINO   
+ 43.-  303036      LUNA            YEPIZ            SOTO                33      FEMENINO   
+ 44.-  303157      KAKAROTO        CONTRERAS        GARCIA              29      MASCULINO  
+ 45.-  303171      JONH            SOTO             CONTRERAS           18      MASCULINO  
+ 46.-  303176      EDRAD           MORALES          TORRES              19      MASCULINO  
+ 47.-  303448      PEDRO           PEREZ            SOTO                34      MASCULINO  
+ 48.-  303450      VEGUETA         LOPEZ            NUNEZ               18      MASCULINO  
+ 49.-  303532      EDRAD           CONTRERAS        CONTRERAS           33      MASCULINO  
+ 50.-  303559      GOKU            PEREZ            NUNEZ               23      MASCULINO  
+ 51.-  303561      LUPITA          CONTRERAS        LOPEZ               54      FEMENINO   
+ 52.-  303704      MASIOSARE       NUNEZ            ACOSTA              52      MASCULINO  
+ 53.-  303792      ALICIA          CONTRERAS        YEPIZ               33      FEMENINO   
+ 54.-  303880      KAKAROTO        GARCIA           TORRES              26      MASCULINO  
+ 55.-  303985      VEGUETA         SOTO             NUNEZ               36      MASCULINO  
+ 56.-  304133      GOTEM           YEPIZ            YEPIZ               30      MASCULINO  
+ 57.-  304292      LUPITA          GARCIA           NUNEZ               51      FEMENINO   
+ 58.-  304385      VEGUETA         SOTO             GARCIA              29      MASCULINO  
+ 59.-  304504      ALICIA          ACOSTA           PEREZ               28      FEMENINO   
+ 60.-  304532      MARIA           TORRES           GARCIA              24      FEMENINO   
+ 61.-  304642      REYNA           SOTO             SOTO                17      FEMENINO   
+ 62.-  304721      MARIA           MORALES          YEPIZ               44      FEMENINO   
+ 63.-  304740      JONH            PEREZ            YEPIZ               51      MASCULINO  
+ 64.-  305102      MASIOSARE       ACOSTA           CONTRERAS           36      MASCULINO  
+ 65.-  305320      GOTEM           YEPIZ            NUNEZ               32      MASCULINO  
+ 66.-  305495      LUNA            ACOSTA           PEREZ               26      FEMENINO   
+ 67.-  305507      ALICIA          YEPIZ            LOPEZ               43      FEMENINO   
+ 68.-  305550      MASIOSARE       PEREZ            TORRES              26      MASCULINO  
+ 69.-  305560      KASSANDRA       NUNEZ            NUNEZ               16      FEMENINO   
+ 70.-  305628      EDRAD           ACOSTA           ACOSTA              44      MASCULINO  
+ 71.-  305769      ROSA            LOPEZ            CONTRERAS           53      FEMENINO   
+ 72.-  305809      LUNA            TORRES           LOPEZ               37      FEMENINO   
+ 73.-  306087      KASSANDRA       GARCIA           PEREZ               20      FEMENINO   
+ 74.-  306144      GOHAN           SOTO             CONTRERAS           45      MASCULINO  
+ 75.-  306242      MARIA           CONTRERAS        CONTRERAS           15      FEMENINO   
+ 76.-  306294      EDRAD           CONTRERAS        YEPIZ               22      MASCULINO  
+ 77.-  306359      MASIOSARE       ACOSTA           CONTRERAS           15      MASCULINO  
+ 78.-  306471      KAKAROTO        LOPEZ            NUNEZ               35      MASCULINO  
+ 79.-  306513      CRISTINA        MORALES          YEPIZ               40      FEMENINO   
+ 80.-  307068      GOTEM           GARCIA           MORALES             23      MASCULINO  
+ 81.-  307152      BRENDA          TORRES           PEREZ               32      FEMENINO   
+ 82.-  307203      VEGUETA         MORALES          LOPEZ               54      MASCULINO  
+ 83.-  307267      MASIOSARE       NUNEZ            NUNEZ               32      MASCULINO  
+ 84.-  307674      GOTEM           SOTO             MORALES             35      MASCULINO  
+ 85.-  307775      ROSA            SOTO             CONTRERAS           30      FEMENINO   
+ 86.-  308035      LUPITA          ACOSTA           ACOSTA              50      FEMENINO   
+ 87.-  308181      MARIA           LOPEZ            LOPEZ               36      FEMENINO   
+ 88.-  308429      VEGUETA         YEPIZ            CONTRERAS           38      MASCULINO  
+ 89.-  308439      KASSANDRA       MORALES          GARCIA              29      FEMENINO   
+ 90.-  308505      PEDRO           PEREZ            MORALES             50      MASCULINO  
+ 91.-  308565      CRISTINA        LOPEZ            YEPIZ               42      FEMENINO   
+ 92.-  308574      ALICIA          PEREZ            GARCIA              28      FEMENINO   
+ 93.-  308809      KAKAROTO        LOPEZ            NUNEZ               47      MASCULINO  
+ 94.-  308826      PANFILA         SOTO             LOPEZ               36      FEMENINO   
+ 95.-  308860      LUPITA          SOTO             NUNEZ               49      FEMENINO   
+ 96.-  308974      GOTEM           YEPIZ            MORALES             48      MASCULINO  
+ 97.-  309144      PANFILA         TORRES           CONTRERAS           28      FEMENINO   
+ 98.-  309210      PANFILA         PEREZ            MORALES             47      FEMENINO   
+ 99.-  309324      MARIA           GARCIA           SOTO                48      FEMENINO   
+100.-  309402      MASIOSARE       YEPIZ            MORALES             29      MASCULINO  
+101.-  309404      EDRAD           PEREZ            SOTO                20      MASCULINO  
+102.-  309651      PANFILA         LOPEZ            YEPIZ               21      FEMENINO   
+103.-  309718      REYNA           GARCIA           ACOSTA              33      FEMENINO   
+104.-  309767      JOFREY          MORALES          MORALES             18      MASCULINO  
+105.-  309769      MARIA           PEREZ            SOTO                19      FEMENINO   
+106.-  309776      GOKU            MORALES          PEREZ               31      MASCULINO  
+107.-  309805      JOFREY          YEPIZ            ACOSTA              17      MASCULINO  
+108.-  309930      CRISTINA        SOTO             SOTO                46      FEMENINO   
+109.-  310027      LUNA            PEREZ            NUNEZ               18      FEMENINO   
+110.-  310042      REYNA           SOTO             PEREZ               39      FEMENINO   
+111.-  310062      GOKU            CONTRERAS        NUNEZ               39      MASCULINO  
+112.-  310190      LUNA            CONTRERAS        ACOSTA              36      FEMENINO   
+113.-  310247      KAKAROTO        GARCIA           NUNEZ               43      MASCULINO  
+114.-  310473      GOTEM           NUNEZ            PEREZ               39      MASCULINO  
+115.-  310520      MARIA           ACOSTA           TORRES              36      FEMENINO   
+116.-  310660      JOFREY          NUNEZ            CONTRERAS           21      MASCULINO  
+117.-  310923      VEGUETA         NUNEZ            YEPIZ               32      MASCULINO  
+118.-  310978      ALICIA          PEREZ            CONTRERAS           19      FEMENINO   
+119.-  311214      JOFREY          LOPEZ            LOPEZ               40      MASCULINO  
+120.-  311307      JOFREY          LOPEZ            SOTO                52      MASCULINO  
+121.-  311348      KASSANDRA       CONTRERAS        YEPIZ               39      FEMENINO   
+122.-  311412      ROSA            SOTO             LOPEZ               51      FEMENINO   
+123.-  311481      GOTEM           LOPEZ            TORRES              49      MASCULINO  
+124.-  311688      EDRAD           MORALES          NUNEZ               33      MASCULINO  
+125.-  311729      LUPITA          YEPIZ            LOPEZ               23      FEMENINO   
+126.-  311843      EDRAD           SOTO             GARCIA              26      MASCULINO  
+127.-  312080      PANFILA         CONTRERAS        GARCIA              44      FEMENINO   
+128.-  312147      PEDRO           TORRES           GARCIA              47      MASCULINO  
+129.-  312167      GOKU            NUNEZ            NUNEZ               32      MASCULINO  
+130.-  312402      ROSA            CONTRERAS        LOPEZ               33      FEMENINO   
+131.-  312518      KASSANDRA       YEPIZ            PEREZ               22      FEMENINO   
+132.-  312620      PANFILA         SOTO             TORRES              20      FEMENINO   
+133.-  312717      MARIA           LOPEZ            SOTO                44      FEMENINO   
+134.-  312730      REYNA           MORALES          NUNEZ               30      FEMENINO   
+135.-  312812      PEDRO           CONTRERAS        PEREZ               24      MASCULINO  
+136.-  312898      PANFILA         YEPIZ            NUNEZ               15      FEMENINO   
+137.-  313255      ALICIA          YEPIZ            PEREZ               51      FEMENINO   
+138.-  313357      LUNA            GARCIA           MORALES             30      FEMENINO   
+139.-  313488      KASSANDRA       GARCIA           NUNEZ               19      FEMENINO   
+140.-  313653      KAKAROTO        LOPEZ            CONTRERAS           46      MASCULINO  
+141.-  313676      JONH            GARCIA           NUNEZ               53      MASCULINO  
+142.-  313731      VEGUETA         TORRES           ACOSTA              16      MASCULINO  
+143.-  313752      LUNA            NUNEZ            ACOSTA              15      FEMENINO   
+144.-  313770      GOTEM           MORALES          MORALES             24      MASCULINO  
+145.-  313999      ROSA            MORALES          NUNEZ               42      FEMENINO   
+146.-  314044      GOTEM           ACOSTA           LOPEZ               17      MASCULINO  
+147.-  314170      BRENDA          PEREZ            YEPIZ               37      FEMENINO   
+148.-  314231      CRISTINA        PEREZ            MORALES             36      FEMENINO   
+149.-  314266      KAKAROTO        PEREZ            PEREZ               16      MASCULINO  
+150.-  314320      LUPITA          TORRES           YEPIZ               24      FEMENINO   
+151.-  314322      GOHAN           GARCIA           TORRES              52      MASCULINO  
+152.-  314381      GOKU            ACOSTA           NUNEZ               51      MASCULINO  
+153.-  314432      PEDRO           YEPIZ            PEREZ               36      MASCULINO  
+154.-  314441      GOTEM           LOPEZ            ACOSTA              49      MASCULINO  
+155.-  314969      REYNA           LOPEZ            PEREZ               16      FEMENINO   
+156.-  315012      PEDRO           TORRES           NUNEZ               32      MASCULINO  
+157.-  315018      CRISTINA        GARCIA           YEPIZ               36      FEMENINO   
+158.-  315028      EDRAD           PEREZ            TORRES              22      MASCULINO  
+159.-  315032      BRENDA          YEPIZ            ACOSTA              19      FEMENINO   
+160.-  315061      PANFILA         YEPIZ            NUNEZ               33      FEMENINO   
+161.-  315119      KAKAROTO        YEPIZ            SOTO                54      MASCULINO  
+162.-  315244      PANFILA         NUNEZ            MORALES             35      FEMENINO   
+163.-  315271      ROSA            TORRES           NUNEZ               49      FEMENINO   
+164.-  315565      MARIA           ACOSTA           CONTRERAS           21      FEMENINO   
+165.-  315696      KAKAROTO        TORRES           LOPEZ               20      MASCULINO  
+166.-  315716      EDRAD           ACOSTA           CONTRERAS           22      MASCULINO  
+167.-  315847      ALICIA          YEPIZ            GARCIA              50      FEMENINO   
+168.-  315988      KAKAROTO        SOTO             YEPIZ               34      MASCULINO  
+169.-  316169      JOFREY          CONTRERAS        SOTO                22      MASCULINO  
+170.-  316224      PANFILA         ACOSTA           YEPIZ               34      FEMENINO   
+171.-  316311      GOTEM           NUNEZ            ACOSTA              54      MASCULINO  
+172.-  316326      BRENDA          YEPIZ            GARCIA              39      FEMENINO   
+173.-  316379      ROSA            MORALES          LOPEZ               34      FEMENINO   
+174.-  316494      ALICIA          NUNEZ            PEREZ               53      FEMENINO   
+175.-  316535      LUNA            NUNEZ            ACOSTA              40      FEMENINO   
+176.-  316576      GOKU            CONTRERAS        GARCIA              51      MASCULINO  
+177.-  316610      KAKAROTO        TORRES           CONTRERAS           24      MASCULINO  
+178.-  316677      GOHAN           YEPIZ            GARCIA              53      MASCULINO  
+179.-  316793      ROSA            PEREZ            ACOSTA              43      FEMENINO   
+180.-  317000      JOFREY          LOPEZ            PEREZ               46      MASCULINO  
+181.-  317032      VEGUETA         PEREZ            PEREZ               25      MASCULINO  
+182.-  317044      JONH            CONTRERAS        CONTRERAS           19      MASCULINO  
+183.-  317250      JONH            YEPIZ            NUNEZ               21      MASCULINO  
+184.-  317345      EDRAD           SOTO             CONTRERAS           47      MASCULINO  
+185.-  317354      JONH            GARCIA           SOTO                25      MASCULINO  
+186.-  317388      PANFILA         SOTO             SOTO                24      FEMENINO   
+187.-  317403      ALICIA          TORRES           NUNEZ               43      FEMENINO   
+188.-  317770      MASIOSARE       TORRES           MORALES             29      MASCULINO  
+189.-  317780      VEGUETA         CONTRERAS        TORRES              54      MASCULINO  
+190.-  317843      ROSA            NUNEZ            SOTO                32      FEMENINO   
+191.-  317900      KAKAROTO        ACOSTA           YEPIZ               34      MASCULINO  
+192.-  317998      REYNA           GARCIA           MORALES             40      FEMENINO   
+193.-  318080      MASIOSARE       PEREZ            YEPIZ               25      MASCULINO  
+194.-  318142      KASSANDRA       GARCIA           SOTO                35      FEMENINO   
+195.-  318157      BRENDA          SOTO             CONTRERAS           45      FEMENINO   
+196.-  318237      GOTEM           ACOSTA           GARCIA              20      MASCULINO  
+197.-  318267      MASIOSARE       SOTO             SOTO                27      MASCULINO  
+198.-  318338      MARIA           SOTO             GARCIA              46      FEMENINO   
+199.-  318371      PANFILA         PEREZ            CONTRERAS           40      FEMENINO   
+200.-  318453      GOHAN           NUNEZ            LOPEZ               22      MASCULINO  
+201.-  318476      EDRAD           NUNEZ            SOTO                49      MASCULINO  
+202.-  318480      VEGUETA         NUNEZ            NUNEZ               33      MASCULINO  
+203.-  318504      GOHAN           YEPIZ            SOTO                24      MASCULINO  
+204.-  318653      LUNA            LOPEZ            ACOSTA              47      FEMENINO   
+205.-  318659      ALICIA          SOTO             SOTO                18      FEMENINO   
+206.-  318700      JOFREY          TORRES           MORALES             18      MASCULINO  
+207.-  318760      PANFILA         TORRES           YEPIZ               43      FEMENINO   
+208.-  318813      KAKAROTO        PEREZ            SOTO                15      MASCULINO  
+209.-  318939      ROSA            TORRES           YEPIZ               53      FEMENINO   
+210.-  319002      PANFILA         SOTO             GARCIA              31      FEMENINO   
+211.-  319393      GOHAN           TORRES           GARCIA              16      MASCULINO  
+212.-  319467      VEGUETA         MORALES          LOPEZ               38      MASCULINO  
+213.-  319535      GOTEM           YEPIZ            ACOSTA              21      MASCULINO  
+214.-  319606      GOHAN           LOPEZ            NUNEZ               37      MASCULINO  
+215.-  319784      JONH            PEREZ            CONTRERAS           29      MASCULINO  
+216.-  319896      KAKAROTO        YEPIZ            CONTRERAS           16      MASCULINO  
+217.-  319943      CRISTINA        NUNEZ            LOPEZ               36      FEMENINO   
+218.-  320330      PANFILA         SOTO             SOTO                40      FEMENINO   
+219.-  320336      PEDRO           MORALES          ACOSTA              49      MASCULINO  
+220.-  320546      KAKAROTO        NUNEZ            SOTO                47      MASCULINO  
+221.-  320701      ROSA            PEREZ            CONTRERAS           27      FEMENINO   
+222.-  320706      GOTEM           NUNEZ            SOTO                16      MASCULINO  
+223.-  320893      EDRAD           GARCIA           PEREZ               45      MASCULINO  
+224.-  321126      PANFILA         PEREZ            PEREZ               42      FEMENINO   
+225.-  321150      KASSANDRA       TORRES           PEREZ               27      FEMENINO   
+226.-  321162      BRENDA          MORALES          CONTRERAS           43      FEMENINO   
+227.-  321385      ALICIA          ACOSTA           LOPEZ               45      FEMENINO   
+228.-  321433      CRISTINA        SOTO             MORALES             42      FEMENINO   
+229.-  321583      JONH            ACOSTA           CONTRERAS           52      MASCULINO  
+230.-  321675      EDRAD           YEPIZ            SOTO                31      MASCULINO  
+231.-  321736      VEGUETA         CONTRERAS        ACOSTA              36      MASCULINO  
+232.-  321897      GOKU            PEREZ            CONTRERAS           19      MASCULINO  
+233.-  322315      ROSA            PEREZ            PEREZ               45      FEMENINO   
+234.-  322545      REYNA           TORRES           GARCIA              37      FEMENINO   
+235.-  322634      ALICIA          YEPIZ            ACOSTA              18      FEMENINO   
+236.-  322640      BRENDA          NUNEZ            NUNEZ               44      FEMENINO   
+237.-  322749      PANFILA         NUNEZ            LOPEZ               30      FEMENINO   
+238.-  322818      KAKAROTO        YEPIZ            GARCIA              36      MASCULINO  
+239.-  322912      VEGUETA         ACOSTA           ACOSTA              22      MASCULINO  
+240.-  323041      GOHAN           LOPEZ            ACOSTA              54      MASCULINO  
+241.-  323153      PEDRO           GARCIA           ACOSTA              47      MASCULINO  
+242.-  323488      ROSA            GARCIA           TORRES              24      FEMENINO   
+243.-  323629      MASIOSARE       MORALES          GARCIA              35      MASCULINO  
+244.-  323671      MASIOSARE       MORALES          TORRES              40      MASCULINO  
+245.-  323740      GOKU            CONTRERAS        TORRES              19      MASCULINO  
+246.-  323791      JONH            SOTO             GARCIA              32      MASCULINO  
+247.-  323805      LUPITA          ACOSTA           SOTO                34      FEMENINO   
+248.-  324196      JOFREY          YEPIZ            YEPIZ               52      MASCULINO  
+249.-  324263      MASIOSARE       MORALES          TORRES              41      MASCULINO  
+250.-  324297      LUNA            SOTO             TORRES              51      FEMENINO   
+251.-  324420      GOTEM           GARCIA           PEREZ               18      MASCULINO  
+252.-  324504      ROSA            PEREZ            SOTO                50      FEMENINO   
+253.-  324604      LUNA            SOTO             SOTO                29      FEMENINO   
+254.-  324686      KASSANDRA       MORALES          NUNEZ               50      FEMENINO   
+255.-  324905      ALICIA          CONTRERAS        PEREZ               35      FEMENINO   
+256.-  324922      ROSA            LOPEZ            GARCIA              31      FEMENINO   
+257.-  324953      PEDRO           CONTRERAS        ACOSTA              29      MASCULINO  
+258.-  324989      KAKAROTO        GARCIA           TORRES              43      MASCULINO  
+259.-  325043      JOFREY          TORRES           SOTO                28      MASCULINO  
+260.-  325465      MARIA           CONTRERAS        ACOSTA              26      FEMENINO   
+261.-  325472      VEGUETA         LOPEZ            ACOSTA              41      MASCULINO  
+262.-  325546      VEGUETA         CONTRERAS        SOTO                23      MASCULINO  
+263.-  325644      BRENDA          PEREZ            TORRES              24      FEMENINO   
+264.-  325737      VEGUETA         CONTRERAS        SOTO                40      MASCULINO  
+265.-  325787      CRISTINA        PEREZ            ACOSTA              39      FEMENINO   
+266.-  325834      KASSANDRA       NUNEZ            GARCIA              42      FEMENINO   
+267.-  325896      GOTEM           MORALES          GARCIA              33      MASCULINO  
+268.-  325925      JOFREY          CONTRERAS        SOTO                41      MASCULINO  
+269.-  326059      GOHAN           ACOSTA           CONTRERAS           54      MASCULINO  
+270.-  326063      ROSA            PEREZ            YEPIZ               22      FEMENINO   
+271.-  326093      GOHAN           ACOSTA           NUNEZ               53      MASCULINO  
+272.-  326310      EDRAD           MORALES          PEREZ               39      MASCULINO  
+273.-  326345      PANFILA         TORRES           PEREZ               50      FEMENINO   
+274.-  326530      JONH            CONTRERAS        YEPIZ               49      MASCULINO  
+275.-  326539      GOKU            MORALES          NUNEZ               33      MASCULINO  
+276.-  326691      MASIOSARE       YEPIZ            SOTO                18      MASCULINO  
+277.-  326721      KAKAROTO        CONTRERAS        SOTO                19      MASCULINO  
+278.-  326734      KASSANDRA       TORRES           SOTO                43      FEMENINO   
+279.-  326761      KAKAROTO        SOTO             PEREZ               46      MASCULINO  
+280.-  326852      ALICIA          GARCIA           SOTO                36      FEMENINO   
+281.-  326857      PANFILA         YEPIZ            TORRES              50      FEMENINO   
+282.-  326888      VEGUETA         TORRES           MORALES             42      MASCULINO  
+283.-  326953      GOKU            YEPIZ            MORALES             27      MASCULINO  
+284.-  327172      KASSANDRA       GARCIA           GARCIA              46      FEMENINO   
+285.-  327221      PEDRO           SOTO             MORALES             18      MASCULINO  
+286.-  327256      EDRAD           SOTO             MORALES             29      MASCULINO  
+287.-  327331      GOHAN           LOPEZ            SOTO                32      MASCULINO  
+288.-  327409      PANFILA         TORRES           LOPEZ               31      FEMENINO   
+289.-  327661      JOFREY          TORRES           CONTRERAS           43      MASCULINO  
+290.-  327696      MASIOSARE       PEREZ            YEPIZ               37      MASCULINO  
+291.-  327754      ROSA            NUNEZ            CONTRERAS           54      FEMENINO   
+292.-  327780      KASSANDRA       ACOSTA           TORRES              50      FEMENINO   
+293.-  327863      BRENDA          YEPIZ            YEPIZ               41      FEMENINO   
+294.-  327950      PEDRO           TORRES           CONTRERAS           30      MASCULINO  
+295.-  327968      GOHAN           ACOSTA           YEPIZ               20      MASCULINO  
+296.-  328100      PEDRO           NUNEZ            YEPIZ               42      MASCULINO  
+297.-  328300      MASIOSARE       CONTRERAS        YEPIZ               30      MASCULINO  
+298.-  328373      PANFILA         CONTRERAS        NUNEZ               21      FEMENINO   
+299.-  328562      REYNA           CONTRERAS        YEPIZ               34      FEMENINO   
+300.-  328636      REYNA           MORALES          TORRES              47      FEMENINO   
+301.-  328710      ROSA            CONTRERAS        NUNEZ               27      FEMENINO   
+302.-  328800      CRISTINA        SOTO             LOPEZ               16      FEMENINO   
+303.-  328965      ROSA            LOPEZ            GARCIA              42      FEMENINO   
+304.-  329153      VEGUETA         PEREZ            SOTO                43      MASCULINO  
+305.-  329256      MASIOSARE       CONTRERAS        SOTO                19      MASCULINO  
+306.-  329585      MASIOSARE       CONTRERAS        CONTRERAS           52      MASCULINO  
+307.-  329684      LUNA            TORRES           GARCIA              31      FEMENINO   
+308.-  329768      JOFREY          YEPIZ            TORRES              47      MASCULINO  
+309.-  330020      MARIA           LOPEZ            YEPIZ               34      FEMENINO   
+310.-  330306      MASIOSARE       LOPEZ            CONTRERAS           25      MASCULINO  
+311.-  330401      EDRAD           ACOSTA           PEREZ               50      MASCULINO  
+312.-  330748      PEDRO           PEREZ            GARCIA              42      MASCULINO     

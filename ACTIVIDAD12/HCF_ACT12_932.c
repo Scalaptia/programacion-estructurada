@@ -15,7 +15,7 @@ Tprogra genPersAlea(void);
 Tprogra genPersMan(void);
 void imprPersonas(Tprogra vect[], int n);
 void imprReg(Tprogra pers);
-void escrArch(char nomArchivo[], Tprogra vect[], int n);
+void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch);
 void cargarArch(char nomArchivo[], Tprogra vect[]);
 
 //****  MAIN PRINCIPAL  *********
@@ -44,7 +44,7 @@ int msges()
     printf("9.- MOSTRAR TABLA (BORRADOS) \n");
     printf("0.- SALIR  \n");
     printf("ESCOGE UNA OPCION: ");
-    op = valiNum(0, 6);
+    op = valiNum(0, 9);
     return op;
 }
 
@@ -75,8 +75,8 @@ void menu()
             fflush(stdin);
             gets(nomArchivo);
             valiCadena(nomArchivo);
-            cargarArch(nomArchivo, ingenieros);
 
+            cargarArch(nomArchivo, ingenieros);
             break;
 
         case 2:
@@ -186,20 +186,23 @@ void menu()
             break;
 
         case 7:
-            printf("Ingresa el nombre del archivo: ");
+            printf("Ingresa el nombre del archivo (sin extension): ");
             fflush(stdin);
             gets(nomArchivo);
-            valiCadena(nomArchivo);
 
-            escrArch(nomArchivo, ingenieros, nPers);
+            escrArch(nomArchivo, ingenieros, nPers, 1, false);
+            escrArch(nomArchivo, ingenieros, nPers, 0, false);
+            escrArch(nomArchivo, ingenieros, nPers, 1, true);
             printf("\n");
             system("PAUSE");
             break;
-
-        case 0:
-            return;
         }
     } while (op != 0);
+
+    escrArch(nomArchivo, ingenieros, nPers, 1, false);
+    escrArch(nomArchivo, ingenieros, nPers, 0, false);
+    escrArch(nomArchivo, ingenieros, nPers, 1, true);
+    return;
 }
 
 /********* FUNCIONES *********/
@@ -227,12 +230,12 @@ Tprogra genPersAlea(void)
     if (sexo == 1)
     {
         genNomH(pers.nombre.nombre);
-        strcpy(pers.sexo, "HOMBRE");
+        strcpy(pers.sexo, "MASCULINO");
     }
     else
     {
         genNomM(pers.nombre.nombre);
-        strcpy(pers.sexo, "MUJER");
+        strcpy(pers.sexo, "FEMENINO");
     }
 
     genEdoAlea(pers.edo.nombre, pers.edo.codigo);
@@ -304,23 +307,62 @@ void imprReg(Tprogra pers)
 }
 
 // Escribe el archivo con los registros.
-void escrArch(char nomArchivo[], Tprogra vect[], int n)
+void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
 {
-    int i;
+    if (n <= 0)
+    {
+        printf("No hay registros para escribir\n");
+        return;
+    }
+
+    int i, cont = 0;
     FILE *fa;
 
-    strcat(nomArchivo, ".txt");
-    fa = fopen(nomArchivo, "w");
-    fprintf(fa, "MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n");
-    for (i = 0; i < n; i++)
+    char temp[strlen(nomArchivo) - 1];
+    strcpy(temp, nomArchivo);
+
+    if (arch)
     {
-        if (vect[i].status != 0)
+        strcpy(temp, nomArchivo);
+    }
+    else
+    {
+        if (status == 0)
         {
-            fprintf(fa, "%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
+            strcat(temp, "_borrados");
+        }
+        else
+        {
+            strcat(temp, "_activos");
         }
     }
 
-    printf("Archivo escrito con exito");
+    strcat(temp, ".txt");
+    fa = fopen(temp, "w");
+
+    if (arch)
+    {
+        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "  No  | MATRICULA | NOMBRE                       | APELLIDO P.                 |  APELLIDO MAT.                    | EDAD  | SEXO \n");
+        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        if (vect[i].status == status)
+        {
+            fprintf(fa, "%4d.-  %6d      %-25s      %-25s      %-25s          %2d      %-7s\n", cont, vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].edad, vect[i].sexo);
+            cont++;
+        }
+    }
+
+    if (arch)
+    {
+        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia                     www.profeyepiz.com                                      @2023      --\n");
+        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
+    }
+
     fclose(fa);
 }
 

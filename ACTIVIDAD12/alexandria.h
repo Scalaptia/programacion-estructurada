@@ -36,7 +36,7 @@ typedef struct _progra
     Tnombre nombre;
     Tfecha fecha;
     int edad;
-    char sexo[7];
+    char sexo[10];
     Testado edo;
     char CURP[19];
 } Tprogra;
