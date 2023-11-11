@@ -3,7 +3,6 @@
 
 /********* LIBRERIAS *********/
 #include "alexandria.h"
-#include "curp.h"
 
 #define N 1500
 
@@ -12,11 +11,10 @@ int msges(void);
 void menu(void);
 
 Tprogra genPersAlea(void);
-Tprogra genPersMan(void);
 void imprPersonas(Tprogra vect[], int n);
 void imprReg(Tprogra pers);
 void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch);
-void cargarArch(char nomArchivo[], Tprogra vect[]);
+bool cargarArch(char nomArchivo[], Tprogra vect[], int *n);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -54,7 +52,7 @@ void menu()
     int op, i, num;
     int nPers = 0;
     int nAuto = 10;
-    bool band;
+    bool band, cargado;
     char nomArchivo[15];
 
     Tprogra ingenieros[N];
@@ -70,13 +68,21 @@ void menu()
         switch (op)
         {
         case 1:
-            // Cargar Archivo de Texto
-            printf("Ingresa el nombre del archivo: ");
-            fflush(stdin);
-            gets(nomArchivo);
-            valiCadena(nomArchivo);
+            if (!cargado)
+            {
+                printf("Ingresa el nombre del archivo (sin extension): ");
+                fflush(stdin);
+                gets(nomArchivo);
 
-            cargarArch(nomArchivo, ingenieros);
+                cargado = cargarArch(nomArchivo, ingenieros, &nPers);
+            }
+            else
+            {
+                printf("El archivo ya ha sido cargado\n");
+            }
+
+            printf("\n");
+            system("PAUSE");
             break;
 
         case 2:
@@ -215,32 +221,21 @@ Tprogra genPersAlea(void)
 
     pers.status = 1;
     pers.matricula = matriAlea();
-    genAp(pers.nombre.appat);
-    genAp(pers.nombre.apmat);
+    genAp(pers.appat);
+    genAp(pers.apmat);
     sexo = numAleatorio(1, 2);
-    do
-    {
-        pers.fecha.dia = numAleatorio(1, 31);
-        pers.fecha.mes = numAleatorio(1, 12);
-        pers.fecha.anio = numAleatorio(1990, 2003);
-    } while (esFechaValida(pers.fecha.dia, pers.fecha.mes, pers.fecha.anio) == false);
-
-    pers.edad = calculaEdad(pers.fecha);
+    pers.edad = numAleatorio(18, 31);
 
     if (sexo == 1)
     {
-        genNomH(pers.nombre.nombre);
+        genNomH(pers.nombre);
         strcpy(pers.sexo, "MASCULINO");
     }
     else
     {
-        genNomM(pers.nombre.nombre);
+        genNomM(pers.nombre);
         strcpy(pers.sexo, "FEMENINO");
     }
-
-    genEdoAlea(pers.edo.nombre, pers.edo.codigo);
-
-    cadenaCURP(pers, pers.CURP);
 
     pers.key = pers.matricula;
     return pers;
@@ -252,12 +247,14 @@ void imprPersonas(Tprogra vect[], int n)
     int i, activos, op;
 
     printf("Registros 1 - 40\n\n");
-    printf("NO     MATRICULA   APPAT                            APMAT                            NOMBRE                           EDAD   SEXO      CURP              \n\n");
+    printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("  No  | MATRICULA | NOMBRE                       | APELLIDO P.                 |  APELLIDO MAT.                    | EDAD  | SEXO \n");
+    printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
     for (i = 0, activos = 0; i < n; i++)
     {
         if (vect[i].status != 0)
         {
-            printf("%-4d   %-9d   %-30s   %-30s   %-30s   %-4d   %-7s   %-18s\n", i + 1, vect[i].matricula, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].nombre.nombre, vect[i].edad, vect[i].sexo, vect[i].CURP);
+            printf("%4d.-  %6d      %-25s      %-25s      %-25s          %2d      %-7s\n", activos, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
             activos++;
         }
 
@@ -289,21 +286,15 @@ void imprReg(Tprogra pers)
     printf("MATRICULA: ");
     printf("%d\n", pers.matricula);
     printf("NOMBRE: ");
-    printf("%s\n", pers.nombre.nombre);
+    printf("%s\n", pers.nombre);
     printf("AP. PATERNO: ");
-    printf("%s\n", pers.nombre.appat);
+    printf("%s\n", pers.appat);
     printf("AP. MATERNO: ");
-    printf("%s\n", pers.nombre.apmat);
-    printf("FECHA NAC: ");
-    printf("%02d-%02d-%4d\n", pers.fecha.dia, pers.fecha.mes, pers.fecha.anio);
+    printf("%s\n", pers.apmat);
     printf("EDAD: ");
     printf("%d\n", pers.edad);
     printf("SEXO: ");
     printf("%s\n", pers.sexo);
-    printf("LUGAR NAC: ");
-    printf("%s\n", pers.edo.nombre);
-    printf("CURP: ");
-    printf("%s\n", pers.CURP);
 }
 
 // Escribe el archivo con los registros.
@@ -318,7 +309,7 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
     int i, cont = 0;
     FILE *fa;
 
-    char temp[strlen(nomArchivo) - 1];
+    char temp[30];
     strcpy(temp, nomArchivo);
 
     if (arch)
@@ -351,7 +342,7 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
     {
         if (vect[i].status == status)
         {
-            fprintf(fa, "%4d.-  %6d      %-25s      %-25s      %-25s          %2d      %-7s\n", cont, vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].edad, vect[i].sexo);
+            fprintf(fa, "%4d.-  %6d      %-25s      %-25s      %-25s          %2d      %-7s\n", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
             cont++;
         }
     }
@@ -367,27 +358,41 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
 }
 
 // Carga los registros de un arhivo de texto especificado.
-void cargarArch(char nomArchivo[], Tprogra vect[])
+bool cargarArch(char nomArchivo[], Tprogra vect[], int *n)
 {
-    int i, x;
     FILE *fa;
+    Tprogra reg;
 
-    strcat(nomArchivo, ".txt");
-    fa = fopen(nomArchivo, "r");
+    char temp[30];
+
+    strcpy(temp, nomArchivo);
+    strcat(temp, "_activos.txt");
+
+    fa = fopen(temp, "r");
 
     if (fa)
     {
-        fscanf(fa, "MATRICULA   NOMBRE                           APPAT                            APMAT                            FECHA NAC    EDAD   SEXO      LUGAR NAC              CURP\n\n", x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x);
-        do
+        while (!feof(fa))
         {
-            if (vect[i].status != 0)
+            if (((*n) + 1) <= N)
             {
-                fscanf(fa, "%-9d   %-30s   %-30s   %-30s   %02d-%02d-%4d   %-4d   %-7s   %-20s   %-18s\n", vect[i].matricula, vect[i].nombre.nombre, vect[i].nombre.appat, vect[i].nombre.apmat, vect[i].fecha.dia, vect[i].fecha.mes, vect[i].fecha.anio, vect[i].edad, vect[i].sexo, vect[i].edo.nombre, vect[i].CURP);
+                reg.status = 1;
+                fscanf(fa, "%s %d %s %s %s %d %s", &temp, &reg.matricula, &reg.nombre, &reg.appat, &reg.apmat, &reg.edad, &reg.sexo);
+                reg.key = reg.matricula;
+                vect[(*n)++] = reg;
             }
-        } while (!feof(fa));
+            else
+            {
+                printf("Vector llenado\n");
+            }
+        }
 
-        printf("Archivo cargado con exito");
         fclose(fa);
+        return true;
     }
-    printf("Archivo no encontrado");
+    else
+    {
+        printf("Archivo no encontrado");
+        return false;
+    }
 }
