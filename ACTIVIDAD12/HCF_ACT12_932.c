@@ -11,10 +11,11 @@ int msges(void);
 void menu(void);
 
 Tprogra genPersAlea(void);
-void imprPersonas(Tprogra vect[], int n);
+void imprPersonas(Tprogra vect[], int n, int status);
 void imprReg(Tprogra pers);
 void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch);
 bool cargarArch(char nomArchivo[], Tprogra vect[], int *n);
+int contarReg(char nomArchivo[], int status);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -37,7 +38,7 @@ int msges()
     printf("4.- BUSCAR \n");
     printf("5.- ORDENAR \n");
     printf("6.- MOSTRAR TABLA (ACTIVOS) \n");
-    printf("7.- GENERAR ARCHIVO \n");
+    printf("7.- GENERAR ARCHIVOS \n");
     printf("8.- CANTIDAD DE REGISTROS (ARCHIVO) \n");
     printf("9.- MOSTRAR TABLA (BORRADOS) \n");
     printf("0.- SALIR  \n");
@@ -49,11 +50,13 @@ int msges()
 /********* MENUS *********/
 void menu()
 {
-    int op, i, num;
+    int op, i, num, status;
     int nPers = 0;
     int nAuto = 10;
-    bool band, cargado;
+    bool band = false, cargado = false;
+
     char nomArchivo[15];
+    strcpy(nomArchivo, "datos");
 
     Tprogra ingenieros[N];
     Tprogra pers;
@@ -67,6 +70,7 @@ void menu()
 
         switch (op)
         {
+        // Cargar archivo
         case 1:
             if (!cargado)
             {
@@ -75,6 +79,15 @@ void menu()
                 gets(nomArchivo);
 
                 cargado = cargarArch(nomArchivo, ingenieros, &nPers);
+                system("CLS");
+                if (cargado)
+                {
+                    printf("Archivo cargado con exito\n");
+                }
+                else
+                {
+                    printf("Archivo no encontrado\n");
+                }
             }
             else
             {
@@ -85,6 +98,7 @@ void menu()
             system("PAUSE");
             break;
 
+        // Agregar registros
         case 2:
             if ((nPers + nAuto) <= N)
             {
@@ -112,6 +126,7 @@ void menu()
             system("PAUSE");
             break;
 
+        // Eliminar registros
         case 3:
             printf("Ingrese la matricula del estudiante que desea eliminar: ");
             num = valiNum(300000, 399999);
@@ -151,6 +166,7 @@ void menu()
             system("PAUSE");
             break;
 
+        // Buscar registros
         case 4:
             printf("Ingrese la matricula del estudiante que desea buscar: ");
             num = valiNum(300000, 399999);
@@ -171,6 +187,7 @@ void menu()
             system("PAUSE");
             break;
 
+        // Ordenar registros
         case 5:
             if (band == false)
             {
@@ -185,12 +202,14 @@ void menu()
             system("PAUSE");
             break;
 
+        // Mostrar registros activos
         case 6:
-            imprPersonas(ingenieros, nPers);
+            imprPersonas(ingenieros, nPers, 1);
             printf("\n");
             system("PAUSE");
             break;
 
+        // Generar archivos
         case 7:
             printf("Ingresa el nombre del archivo (sin extension): ");
             fflush(stdin);
@@ -199,6 +218,39 @@ void menu()
             escrArch(nomArchivo, ingenieros, nPers, 1, false);
             escrArch(nomArchivo, ingenieros, nPers, 0, false);
             escrArch(nomArchivo, ingenieros, nPers, 1, true);
+
+            printf("\n");
+            system("PAUSE");
+            break;
+
+        // Contar registros
+        case 8:
+            printf("Ingrese el status de los registros que desea contar (0 - Borrados, 1 - Activos): ");
+            status = valiNum(0, 1);
+
+            printf("\nIngrese el nombre del archivo (sin extension): ");
+            fflush(stdin);
+            gets(nomArchivo);
+
+            num = contarReg(nomArchivo, status);
+
+            system("CLS");
+            if (num == -1)
+            {
+                printf("Archivo no encontrado\n");
+            }
+            else
+            {
+                printf("Hay %d registro(s) en el archivo\n", num);
+            }
+
+            printf("\n");
+            system("PAUSE");
+            break;
+
+        // Mostrar registros borrados
+        case 9:
+            imprPersonas(ingenieros, nPers, 0);
             printf("\n");
             system("PAUSE");
             break;
@@ -242,19 +294,19 @@ Tprogra genPersAlea(void)
 }
 
 // Imprime todas las personas en un vector dado.
-void imprPersonas(Tprogra vect[], int n)
+void imprPersonas(Tprogra vect[], int n, int status)
 {
     int i, activos, op;
 
     printf("Registros 1 - 40\n\n");
-    printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("  No  | MATRICULA | NOMBRE                       | APELLIDO P.                 |  APELLIDO MAT.                    | EDAD  | SEXO \n");
-    printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("------------------------------------------------------------------------------------------\n");
+    printf("  No  | MATRICULA | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+    printf("------------------------------------------------------------------------------------------\n");
     for (i = 0, activos = 0; i < n; i++)
     {
-        if (vect[i].status != 0)
+        if (vect[i].status == status)
         {
-            printf("%4d.-  %6d      %-25s      %-25s      %-25s          %2d      %-7s\n", activos, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+            printf("%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s\n", activos, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
             activos++;
         }
 
@@ -268,7 +320,9 @@ void imprPersonas(Tprogra vect[], int n)
             {
                 system("CLS");
                 printf("Registros %d - %d\n\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
-                printf("NO     MATRICULA   APPAT                            APMAT                            NOMBRE                           EDAD   SEXO      CURP              \n\n");
+                printf("------------------------------------------------------------------------------------------\n");
+                printf("  No  | MATRICULA | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+                printf("------------------------------------------------------------------------------------------\n");
             }
             else
             {
@@ -297,7 +351,7 @@ void imprReg(Tprogra pers)
     printf("%s\n", pers.sexo);
 }
 
-// Escribe el archivo con los registros.
+// Escribe los registros de un vector de personas en un archivo de texto especificado.
 void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
 {
     if (n <= 0)
@@ -333,25 +387,30 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
 
     if (arch)
     {
-        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
-        fprintf(fa, "  No  | MATRICULA | NOMBRE                       | APELLIDO P.                 |  APELLIDO MAT.                    | EDAD  | SEXO \n");
-        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "  No  | MATRICULA | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+        fprintf(fa, "------------------------------------------------------------------------------------------\n");
     }
 
     for (i = 0; i < n; i++)
     {
         if (vect[i].status == status)
         {
-            fprintf(fa, "%4d.-  %6d      %-25s      %-25s      %-25s          %2d      %-7s\n", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+            fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+
+            if (i < n - 1)
+            {
+                fprintf(fa, "\n");
+            }
             cont++;
         }
     }
 
     if (arch)
     {
-        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
-        fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia                     www.profeyepiz.com                                      @2023      --\n");
-        fprintf(fa, "--------------------------------------------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "\n------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia        www.profeyepiz.com     @2023-2      --\n");
+        fprintf(fa, "------------------------------------------------------------------------------------------");
     }
 
     fclose(fa);
@@ -390,9 +449,46 @@ bool cargarArch(char nomArchivo[], Tprogra vect[], int *n)
         fclose(fa);
         return true;
     }
+
+    return false;
+}
+
+// Cuenta los registros de un archivo de texto especificado.
+int contarReg(char nomArchivo[], int status)
+{
+    FILE *fa;
+    int cont = 0;
+    char temp[30];
+    char linea[90];
+
+    strcpy(temp, nomArchivo);
+    if (status == 0)
+    {
+        strcat(temp, "_borrados.txt");
+    }
+    else
+    {
+        strcat(temp, "_activos.txt");
+    }
+
+    fa = fopen(temp, "r");
+
+    if (fa)
+    {
+        while (!feof(fa))
+        {
+            fgets(linea, 90, fa);
+            if (strlen(linea) > 10)
+            {
+                cont++;
+            }
+        }
+        fclose(fa);
+    }
     else
     {
         printf("Archivo no encontrado");
-        return false;
+        return -1;
     }
+    return cont;
 }

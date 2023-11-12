@@ -13,9 +13,9 @@ typedef struct _progra
     Tkey key;
     int status;
     int matricula;
-    char appat[30];
-    char apmat[30];
-    char nombre[30];
+    char appat[11];
+    char apmat[11];
+    char nombre[11];
     int edad;
     char sexo[10];
 } Tprogra;
@@ -219,23 +219,22 @@ int busqBin(Tprogra vect[], int n, Tkey num)
 
         if (vect[med].key == num)
         {
-            return med; // Valor encontrado en indice med
+            return med;
         }
         else
         {
-            // Verifica si es menor o mayor
             if (num < vect[med].key)
             {
-                rf = med--;
+                rf = med - 1;
             }
             else
             {
-                ri = med++;
+                ri = med + 1;
             }
         }
     }
 
-    return -1; // No se encontró
+    return -1;
 }
 
 // Busca un valor en un arreglo usando el algoritmo optimo
@@ -479,18 +478,18 @@ bool esFechaValida(int dia, int mes, int anio)
 
 void genNomH(char cadena[])
 {
-    char nombresH[][30] = {"CARLOS", "JUAN", "LUIS", "JOSE", "MIGUEL", "PEDRO", "DAVID", "JORGE", "FELIPE", "IVAN", "DANIEL", "RAFAEL", "ANDRES", "GABRIEL", "ALEJANDRO", "MARCOS", "JAVIER", "MARTIN", "SERGIO", "EDUARDO", "RICARDO", "MANUEL", "VICTOR", "RAUL", "HUGO", "ESTEBAN", "FRANCISCO", "MARTIN", "GONZALO", "MATEO", "FERNANDO", "DIEGO", "ANGEL", "ABEL", "ABELARDO", "ADRIAN", "ALBERTO", "ALFREDO", "ALFONSO", "AMADEO", "ARTURO", "BENJAMIN", "BERNARDO", "BRUNO", "CESAR", "CLAUDIO", "CLEMENTE", "DAMIAN", "DARIO"};
+    char nombresH[][11] = {"CARLOS", "JUAN", "LUIS", "JOSE", "MIGUEL", "PEDRO", "DAVID", "JORGE", "FELIPE", "IVAN", "DANIEL", "RAFAEL", "ANDRES", "GABRIEL", "ALEJANDRO", "MARCOS", "JAVIER", "MARTIN", "SERGIO", "EDUARDO", "RICARDO", "MANUEL", "VICTOR", "RAUL", "HUGO", "ESTEBAN", "FRANCISCO", "MARTIN", "GONZALO", "MATEO", "FERNANDO", "DIEGO", "ANGEL", "ABEL", "ABELARDO", "ADRIAN", "ALBERTO", "ALFREDO", "ALFONSO", "AMADEO", "ARTURO", "BENJAMIN", "BERNARDO", "BRUNO", "CESAR", "CLAUDIO", "CLEMENTE", "DAMIAN", "DARIO"};
     strcpy(cadena, nombresH[rand() % 49]);
 }
 
 void genNomM(char cadena[])
 {
-    char nombresM[][30] = {"MARIA", "ANA", "LAURA", "SOFIA", "CARMEN", "PATRICIA", "ISABEL", "MARTA", "ELENA", "ROSA", "CLARA", "CAROLINA", "ANDREA", "PAULA", "LUCIA", "BEATRIZ", "ADRIANA", "SILVIA", "LOURDES", "RAQUEL", "TERESA", "RAQUEL", "LORENA", "SUSANA", "INES", "ROSARIO", "NATALIA", "MONICA", "ELISA", "ALMA", "ISABEL", "LIDIA", "SONIA", "YOLANDA", "AURORA", "NURIA", "CARLA", "MIRIAM", "ESTHER", "JULIA", "IRENE", "OLGA", "MARIANA", "SILVANA", "VALERIA", "JUANA", "DIANA", "VERONICA", "GISELA"};
+    char nombresM[][11] = {"MARIA", "ANA", "LAURA", "SOFIA", "CARMEN", "PATRICIA", "ISABEL", "MARTA", "ELENA", "ROSA", "CLARA", "CAROLINA", "ANDREA", "PAULA", "LUCIA", "BEATRIZ", "ADRIANA", "SILVIA", "LOURDES", "RAQUEL", "TERESA", "RAQUEL", "LORENA", "SUSANA", "INES", "ROSARIO", "NATALIA", "MONICA", "ELISA", "ALMA", "ISABEL", "LIDIA", "SONIA", "YOLANDA", "AURORA", "NURIA", "CARLA", "MIRIAM", "ESTHER", "JULIA", "IRENE", "OLGA", "MARIANA", "SILVANA", "VALERIA", "JUANA", "DIANA", "VERONICA", "GISELA"};
     strcpy(cadena, nombresM[rand() % 49]);
 }
 
 void genAp(char cadena[])
 {
-    char apellidos[][30] = {"LOPEZ", "GARCIA", "MARTINEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "GONZALEZ", "SANCHEZ", "ROMERO", "TORRES", "RAMIREZ", "DIAZ", "RUIZ", "HERRERA", "CASTRO", "RIOS", "VARGAS", "JIMENEZ", "ORTEGA", "SILVA", "RIVERA", "ESPINOZA", "MORALES", "NUNEZ", "REYES", "PERALTA", "ROSALES", "MONTES", "CORDERO", "AGUILAR", "CARDENAS", "VALDEZ", "CASTILLO", "MENDOZA", "ESPINOSA", "FUENTES", "GUZMAN", "CERVANTES", "SOTO", "DELGADO", "NAVARRO", "MORA", "QUINONES", "SOSA", "CARRILLO", "PACHECO", "MIRANDA", "FIGUEROA", "MENDEZ", "LEON", "CALDERON", "NAVA", "TELLEZ", "PAREDES", "BAUTISTA", "CISNEROS", "VILLANUEVA", "CONTRERAS", "PADILLA", "ROJAS", "RIVAS", "SALAZAR", "PANTOJA", "CABELLO", "CHACON", "LUGO", "BAEZ", "GUTIERREZ", "PENA", "ZAVALA", "PONCE", "ESCOBAR", "LARA", "TOVAR", "DUARTE", "PAREDES", "MELENDEZ", "ALVARADO", "SERNA", "OCHOA", "FRIAS", "RUEDA", "ECHEVERRIA", "DURAN", "CORDOVA", "VELA", "REYES", "OSORIO", "DAVILA", "HIDALGO", "MIRANDA", "MEDINA", "SALAZAR", "PANTOJA", "CABELLO", "CHACON", "LUGO", "BAEZ", "GUTIERREZ", "PENA", "ZAVALA", "PONCE", "ESCOBAR", "LARA", "TOVAR", "DUARTE", "PAREDES", "MELENDEZ", "ALVARADO", "SERNA", "OCHOA", "FRIAS", "RUEDA", "ECHEVERRIA", "DURAN", "CORDOVA", "VELA", "REYES", "OSORIO", "DAVILA", "HIDALGO", "MIRANDA", "MEDINA"};
+    char apellidos[][11] = {"LOPEZ", "GARCIA", "MARTINEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "GONZALEZ", "SANCHEZ", "ROMERO", "TORRES", "RAMIREZ", "DIAZ", "RUIZ", "HERRERA", "CASTRO", "RIOS", "VARGAS", "JIMENEZ", "ORTEGA", "SILVA", "RIVERA", "ESPINOZA", "MORALES", "NUNEZ", "REYES", "PERALTA", "ROSALES", "MONTES", "CORDERO", "AGUILAR", "CARDENAS", "VALDEZ", "CASTILLO", "MENDOZA", "ESPINOSA", "FUENTES", "GUZMAN", "CERVANTES", "SOTO", "DELGADO", "NAVARRO", "MORA", "QUINONES", "SOSA", "CARRILLO", "PACHECO", "MIRANDA", "FIGUEROA", "MENDEZ", "LEON", "CALDERON", "NAVA", "TELLEZ", "PAREDES", "BAUTISTA", "CISNEROS", "VILLANUEVA", "CONTRERAS", "PADILLA", "ROJAS", "RIVAS", "SALAZAR", "PANTOJA", "CABELLO", "CHACON", "LUGO", "BAEZ", "GUTIERREZ", "PENA", "ZAVALA", "PONCE", "ESCOBAR", "LARA", "TOVAR", "DUARTE", "PAREDES", "MELENDEZ", "ALVARADO", "SERNA", "OCHOA", "FRIAS", "RUEDA", "ECHEVERRIA", "DURAN", "CORDOVA", "VELA", "REYES", "OSORIO", "DAVILA", "HIDALGO", "MIRANDA", "MEDINA", "SALAZAR", "PANTOJA", "CABELLO", "CHACON", "LUGO", "BAEZ", "GUTIERREZ", "PENA", "ZAVALA", "PONCE", "ESCOBAR", "LARA", "TOVAR", "DUARTE", "PAREDES", "MELENDEZ", "ALVARADO", "SERNA", "OCHOA", "FRIAS", "RUEDA", "ECHEVERRIA", "DURAN", "CORDOVA", "VELA", "REYES", "OSORIO", "DAVILA", "HIDALGO", "MIRANDA", "MEDINA"};
     strcpy(cadena, apellidos[rand() % 123]);
 }
