@@ -225,8 +225,8 @@ void menu()
 
         // Contar registros
         case 8:
-            printf("Ingrese el status de los registros que desea contar (0 - Borrados, 1 - Activos): ");
-            status = valiNum(0, 1);
+            printf("Ingrese el status de los registros que desea contar (1 - Borrados, 2 - Activos): ");
+            status = valiNum(1, 2);
 
             printf("\nIngrese el nombre del archivo (sin extension): ");
             fflush(stdin);
@@ -453,42 +453,16 @@ bool cargarArch(char nomArchivo[], Tprogra vect[], int *n)
     return false;
 }
 
-// Cuenta los registros de un archivo de texto especificado.
+// Cuenta los registros de un archivo de texto especificado desde el ejecutable contadorReg.
 int contarReg(char nomArchivo[], int status)
 {
-    FILE *fa;
-    int cont = 0;
-    char temp[30];
-    char linea[90];
+    int cont;
+    char fileName[50];
+    char cmd[50];
 
-    strcpy(temp, nomArchivo);
-    if (status == 0)
-    {
-        strcat(temp, "_borrados.txt");
-    }
-    else
-    {
-        strcat(temp, "_activos.txt");
-    }
+    system("gcc contadorReg.c -o contadorReg");
+    sprintf(cmd, "contadorReg.exe %s %d", nomArchivo, status);
+    cont = system(cmd);
 
-    fa = fopen(temp, "r");
-
-    if (fa)
-    {
-        while (!feof(fa))
-        {
-            fgets(linea, 90, fa);
-            if (strlen(linea) > 10)
-            {
-                cont++;
-            }
-        }
-        fclose(fa);
-    }
-    else
-    {
-        printf("Archivo no encontrado");
-        return -1;
-    }
     return cont;
 }
