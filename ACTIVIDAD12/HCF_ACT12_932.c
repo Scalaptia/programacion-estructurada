@@ -5,15 +5,22 @@
 #include "alexandria.h"
 
 #define N 1500
+#define N_AUTO 10
 
 //*** PROTOTIPOS DE FUNCIONES  ******
 int msges(void);
 void menu(void);
 
+// Auxiliares
 Tprogra genPersAlea(void);
 void imprPersonas(Tprogra vect[], int n, int status);
 void imprReg(Tprogra pers);
-void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch);
+void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch);
+void leerNomArch(char nomArchivo[]);
+void actBorrados(char nomArchivo[], Tprogra vect[], int n);
+
+// Funciones principales
+int cargarRegistros(Tprogra vect[], int *n);
 bool cargarArch(char nomArchivo[], Tprogra vect[], int *n);
 int contarReg(char nomArchivo[], int status);
 
@@ -52,14 +59,12 @@ void menu()
 {
     int op, i, num, status;
     int nPers = 0;
-    int nAuto = 10;
-    bool band = false, cargado = false;
+    bool ordenado = false, cargado = false;
 
     char nomArchivo[15];
-    strcpy(nomArchivo, "datos");
+    strcpy(nomArchivo, "\n");
 
     Tprogra ingenieros[N];
-    Tprogra pers;
 
     system("CLS");
 
@@ -74,12 +79,9 @@ void menu()
         case 1:
             if (!cargado)
             {
-                printf("Ingresa el nombre del archivo (sin extension): ");
-                fflush(stdin);
-                gets(nomArchivo);
-
+                leerNomArch(nomArchivo);
                 cargado = cargarArch(nomArchivo, ingenieros, &nPers);
-                system("CLS");
+
                 if (cargado)
                 {
                     printf("Archivo cargado con exito\n");
@@ -93,37 +95,27 @@ void menu()
             {
                 printf("El archivo ya ha sido cargado\n");
             }
-
-            printf("\n");
-            system("PAUSE");
             break;
 
         // Agregar registros
         case 2:
-            if ((nPers + nAuto) <= N)
-            {
-                for (i = 0; i < nAuto; i++)
-                {
-                    pers = genPersAlea();
+            num = cargarRegistros(ingenieros, &nPers);
 
-                    while (busqSeq(ingenieros, nPers, pers.key) != -1)
-                    {
-                        pers.matricula = matriAlea();
-                        pers.key = pers.matricula;
-                    }
-
-                    ingenieros[nPers] = pers;
-                    nPers++;
-                }
-                band = false;
-                printf("Se han agregado %d personas\n", nAuto);
-            }
-            else
+            if (num == -1)
             {
                 printf("Ha llegado al maximo de personas\n");
             }
-            printf("\n");
-            system("PAUSE");
+            else
+            {
+                printf("Se han agregado %d personas\n", N_AUTO);
+                ordenado = false;
+            }
+
+            if (cargado)
+            {
+                escrArch(nomArchivo, ingenieros, nPers, false);
+                escrArch(nomArchivo, ingenieros, nPers, true);
+            }
             break;
 
         // Eliminar registros
@@ -132,7 +124,7 @@ void menu()
             num = valiNum(300000, 399999);
             system("CLS");
 
-            i = busqOpt(ingenieros, nPers, num, band);
+            i = busqOpt(ingenieros, nPers, num, ordenado);
 
             if (i != -1)
             {
@@ -162,8 +154,6 @@ void menu()
             {
                 printf("Matricula no encontrada\n");
             }
-            printf("\n");
-            system("PAUSE");
             break;
 
         // Buscar registros
@@ -172,7 +162,7 @@ void menu()
             num = valiNum(300000, 399999);
             system("CLS");
 
-            i = busqOpt(ingenieros, nPers, num, band);
+            i = busqOpt(ingenieros, nPers, num, ordenado);
 
             if (i != -1)
             {
@@ -183,44 +173,32 @@ void menu()
             {
                 printf("La matricula %d no se encuentra en el vector\n", num);
             }
-            printf("\n");
-            system("PAUSE");
             break;
 
         // Ordenar registros
         case 5:
-            if (band == false)
+            if (ordenado == false)
             {
-                band = ordOpt(ingenieros, nPers);
+                ordenado = ordOpt(ingenieros, nPers);
                 printf("El vector ha sido ordenado\n");
             }
             else
             {
                 printf("El vector ya estaba ordenado\n");
             }
-            printf("\n");
-            system("PAUSE");
             break;
 
         // Mostrar registros activos
         case 6:
             imprPersonas(ingenieros, nPers, 1);
-            printf("\n");
-            system("PAUSE");
             break;
 
         // Generar archivos
         case 7:
-            printf("Ingresa el nombre del archivo (sin extension): ");
-            fflush(stdin);
-            gets(nomArchivo);
+            leerNomArch(nomArchivo);
 
-            escrArch(nomArchivo, ingenieros, nPers, 1, false);
-            escrArch(nomArchivo, ingenieros, nPers, 0, false);
-            escrArch(nomArchivo, ingenieros, nPers, 1, true);
-
-            printf("\n");
-            system("PAUSE");
+            escrArch(nomArchivo, ingenieros, nPers, false);
+            escrArch(nomArchivo, ingenieros, nPers, true);
             break;
 
         // Contar registros
@@ -228,10 +206,7 @@ void menu()
             printf("Ingrese el status de los registros que desea contar (1 - Borrados, 2 - Activos): ");
             status = valiNum(1, 2);
 
-            printf("\nIngrese el nombre del archivo (sin extension): ");
-            fflush(stdin);
-            gets(nomArchivo);
-
+            leerNomArch(nomArchivo);
             num = contarReg(nomArchivo, status);
 
             system("CLS");
@@ -243,23 +218,40 @@ void menu()
             {
                 printf("Hay %d registro(s) en el archivo\n", num);
             }
-
-            printf("\n");
-            system("PAUSE");
             break;
 
         // Mostrar registros borrados
         case 9:
             imprPersonas(ingenieros, nPers, 0);
-            printf("\n");
-            system("PAUSE");
+            break;
+
+        case 0:
+            if (strcmp(nomArchivo, "\n") != 0)
+            {
+                escrArch(nomArchivo, ingenieros, nPers, false);
+                escrArch(nomArchivo, ingenieros, nPers, true);
+                actBorrados(nomArchivo, ingenieros, nPers);
+            }
+            else
+            {
+                printf("Desea guardar los datos? (1- Si, 2- No): \n");
+                op = valiNum(1, 2);
+                if (op == 1)
+                {
+                    leerNomArch(nomArchivo);
+
+                    escrArch(nomArchivo, ingenieros, nPers, false);
+                    escrArch(nomArchivo, ingenieros, nPers, true);
+                    actBorrados(nomArchivo, ingenieros, nPers);
+                }
+            }
             break;
         }
+
+        printf("\n");
+        system("PAUSE");
     } while (op != 0);
 
-    escrArch(nomArchivo, ingenieros, nPers, 1, false);
-    escrArch(nomArchivo, ingenieros, nPers, 0, false);
-    escrArch(nomArchivo, ingenieros, nPers, 1, true);
     return;
 }
 
@@ -351,8 +343,20 @@ void imprReg(Tprogra pers)
     printf("%s\n", pers.sexo);
 }
 
+// Lee el nombre de un archivo de texto especificado.
+void leerNomArch(char nomArchivo[])
+{
+    do
+    {
+        system("CLS");
+        printf("Ingresa el nombre del archivo (sin extension): ");
+        fflush(stdin);
+        gets(nomArchivo);
+    } while (strcmp(nomArchivo, "\n") == 0);
+}
+
 // Escribe los registros de un vector de personas en un archivo de texto especificado.
-void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
+void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
 {
     if (n <= 0)
     {
@@ -366,20 +370,9 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
     char temp[30];
     strcpy(temp, nomArchivo);
 
-    if (arch)
+    if (!arch)
     {
-        strcpy(temp, nomArchivo);
-    }
-    else
-    {
-        if (status == 0)
-        {
-            strcat(temp, "_borrados");
-        }
-        else
-        {
-            strcat(temp, "_activos");
-        }
+        strcat(temp, "_activos");
     }
 
     strcat(temp, ".txt");
@@ -394,7 +387,7 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, int status, bool arch)
 
     for (i = 0; i < n; i++)
     {
-        if (vect[i].status == status)
+        if (vect[i].status == 1)
         {
             fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
 
@@ -465,4 +458,64 @@ int contarReg(char nomArchivo[], int status)
     cont = system(cmd);
 
     return cont;
+}
+
+// Actualiza los registros de un archivo de texto especificado.
+void actBorrados(char nomArchivo[], Tprogra vect[], int n)
+{
+    FILE *fa;
+    Tprogra reg;
+    int i;
+    int cont = contarReg(nomArchivo, 1);
+
+    char temp[30];
+    strcpy(temp, nomArchivo);
+    strcat(temp, "_borrados.txt");
+
+    fa = fopen(temp, "a");
+
+    if (fa)
+    {
+        for (i = 0; i < n; i++)
+        {
+            if (vect[i].status == 0)
+            {
+                fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+
+                if (i < n - 1)
+                {
+                    fprintf(fa, "\n");
+                }
+                cont++;
+            }
+        }
+
+        fclose(fa);
+    }
+}
+
+int cargarRegistros(Tprogra vect[], int *nPers)
+{
+    int i;
+    Tprogra pers;
+
+    if ((*nPers + N_AUTO) <= N)
+    {
+        for (i = 0; i < N_AUTO; i++)
+        {
+            pers = genPersAlea();
+
+            while (busqSeq(vect, *nPers, pers.key) != -1)
+            {
+                pers.matricula = matriAlea();
+                pers.key = pers.matricula;
+            }
+
+            vect[(*nPers)++] = pers;
+        }
+    }
+    else
+    {
+        return -1;
+    }
 }
