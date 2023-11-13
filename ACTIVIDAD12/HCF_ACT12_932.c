@@ -18,11 +18,9 @@ void imprReg(Tprogra pers);
 void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch);
 void leerNomArch(char nomArchivo[]);
 void actBorrados(char nomArchivo[], Tprogra vect[], int n);
-
-// Funciones principales
 int cargarRegistros(Tprogra vect[], int *n);
 bool cargarArch(char nomArchivo[], Tprogra vect[], int *n);
-int contarReg(char nomArchivo[], int status);
+int contarRegArch(char nomArchivo[], int status);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -111,7 +109,7 @@ void menu()
                 ordenado = false;
             }
 
-            if (cargado)
+            if (strcmp(nomArchivo, "\n") != 0)
             {
                 escrArch(nomArchivo, ingenieros, nPers, false);
                 escrArch(nomArchivo, ingenieros, nPers, true);
@@ -207,7 +205,7 @@ void menu()
             status = valiNum(1, 2);
 
             leerNomArch(nomArchivo);
-            num = contarReg(nomArchivo, status);
+            num = contarRegArch(nomArchivo, status);
 
             system("CLS");
             if (num == -1)
@@ -235,8 +233,8 @@ void menu()
             else
             {
                 printf("Desea guardar los datos? (1- Si, 2- No): \n");
-                op = valiNum(1, 2);
-                if (op == 1)
+                num = valiNum(1, 2);
+                if (num == 1)
                 {
                     leerNomArch(nomArchivo);
 
@@ -294,15 +292,15 @@ void imprPersonas(Tprogra vect[], int n, int status)
     printf("------------------------------------------------------------------------------------------\n");
     printf("  No  | MATRICULA | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
     printf("------------------------------------------------------------------------------------------\n");
-    for (i = 0, activos = 0; i < n; i++)
+    for (i = 0, activos = 1; i < n; i++)
     {
         if (vect[i].status == status)
         {
-            printf("%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s\n", activos, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+            printf("%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
             activos++;
         }
 
-        if ((activos) % 40 == 0 && activos < n)
+        if (activos % 41 == 0 && activos < n)
         {
             printf("\n\n");
             printf("Desea continuar? (0 - Si, 1 - No): ");
@@ -365,6 +363,7 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
     }
 
     int i, cont = 0;
+
     FILE *fa;
 
     char temp[30];
@@ -391,7 +390,7 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
         {
             fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
 
-            if (i < n - 1)
+            if (i < (n - 1))
             {
                 fprintf(fa, "\n");
             }
@@ -407,6 +406,46 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
     }
 
     fclose(fa);
+}
+
+// Actualiza los registros de un archivo de texto especificado.
+void actBorrados(char nomArchivo[], Tprogra vect[], int n)
+{
+    FILE *fa;
+    Tprogra reg;
+    int i, cont;
+
+    char temp[30];
+    strcpy(temp, nomArchivo);
+    strcat(temp, "_borrados.txt");
+
+    fa = fopen(temp, "a");
+
+    if (fa)
+    {
+        cont = contarRegArch(nomArchivo, 1);
+
+        if (cont > 0)
+        {
+            fprintf(fa, "\n");
+        }
+
+        for (i = 0; i < n; i++)
+        {
+            if (vect[i].status == 0)
+            {
+                fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+
+                if (i < (n - 1))
+                {
+                    fprintf(fa, "\n");
+                }
+                cont++;
+            }
+        }
+
+        fclose(fa);
+    }
 }
 
 // Carga los registros de un arhivo de texto especificado.
@@ -447,7 +486,7 @@ bool cargarArch(char nomArchivo[], Tprogra vect[], int *n)
 }
 
 // Cuenta los registros de un archivo de texto especificado desde el ejecutable contadorReg.
-int contarReg(char nomArchivo[], int status)
+int contarRegArch(char nomArchivo[], int status)
 {
     int cont;
     char fileName[50];
@@ -460,40 +499,7 @@ int contarReg(char nomArchivo[], int status)
     return cont;
 }
 
-// Actualiza los registros de un archivo de texto especificado.
-void actBorrados(char nomArchivo[], Tprogra vect[], int n)
-{
-    FILE *fa;
-    Tprogra reg;
-    int i;
-    int cont = contarReg(nomArchivo, 1);
-
-    char temp[30];
-    strcpy(temp, nomArchivo);
-    strcat(temp, "_borrados.txt");
-
-    fa = fopen(temp, "a");
-
-    if (fa)
-    {
-        for (i = 0; i < n; i++)
-        {
-            if (vect[i].status == 0)
-            {
-                fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
-
-                if (i < n - 1)
-                {
-                    fprintf(fa, "\n");
-                }
-                cont++;
-            }
-        }
-
-        fclose(fa);
-    }
-}
-
+// Carga n cantidad de registros de personas aleatoriamente dentro del vector de personas especificado.
 int cargarRegistros(Tprogra vect[], int *nPers)
 {
     int i;
