@@ -13,7 +13,7 @@ typedef struct _progra
     Tkey key;
     int status;
     int matricula;
-    // char puesto[11];
+    char puesto[11];
     char appat[11];
     char apmat[11];
     char nombre[11];
@@ -54,6 +54,7 @@ bool esFechaValida(int dia, int mes, int anio);
 void genNomH(char cadena[]);
 void genNomM(char cadena[]);
 void genAp(char cadena[]);
+void genPuesto(char cadena[]);
 
 /********* VALIDACIÓN *********/
 
@@ -493,4 +494,26 @@ void genAp(char cadena[])
 {
     char apellidos[][11] = {"LOPEZ", "GARCIA", "MARTINEZ", "RODRIGUEZ", "PEREZ", "FERNANDEZ", "GONZALEZ", "SANCHEZ", "ROMERO", "TORRES", "RAMIREZ", "DIAZ", "RUIZ", "HERRERA", "CASTRO", "RIOS", "VARGAS", "JIMENEZ", "ORTEGA", "SILVA", "RIVERA", "ESPINOZA", "MORALES", "NUNEZ", "REYES", "PERALTA", "ROSALES", "MONTES", "CORDERO", "AGUILAR", "CARDENAS", "VALDEZ", "CASTILLO", "MENDOZA", "ESPINOSA", "FUENTES", "GUZMAN", "CERVANTES", "SOTO", "DELGADO", "NAVARRO", "MORA", "QUINONES", "SOSA", "CARRILLO", "PACHECO", "MIRANDA", "FIGUEROA", "MENDEZ", "LEON", "CALDERON", "NAVA", "TELLEZ", "PAREDES", "BAUTISTA", "CISNEROS", "VILLANUEVA", "CONTRERAS", "PADILLA", "ROJAS", "RIVAS", "SALAZAR", "PANTOJA", "CABELLO", "CHACON", "LUGO", "BAEZ", "GUTIERREZ", "PENA", "ZAVALA", "PONCE", "ESCOBAR", "LARA", "TOVAR", "DUARTE", "PAREDES", "MELENDEZ", "ALVARADO", "SERNA", "OCHOA", "FRIAS", "RUEDA", "ECHEVERRIA", "DURAN", "CORDOVA", "VELA", "REYES", "OSORIO", "DAVILA", "HIDALGO", "MIRANDA", "MEDINA", "SALAZAR", "PANTOJA", "CABELLO", "CHACON", "LUGO", "BAEZ", "GUTIERREZ", "PENA", "ZAVALA", "PONCE", "ESCOBAR", "LARA", "TOVAR", "DUARTE", "PAREDES", "MELENDEZ", "ALVARADO", "SERNA", "OCHOA", "FRIAS", "RUEDA", "ECHEVERRIA", "DURAN", "CORDOVA", "VELA", "REYES", "OSORIO", "DAVILA", "HIDALGO", "MIRANDA", "MEDINA"};
     strcpy(cadena, apellidos[rand() % 123]);
+}
+
+void genPuesto(char cadena[])
+{
+    char puestos[8][11] = {"GERENTE", "SUBGERENTE", "JEFE", "SUPERVISOR", "ANALISTA", "PROGRAMADOR", "AUXILIAR", "SECRETARIA"};
+    int probabilidades[8] = {5, 10, 3, 7, 25, 20, 15, 15}; // suma = 100
+
+    int acumulado = 0;
+    int i;
+    int num = numAleatorio(1, 100);
+
+    for (i = 0; i < 8; ++i)
+    {
+        acumulado += probabilidades[i];
+
+        if (num <= acumulado)
+        {
+            break;
+        }
+    }
+
+    strcpy(cadena, puestos[i]);
 }

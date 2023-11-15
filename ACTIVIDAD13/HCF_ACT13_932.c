@@ -38,12 +38,12 @@ int msges()
     int op;
     system("CLS");
     printf("\n   M   E   N   U \n");
-    printf("1.- AGREGAR \n");
-    printf("2.- EDITAR REGISTRO \n");
-    printf("3.- ELIMINAR REGISTRO \n");
-    printf("4.- BUSCAR \n");
-    printf("5.- ORDENAR \n");
-    printf("6.- MOSTRAR TABLA (ACTIVOS) \n");
+    printf("1.- AGREGAR \n");                 // Done
+    printf("2.- EDITAR REGISTRO \n");         // Validar campos (texto)
+    printf("3.- ELIMINAR REGISTRO \n");       // Done
+    printf("4.- BUSCAR \n");                  // Done
+    printf("5.- ORDENAR \n");                 // Done
+    printf("6.- MOSTRAR TABLA (ACTIVOS) \n"); // Done
     printf("7.- GENERAR ARCHIVO TEXTO \n");
     printf("8.- VER ARCHIVO TEXTO \n");
     printf("9.- CREAR ARCHIVO BINARIO \n");
@@ -108,8 +108,14 @@ void menu()
 
             if (i != -1)
             {
-                printf("Matricula encontrada\n\n", num);
-                editarReg(ingenieros, i, &ordenado);
+                if (ingenieros[i].status == 1)
+                {
+                    editarReg(ingenieros, i, &ordenado);
+                }
+                else
+                {
+                    printf("El alumno ya se encuentra inactivo\n");
+                }
             }
             else
             {
@@ -266,6 +272,7 @@ Tprogra genPersAlea(void)
     pers.matricula = matriAlea();
     genAp(pers.appat);
     genAp(pers.apmat);
+    genPuesto(pers.puesto);
     sexo = numAleatorio(1, 2);
     pers.edad = numAleatorio(18, 31);
 
@@ -290,14 +297,14 @@ void imprPersonas(Tprogra vect[], int n, int status)
     int i, activos, op;
 
     printf("Registros 1 - 40\n\n");
-    printf("------------------------------------------------------------------------------------------\n");
-    printf("  No  | MATRICULA | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-    printf("------------------------------------------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------------------------------------\n");
+    printf("  No  | MATRICULA | PUESTO        | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+    printf("-----------------------------------------------------------------------------------------------------\n");
     for (i = 0, activos = 1; i < n; i++)
     {
         if (vect[i].status == status)
         {
-            printf("%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+            printf("%4d.-  %6d      %-10s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
             activos++;
         }
 
@@ -311,9 +318,9 @@ void imprPersonas(Tprogra vect[], int n, int status)
             {
                 system("CLS");
                 printf("Registros %d - %d\n\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
-                printf("------------------------------------------------------------------------------------------\n");
-                printf("  No  | MATRICULA | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-                printf("------------------------------------------------------------------------------------------\n");
+                printf("-----------------------------------------------------------------------------------------------------\n");
+                printf("  No  | MATRICULA | PUESTO        | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+                printf("-----------------------------------------------------------------------------------------------------\n");
             }
             else
             {
@@ -330,6 +337,8 @@ void imprReg(Tprogra pers)
     printf("%s\n", pers.status == 1 ? "ACTIVO" : "NO ACTIVO");
     printf("MATRICULA: ");
     printf("%d\n", pers.matricula);
+    printf("PUESTO: ");
+    printf("%s\n", pers.puesto);
     printf("NOMBRE: ");
     printf("%s\n", pers.nombre);
     printf("AP. PATERNO: ");
@@ -380,16 +389,16 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
 
     if (arch)
     {
-        fprintf(fa, "------------------------------------------------------------------------------------------\n");
-        fprintf(fa, "  No  | MATRICULA | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-        fprintf(fa, "------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "-----------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "  No  | MATRICULA  | PUESTO        | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+        fprintf(fa, "-----------------------------------------------------------------------------------------------------\n");
     }
 
     for (i = 0; i < n; i++)
     {
         if (vect[i].status == 1)
         {
-            fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+            fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
 
             if (i < (n - 1))
             {
@@ -401,9 +410,9 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
 
     if (arch)
     {
-        fprintf(fa, "\n------------------------------------------------------------------------------------------\n");
-        fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia        www.profeyepiz.com     @2023-2      --\n");
-        fprintf(fa, "------------------------------------------------------------------------------------------");
+        fprintf(fa, "\n-----------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia        www.profeyepiz.com     @2023-2                 --\n");
+        fprintf(fa, "-----------------------------------------------------------------------------------------------------");
     }
 
     fclose(fa);
@@ -435,7 +444,7 @@ void actBorrados(char nomArchivo[], Tprogra vect[], int n)
         {
             if (vect[i].status == 0)
             {
-                fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+                fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
 
                 if (i < (n - 1))
                 {
@@ -469,7 +478,7 @@ bool cargarArch(char nomArchivo[], Tprogra vect[], int *n)
             if (((*n) + 1) <= N)
             {
                 reg.status = 1;
-                fscanf(fa, "%s %d %s %s %s %d %s", &temp, &reg.matricula, &reg.nombre, &reg.appat, &reg.apmat, &reg.edad, &reg.sexo);
+                fscanf(fa, "%s %d %s %s %s %s %d %s", &temp, &reg.matricula, &reg.puesto, &reg.nombre, &reg.appat, &reg.apmat, &reg.edad, &reg.sexo);
                 reg.key = reg.matricula;
                 vect[(*n)++] = reg;
             }
@@ -540,18 +549,20 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
         do
         {
             system("CLS");
+            printf("EDITANDO REGISTRO\n\n");
             imprReg(reg);
             printf("\n\n");
 
             printf("1.- MATRICULA\n");
-            printf("2.- NOMBRE\n");
-            printf("3.- AP. PATERNO\n");
-            printf("4.- AP. MATERNO\n");
-            printf("5.- EDAD\n");
-            printf("6.- SEXO\n");
+            printf("2.- PUESTO\n");
+            printf("3.- NOMBRE\n");
+            printf("4.- AP. PATERNO\n");
+            printf("5.- AP. MATERNO\n");
+            printf("6.- EDAD\n");
+            printf("7.- SEXO\n");
             printf("0.- SALIR\n");
             printf("ESCOGE UNA OPCION: ");
-            op = valiNum(0, 6);
+            op = valiNum(0, 7);
             system("CLS");
 
             switch (op)
@@ -570,33 +581,50 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
                 break;
 
             case 2:
+                char puestos[8][11] = {"GERENTE", "SUBGERENTE", "JEFE", "SUPERVISOR", "ANALISTA", "PROGRAMADOR", "AUXILIAR", "SECRETARIA"};
+
+                printf("1.- GERENTE");
+                printf("2.- SUBGERENTE");
+                printf("3.- JEFE");
+                printf("4.- SUPERVISOR");
+                printf("5.- ANALISTA");
+                printf("6.- PROGRAMADOR");
+                printf("7.- AUXILIAR");
+                printf("8.- SECRETARIA");
+                printf("ESCOGE UNA OPCION: ");
+
+                op = valiNum(1, 8);
+                strcpy(reg.puesto, puestos[op - 1]);
+                break;
+
+            case 3:
                 printf("Ingrese el nuevo nombre: ");
                 fflush(stdin);
                 gets(temp);
                 strcpy(reg.nombre, temp);
                 break;
 
-            case 3:
+            case 4:
                 printf("Ingrese el nuevo apellido paterno: ");
                 fflush(stdin);
                 gets(temp);
                 strcpy(reg.appat, temp);
                 break;
 
-            case 4:
+            case 5:
                 printf("Ingrese el nuevo apellido materno: ");
                 fflush(stdin);
                 gets(temp);
                 strcpy(reg.apmat, temp);
                 break;
 
-            case 5:
+            case 6:
                 printf("Ingrese la nueva edad: ");
                 num = valiNum(18, 31);
                 reg.edad = num;
                 break;
 
-            case 6:
+            case 7:
                 printf("Ingrese el nuevo sexo: ");
                 fflush(stdin);
                 gets(temp);
