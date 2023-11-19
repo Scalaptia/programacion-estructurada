@@ -13,7 +13,7 @@ typedef struct _progra
     Tkey key;
     int status;
     int matricula;
-    char puesto[11];
+    char puesto[12];
     char appat[11];
     char apmat[11];
     char nombre[11];
@@ -498,7 +498,7 @@ void genAp(char cadena[])
 
 void genPuesto(char cadena[])
 {
-    char puestos[8][11] = {"GERENTE", "SUBGERENTE", "JEFE", "SUPERVISOR", "ANALISTA", "PROGRAMADOR", "AUXILIAR", "SECRETARIA"};
+    char puestos[8][12] = {"GERENTE", "SUBGERENTE", "JEFE", "SUPERVISOR", "ANALISTA", "PROGRAMADOR", "AUXILIAR", "SECRETARIA"};
     int probabilidades[8] = {5, 10, 3, 7, 25, 20, 15, 15}; // suma = 100
 
     int acumulado = 0;

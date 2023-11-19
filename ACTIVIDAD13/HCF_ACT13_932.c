@@ -14,14 +14,24 @@ void menu(void);
 // Auxiliares
 Tprogra genPersAlea(void);
 void imprPersonas(Tprogra vect[], int n, int status);
+
+// Registros
 void imprReg(Tprogra pers);
-void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch);
-void leerNomArch(char nomArchivo[]);
 void actBorrados(char nomArchivo[], Tprogra vect[], int n);
 int cargarRegistros(Tprogra vect[], int *n);
-bool cargarArch(char nomArchivo[], Tprogra vect[], int *n);
-int contarRegArch(char nomArchivo[], int status);
 void editarReg(Tprogra vect[], Tkey key, bool *band);
+
+// Archivos
+void leerNomArch(char nomArchivo[]);
+
+void escrArchTXT(char nomArchivo[], Tprogra vect[], int n, bool arch);
+bool cargarArchTXT(char nomArchivo[], Tprogra vect[], int *n);
+void mostrarArchTXT(char nomArchivo[]);
+int contarRegArch(char nomArchivo[], int status);
+
+void escrArchBin(Tprogra vect[], int n);
+bool cargarArchBin(Tprogra vect[], int *n, bool temp);
+void mostrarBorradosBin(void);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -38,12 +48,12 @@ int msges()
     int op;
     system("CLS");
     printf("\n   M   E   N   U \n");
-    printf("1.- AGREGAR \n");                 // Done
-    printf("2.- EDITAR REGISTRO \n");         // Validar campos (texto)
-    printf("3.- ELIMINAR REGISTRO \n");       // Done
-    printf("4.- BUSCAR \n");                  // Done
-    printf("5.- ORDENAR \n");                 // Done
-    printf("6.- MOSTRAR TABLA (ACTIVOS) \n"); // Done
+    printf("1.- AGREGAR \n");
+    printf("2.- EDITAR REGISTRO \n");
+    printf("3.- ELIMINAR REGISTRO \n");
+    printf("4.- BUSCAR \n");
+    printf("5.- ORDENAR \n");
+    printf("6.- MOSTRAR TABLA (ACTIVOS) \n");
     printf("7.- GENERAR ARCHIVO TEXTO \n");
     printf("8.- VER ARCHIVO TEXTO \n");
     printf("9.- CREAR ARCHIVO BINARIO \n");
@@ -93,8 +103,8 @@ void menu()
 
             if (strcmp(nomArchivo, "\n") != 0)
             {
-                escrArch(nomArchivo, ingenieros, nPers, false);
-                escrArch(nomArchivo, ingenieros, nPers, true);
+                escrArchTXT(nomArchivo, ingenieros, nPers, false);
+                escrArchTXT(nomArchivo, ingenieros, nPers, true);
             }
             break;
 
@@ -198,59 +208,66 @@ void menu()
             imprPersonas(ingenieros, nPers, 1);
             break;
 
-        // Generar archivos
+        // Escribir archivos de texto
         case 7:
             leerNomArch(nomArchivo);
 
-            escrArch(nomArchivo, ingenieros, nPers, false);
-            escrArch(nomArchivo, ingenieros, nPers, true);
+            escrArchTXT(nomArchivo, ingenieros, nPers, false);
+            escrArchTXT(nomArchivo, ingenieros, nPers, true);
             break;
 
-        // Contar registros
+        // Ver archivo de texto
         case 8:
-            printf("Ingrese el status de los registros que desea contar (1 - Borrados, 2 - Activos): ");
-            status = valiNum(1, 2);
-
             leerNomArch(nomArchivo);
-            num = contarRegArch(nomArchivo, status);
 
             system("CLS");
-            if (num == -1)
+            mostrarArchTXT(nomArchivo);
+
+            break;
+
+        // Escribir archivo binario
+        case 9:
+            escrArchBin(ingenieros, nPers);
+            break;
+
+        // Cargar archivo binario
+        case 10:
+            if (cargado)
             {
-                printf("Archivo no encontrado\n");
+                printf("El archivo ya ha sido cargado\n");
+                break;
+            }
+
+            printf("Que archivo desea cargar? (1 - datos.dll, 2 - datos.tmp): ");
+            op = valiNum(1, 2);
+
+            if (op == 1)
+            {
+                cargado = cargarArchBin(ingenieros, &nPers, false);
             }
             else
             {
-                printf("Hay %d registro(s) en el archivo\n", num);
+                cargado = cargarArchBin(ingenieros, &nPers, true);
             }
+
+            if (cargado)
+            {
+                printf("Archivo cargado con exito\n");
+            }
+            else
+            {
+                printf("No se pudo cargar el archivo\n");
+            }
+
             break;
 
-        // Mostrar registros borrados
-        case 9:
-            imprPersonas(ingenieros, nPers, 0);
+        // Mostrar registros inactivos
+        case 11:
+            mostrarBorradosBin();
             break;
 
         case 0:
-            if (strcmp(nomArchivo, "\n") != 0)
-            {
-                escrArch(nomArchivo, ingenieros, nPers, false);
-                escrArch(nomArchivo, ingenieros, nPers, true);
-                actBorrados(nomArchivo, ingenieros, nPers);
-            }
-            else
-            {
-                printf("Desea guardar los datos? (1- Si, 2- No): \n");
-                num = valiNum(1, 2);
-                if (num == 1)
-                {
-                    leerNomArch(nomArchivo);
-
-                    escrArch(nomArchivo, ingenieros, nPers, false);
-                    escrArch(nomArchivo, ingenieros, nPers, true);
-                    actBorrados(nomArchivo, ingenieros, nPers);
-                }
-            }
-            break;
+            return;
         }
 
         printf("\n");
@@ -297,14 +314,14 @@ void imprPersonas(Tprogra vect[], int n, int status)
     int i, activos, op;
 
     printf("Registros 1 - 40\n\n");
-    printf("-----------------------------------------------------------------------------------------------------\n");
-    printf("  No  | MATRICULA | PUESTO        | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-    printf("-----------------------------------------------------------------------------------------------------\n");
+    printf("----------------------------------------------------------------------------------------------------------\n");
+    printf("  No  | MATRICULA | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+    printf("----------------------------------------------------------------------------------------------------------\n");
     for (i = 0, activos = 1; i < n; i++)
     {
         if (vect[i].status == status)
         {
-            printf("%4d.-  %6d      %-10s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+            printf("%4d.-  %6d      %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
             activos++;
         }
 
@@ -318,9 +335,9 @@ void imprPersonas(Tprogra vect[], int n, int status)
             {
                 system("CLS");
                 printf("Registros %d - %d\n\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
-                printf("-----------------------------------------------------------------------------------------------------\n");
-                printf("  No  | MATRICULA | PUESTO        | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-                printf("-----------------------------------------------------------------------------------------------------\n");
+                printf("----------------------------------------------------------------------------------------------------------\n");
+                printf("  No  | MATRICULA | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+                printf("----------------------------------------------------------------------------------------------------------\n");
             }
             else
             {
@@ -364,7 +381,7 @@ void leerNomArch(char nomArchivo[])
 }
 
 // Escribe los registros de un vector de personas en un archivo de texto especificado.
-void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
+void escrArchTXT(char nomArchivo[], Tprogra vect[], int n, bool arch)
 {
     if (n <= 0)
     {
@@ -389,16 +406,16 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
 
     if (arch)
     {
-        fprintf(fa, "-----------------------------------------------------------------------------------------------------\n");
-        fprintf(fa, "  No  | MATRICULA  | PUESTO        | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-        fprintf(fa, "-----------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "----------------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "  No  | MATRICULA | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+        fprintf(fa, "----------------------------------------------------------------------------------------------------------\n");
     }
 
     for (i = 0; i < n; i++)
     {
         if (vect[i].status == 1)
         {
-            fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
+            fprintf(fa, "%4d.-  %6d      %-11s      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
 
             if (i < (n - 1))
             {
@@ -410,56 +427,16 @@ void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
 
     if (arch)
     {
-        fprintf(fa, "\n-----------------------------------------------------------------------------------------------------\n");
-        fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia        www.profeyepiz.com     @2023-2                 --\n");
-        fprintf(fa, "-----------------------------------------------------------------------------------------------------");
+        fprintf(fa, "\n----------------------------------------------------------------------------------------------------------\n");
+        fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia        www.profeyepiz.com      @2023-2                     --\n");
+        fprintf(fa, "----------------------------------------------------------------------------------------------------------");
     }
 
     fclose(fa);
 }
 
-// Actualiza los registros de un archivo de texto especificado.
-void actBorrados(char nomArchivo[], Tprogra vect[], int n)
-{
-    FILE *fa;
-    Tprogra reg;
-    int i, cont;
-
-    char temp[30];
-    strcpy(temp, nomArchivo);
-    strcat(temp, "_borrados.txt");
-
-    fa = fopen(temp, "a");
-
-    if (fa)
-    {
-        cont = contarRegArch(nomArchivo, 1);
-
-        if (cont > 0)
-        {
-            fprintf(fa, "\n");
-        }
-
-        for (i = 0; i < n; i++)
-        {
-            if (vect[i].status == 0)
-            {
-                fprintf(fa, "%4d.-  %6d      %-10s      %-10s      %-10s      %-10s          %2d      %-7s", cont, vect[i].matricula, vect[i].puesto, vect[i].nombre, vect[i].appat, vect[i].apmat, vect[i].edad, vect[i].sexo);
-
-                if (i < (n - 1))
-                {
-                    fprintf(fa, "\n");
-                }
-                cont++;
-            }
-        }
-
-        fclose(fa);
-    }
-}
-
 // Carga los registros de un arhivo de texto especificado.
-bool cargarArch(char nomArchivo[], Tprogra vect[], int *n)
+bool cargarArchTXT(char nomArchivo[], Tprogra vect[], int *n)
 {
     FILE *fa;
     Tprogra reg;
@@ -581,17 +558,17 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
                 break;
 
             case 2:
-                char puestos[8][11] = {"GERENTE", "SUBGERENTE", "JEFE", "SUPERVISOR", "ANALISTA", "PROGRAMADOR", "AUXILIAR", "SECRETARIA"};
+                char puestos[8][12] = {"GERENTE", "SUBGERENTE", "JEFE", "SUPERVISOR", "ANALISTA", "PROGRAMADOR", "AUXILIAR", "SECRETARIA"};
 
-                printf("1.- GERENTE");
-                printf("2.- SUBGERENTE");
-                printf("3.- JEFE");
-                printf("4.- SUPERVISOR");
-                printf("5.- ANALISTA");
-                printf("6.- PROGRAMADOR");
-                printf("7.- AUXILIAR");
-                printf("8.- SECRETARIA");
-                printf("ESCOGE UNA OPCION: ");
+                printf("1.- GERENTE\n");
+                printf("2.- SUBGERENTE\n");
+                printf("3.- JEFE\n");
+                printf("4.- SUPERVISOR\n");
+                printf("5.- ANALISTA\n");
+                printf("6.- PROGRAMADOR\n");
+                printf("7.- AUXILIAR\n");
+                printf("8.- SECRETARIA\n");
+                printf("\nESCOGE UNA OPCION: ");
 
                 op = valiNum(1, 8);
                 strcpy(reg.puesto, puestos[op - 1]);
@@ -601,6 +578,7 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
                 printf("Ingrese el nuevo nombre: ");
                 fflush(stdin);
                 gets(temp);
+                mayus(temp);
                 strcpy(reg.nombre, temp);
                 break;
 
@@ -608,6 +586,7 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
                 printf("Ingrese el nuevo apellido paterno: ");
                 fflush(stdin);
                 gets(temp);
+                mayus(temp);
                 strcpy(reg.appat, temp);
                 break;
 
@@ -615,6 +594,7 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
                 printf("Ingrese el nuevo apellido materno: ");
                 fflush(stdin);
                 gets(temp);
+                mayus(temp);
                 strcpy(reg.apmat, temp);
                 break;
 
@@ -625,10 +605,13 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
                 break;
 
             case 7:
-                printf("Ingrese el nuevo sexo: ");
-                fflush(stdin);
-                gets(temp);
-                strcpy(reg.sexo, temp);
+                char sexos[2][10] = {"MASCULINO", "FEMENINO"};
+                printf("1.- MASULINO\n");
+                printf("2.- FEEMENINO\n");
+                printf("\nESCOGE UNA OPCION: ");
+
+                op = valiNum(1, 2);
+                strcpy(reg.sexo, sexos[op - 1]);
                 break;
             }
 
@@ -636,5 +619,115 @@ void editarReg(Tprogra vect[], Tkey key, bool *band)
         } while (op != 0);
 
         vect[key] = reg;
+    }
+}
+
+// Muestra los registros de un archivo de texto especificado.
+void mostrarArchTXT(char nomArchivo[])
+{
+    FILE *fa;
+    Tprogra pers[N], reg;
+    reg.status = 1;
+    int n = 0;
+
+    char temp[30];
+    strcpy(temp, nomArchivo);
+    strcat(temp, "_activos.txt");
+
+    fa = fopen(temp, "r");
+
+    if (fa)
+    {
+        while (!feof(fa))
+        {
+            fscanf(fa, "%s %d %s %s %s %s %d %s", &temp, &reg.matricula, &reg.puesto, &reg.nombre, &reg.appat, &reg.apmat, &reg.edad, &reg.sexo);
+            pers[n++] = reg;
+        }
+
+        fclose(fa);
+        imprPersonas(pers, n, 1);
+    }
+    else
+    {
+        printf("No se encontro el archivo\n");
+    }
+}
+
+// Crea un archivo binario con los registros de un vector de personas especificado.
+void escrArchBin(Tprogra vect[], int n)
+{
+
+    FILE *fa;
+    Tprogra reg;
+
+    char nomArchivo[11] = "datos.dll";
+
+    rename("datos.dll", "datos.tmp");
+
+    fa = fopen(nomArchivo, "wb");
+
+    if (fa)
+    {
+        fwrite(vect, sizeof(Tprogra), n, fa);
+        fclose(fa);
+    }
+    else
+    {
+        printf("No se pudo crear el archivo\n");
+    }
+}
+
+// Carga los registros de un archivo binario especificado.
+bool cargarArchBin(Tprogra vect[], int *n, bool temp)
+{
+    FILE *fa;
+    Tprogra reg;
+
+    char nomArchivo[11];
+
+    (temp) ? strcpy(nomArchivo, "datos.tmp") : strcpy(nomArchivo, "datos.dll");
+
+    fa = fopen(nomArchivo, "rb");
+
+    if (fa)
+    {
+        while (fread(&reg, sizeof(Tprogra), 1, fa) == 1 && (*n) < N)
+        {
+            vect[(*n)++] = reg;
+        }
+
+        fclose(fa);
+        return true;
+    }
+
+    return false;
+}
+
+// Muestra los registros inactivos de un archivo binario especificado.
+void mostrarBorradosBin()
+{
+    FILE *fa;
+    Tprogra borrados[N], reg;
+    reg.status = 0;
+    int cont = 0;
+
+    fa = fopen("datos.dll", "rb");
+
+    if (fa)
+    {
+        while (fread(&reg, sizeof(Tprogra), 1, fa) == 1)
+        {
+            if (reg.status == 0)
+            {
+                borrados[cont++] = reg;
+            }
+        }
+
+        imprPersonas(borrados, cont, 0);
+        fclose(fa);
+    }
+    else
+    {
+        printf("No se encontro el archivo\n");
     }
 }

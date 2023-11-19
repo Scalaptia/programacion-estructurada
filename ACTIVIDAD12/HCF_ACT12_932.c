@@ -15,11 +15,11 @@ void menu(void);
 Tprogra genPersAlea(void);
 void imprPersonas(Tprogra vect[], int n, int status);
 void imprReg(Tprogra pers);
-void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch);
+void escrArchTXT(char nomArchivo[], Tprogra vect[], int n, bool arch);
 void leerNomArch(char nomArchivo[]);
 void actBorrados(char nomArchivo[], Tprogra vect[], int n);
 int cargarRegistros(Tprogra vect[], int *n);
-bool cargarArch(char nomArchivo[], Tprogra vect[], int *n);
+bool cargarArchTXT(char nomArchivo[], Tprogra vect[], int *n);
 int contarRegArch(char nomArchivo[], int status);
 
 //****  MAIN PRINCIPAL  *********
@@ -78,7 +78,7 @@ void menu()
             if (!cargado)
             {
                 leerNomArch(nomArchivo);
-                cargado = cargarArch(nomArchivo, ingenieros, &nPers);
+                cargado = cargarArchTXT(nomArchivo, ingenieros, &nPers);
 
                 if (cargado)
                 {
@@ -111,8 +111,8 @@ void menu()
 
             if (strcmp(nomArchivo, "\n") != 0)
             {
-                escrArch(nomArchivo, ingenieros, nPers, false);
-                escrArch(nomArchivo, ingenieros, nPers, true);
+                escrArchTXT(nomArchivo, ingenieros, nPers, false);
+                escrArchTXT(nomArchivo, ingenieros, nPers, true);
             }
             break;
 
@@ -195,8 +195,8 @@ void menu()
         case 7:
             leerNomArch(nomArchivo);
 
-            escrArch(nomArchivo, ingenieros, nPers, false);
-            escrArch(nomArchivo, ingenieros, nPers, true);
+            escrArchTXT(nomArchivo, ingenieros, nPers, false);
+            escrArchTXT(nomArchivo, ingenieros, nPers, true);
             break;
 
         // Contar registros
@@ -226,8 +226,8 @@ void menu()
         case 0:
             if (strcmp(nomArchivo, "\n") != 0)
             {
-                escrArch(nomArchivo, ingenieros, nPers, false);
-                escrArch(nomArchivo, ingenieros, nPers, true);
+                escrArchTXT(nomArchivo, ingenieros, nPers, false);
+                escrArchTXT(nomArchivo, ingenieros, nPers, true);
                 actBorrados(nomArchivo, ingenieros, nPers);
             }
             else
@@ -238,8 +238,8 @@ void menu()
                 {
                     leerNomArch(nomArchivo);
 
-                    escrArch(nomArchivo, ingenieros, nPers, false);
-                    escrArch(nomArchivo, ingenieros, nPers, true);
+                    escrArchTXT(nomArchivo, ingenieros, nPers, false);
+                    escrArchTXT(nomArchivo, ingenieros, nPers, true);
                     actBorrados(nomArchivo, ingenieros, nPers);
                 }
             }
@@ -354,7 +354,7 @@ void leerNomArch(char nomArchivo[])
 }
 
 // Escribe los registros de un vector de personas en un archivo de texto especificado.
-void escrArch(char nomArchivo[], Tprogra vect[], int n, bool arch)
+void escrArchTXT(char nomArchivo[], Tprogra vect[], int n, bool arch)
 {
     if (n <= 0)
     {
@@ -449,7 +449,7 @@ void actBorrados(char nomArchivo[], Tprogra vect[], int n)
 }
 
 // Carga los registros de un arhivo de texto especificado.
-bool cargarArch(char nomArchivo[], Tprogra vect[], int *n)
+bool cargarArchTXT(char nomArchivo[], Tprogra vect[], int *n)
 {
     FILE *fa;
     Tprogra reg;
