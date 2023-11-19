@@ -27,11 +27,10 @@ void leerNomArch(char nomArchivo[]);
 void escrArchTXT(char nomArchivo[], Tprogra vect[], int n, bool arch);
 bool cargarArchTXT(char nomArchivo[], Tprogra vect[], int *n);
 void mostrarArchTXT(char nomArchivo[]);
-int contarRegArch(char nomArchivo[], int status);
 
 void escrArchBin(Tprogra vect[], int n);
 bool cargarArchBin(Tprogra vect[], int *n, bool temp);
-void mostrarBorradosBin(void);
+void mostrarBorradosBin(bool temp);
 
 //****  MAIN PRINCIPAL  *********
 int main()
@@ -101,11 +100,6 @@ void menu()
                 ordenado = false;
             }
 
-            if (strcmp(nomArchivo, "\n") != 0)
-            {
-                escrArchTXT(nomArchivo, ingenieros, nPers, false);
-                escrArchTXT(nomArchivo, ingenieros, nPers, true);
-            }
             break;
 
         // Editar registro
@@ -228,6 +222,7 @@ void menu()
         // Escribir archivo binario
         case 9:
             escrArchBin(ingenieros, nPers);
+            printf("Archivo creado con exito\n");
             break;
 
         // Cargar archivo binario
@@ -263,7 +258,17 @@ void menu()
 
         // Mostrar registros inactivos
         case 11:
-            mostrarBorradosBin();
+            printf("Que archivo desea leer? (1 - datos.dll, 2 - datos.tmp): ");
+            op = valiNum(1, 2);
+
+            if (op == 1)
+            {
+                mostrarBorradosBin(false);
+            }
+            else
+            {
+                mostrarBorradosBin(true);
+            }
             break;
 
         case 0:
@@ -470,20 +475,6 @@ bool cargarArchTXT(char nomArchivo[], Tprogra vect[], int *n)
     }
 
     return false;
-}
-
-// Cuenta los registros de un archivo de texto especificado desde el ejecutable contadorReg.
-int contarRegArch(char nomArchivo[], int status)
-{
-    int cont;
-    char fileName[50];
-    char cmd[50];
-
-    system("gcc contadorReg.c -o contadorReg");
-    sprintf(cmd, "contadorReg.exe %s %d", nomArchivo, status);
-    cont = system(cmd);
-
-    return cont;
 }
 
 // Carga n cantidad de registros de personas aleatoriamente dentro del vector de personas especificado.
@@ -704,14 +695,18 @@ bool cargarArchBin(Tprogra vect[], int *n, bool temp)
 }
 
 // Muestra los registros inactivos de un archivo binario especificado.
-void mostrarBorradosBin()
+void mostrarBorradosBin(bool temp)
 {
     FILE *fa;
     Tprogra borrados[N], reg;
     reg.status = 0;
     int cont = 0;
 
-    fa = fopen("datos.dll", "rb");
+    char nomArchivo[11];
+
+    (temp) ? strcpy(nomArchivo, "datos.tmp") : strcpy(nomArchivo, "datos.dll");
+
+    fa = fopen(nomArchivo, "rb");
 
     if (fa)
     {
