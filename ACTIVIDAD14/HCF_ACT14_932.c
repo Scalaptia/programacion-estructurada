@@ -43,6 +43,7 @@ El programa deberá actualizar el Archivo Binario, a partir de solo registros v�
 /********* LIBRERIAS *********/
 #include "alexandria.h"
 
+/********* DEFINICIONES *********/
 #define N_AUTO 1
 
 //*** PROTOTIPOS DE FUNCIONES  ******
@@ -52,6 +53,8 @@ void menu(void);
 // Auxiliares
 TWrkr genPersAlea(void);
 void imprPersonas(Tindice vect[], int n, int status);
+void imprArchBin();
+void imprArchBinOrdenado();
 
 // Registros
 void imprReg(Tindice pers);
@@ -62,9 +65,9 @@ void leerNomArch(char nomArchivo[]);
 
 void escrArchTXT(char nomArchivo[], Tindice vect[], int n);
 
-void escrArchBin(Tindice vect[], int n);
-bool cargarArchBin(Tindice vect[], int *n);
-void mostrarArchBin(bool ord);
+void empaquetar(Tindice vect[], int n);
+bool cargarArchBin(TWrkr vect[]);
+bool cargarIndice(Tindice vect[], int *n);
 
 int contarRegArch(char nomArchivo[]);
 
@@ -114,6 +117,8 @@ void menu()
     system("PAUSE");
 
     Tindice indice[N]; // [ llave, índice] donde el campo llave es noempleado.
+    cargado = cargarIndice(indice, &nPers);
+
     Tkey i;
 
     system("CLS");
@@ -206,12 +211,11 @@ void menu()
 
         // Imprimir registros originales
         case 5:
-            imprPersonas(indice, nPers, 1);
+            imprArchBin();
             break;
 
         // Imprimir registros ordenados por matricula
         case 6:
-            imprPersonas(indice, nPers, 1);
             break;
 
         // Escribir archivos de texto
@@ -223,7 +227,6 @@ void menu()
 
         // Empaquetar registros
         case 8:
-            escrArchBin(indice, nPers);
             break;
         }
 
@@ -277,13 +280,13 @@ void imprPersonas(Tindice indice[], int n, int status)
 
     printf("Registros 1 - 40\n\n");
     printf("----------------------------------------------------------------------------------------------------------\n");
-    printf("  No  | MATRICULA | TELEFONO    | ESTADO      | PUESTO       | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+    printf("  No  | MATRICULA | TELEFONO   | ESTADO      | PUESTO       | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
     printf("----------------------------------------------------------------------------------------------------------\n");
     for (i = 0, activos = 1; i < n; i++)
     {
         if (vect[i].status == status)
         {
-            printf("%4d.-  %6d      %-0010d      %-13s      %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].enrollment, vect[i].cellPhone, vect[i].state, vect[i].JobPstion, vect[i].name, vect[i].LastName1, vect[i].LastName2, vect[i].age, vect[i].sex);
+            printf("%4d.-  %6d      %-7d      %-2s      %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].enrollment, vect[i].cellPhone, vect[i].state, vect[i].JobPstion, vect[i].name, vect[i].LastName1, vect[i].LastName2, vect[i].age, vect[i].sex);
             activos++;
         }
 
@@ -307,6 +310,53 @@ void imprPersonas(Tindice indice[], int n, int status)
             }
         }
     }
+}
+
+void imprArchBin()
+{
+    int i, activos, op;
+
+    int n = contarRegArch("datos");
+
+    TWrkr vect[n];
+    cargarArchBin(vect);
+
+    printf("Registros 1 - 40\n");
+    printf("------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("  No  | MATRICULA | TELEFONO   | ESTADO | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+    printf("------------------------------------------------------------------------------------------------------------------------------\n");
+    for (i = 0, activos = 1; i < n; i++)
+    {
+        if (vect[i].status == 1)
+        {
+            printf("%4d.-  %6d      %-7d      %-2s       %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].enrollment, vect[i].cellPhone, vect[i].state, vect[i].JobPstion, vect[i].name, vect[i].LastName1, vect[i].LastName2, vect[i].age, vect[i].sex);
+            activos++;
+        }
+
+        if (activos % 41 == 0 && activos < n)
+        {
+            printf("\n\n");
+            printf("Desea continuar? (0 - Si, 1 - No): ");
+            op = valiNum(0, 1);
+
+            if (op == 0)
+            {
+                system("CLS");
+                printf("Registros %d - %d\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
+                printf("------------------------------------------------------------------------------------------------------------------------------\n");
+                printf("  No  | MATRICULA | TELEFONO   | ESTADO | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+                printf("------------------------------------------------------------------------------------------------------------------------------\n");
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+}
+
+void imprArchBinOrdenado()
+{
 }
 
 // Imprime el registro de una persona.
@@ -415,7 +465,7 @@ int cargarRegistros(Tindice vect[], int *nPers)
 }
 
 // Crea un archivo binario con los registros de un vector de personas especificado.
-void escrArchBin(Tindice vect[], int n)
+void empaquetar(Tindice vect[], int n)
 {
 
     FILE *fa;
@@ -438,7 +488,37 @@ void escrArchBin(Tindice vect[], int n)
 }
 
 // Carga los registros de un archivo binario especificado.
-bool cargarArchBin(Tindice indice[], int *n)
+bool cargarArchBin(TWrkr vect[])
+{
+    FILE *fa;
+    TWrkr reg;
+    int n = 0;
+
+    char nomArchivo[11];
+    strcpy(nomArchivo, "datos.dat");
+
+    fa = fopen(nomArchivo, "rb");
+
+    if (fa)
+    {
+        while (fread(&reg, sizeof(TWrkr), 1, fa) == 1)
+        {
+            if (reg.status == 1)
+            {
+                vect[n] = reg;
+                n++;
+            }
+        }
+
+        fclose(fa);
+        return true;
+    }
+
+    return false;
+}
+
+// Carga los registros de un archivo binario especificado en un vector de indices
+bool cargarIndice(Tindice indice[], int *n)
 {
     FILE *fa;
 
@@ -458,11 +538,13 @@ bool cargarArchBin(Tindice indice[], int *n)
         while (fread(&reg, sizeof(TWrkr), 1, fa) == 1)
         {
             if (reg.status == 1)
+            {
                 vect[(*n)++] = reg;
 
-            // Crear indice
-            indice[(*n) - 1].key = reg.enrollment;
-            indice[(*n) - 1].indice = (*n) - 1;
+                // Crear indice
+                indice[(*n) - 1].key = reg.enrollment;
+                indice[(*n) - 1].indice = (*n) - 1;
+            }
         }
 
         fclose(fa);
@@ -470,39 +552,6 @@ bool cargarArchBin(Tindice indice[], int *n)
     }
 
     return false;
-}
-
-// Mustra los registros de un archivo binario especificado.
-void mostrarArchBin(bool ord)
-{
-    FILE *fa;
-
-    int N = contarRegArch("datos");
-    N *= 1.25;
-
-    TWrkr registros[N], reg;
-    reg.status = 1;
-    int cont = 0;
-
-    char nomArchivo[11];
-    strcpy(nomArchivo, "datos.dat");
-
-    fa = fopen(nomArchivo, "rb");
-
-    if (fa)
-    {
-        while (fread(&reg, sizeof(Tindice), 1, fa) == 1)
-        {
-            registros[cont++] = reg;
-        }
-
-        imprPersonas(registros, cont, 1);
-        fclose(fa);
-    }
-    else
-    {
-        printf("No se encontro el archivo\n");
-    }
 }
 
 // Cuenta los registros de un archivo de texto especificado desde el ejecutable contadorReg.
