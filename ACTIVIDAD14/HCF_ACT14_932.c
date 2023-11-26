@@ -50,13 +50,17 @@ El programa deberá actualizar el Archivo Binario, a partir de solo registros v�
 int msges(void);
 void menu(void);
 
+void eliminarReg(Tindice indice[], int *n, bool ordenado);
+void buscarReg(Tindice indice[], int n, bool ordenado);
+void ordenarReg(Tindice indice[], int n, bool ordenado);
+
 // Auxiliares
 TWrkr genPersAlea(void);
 void imprArchBin();
 void imprArchBinOrdenado(Tindice indice[], int n);
 
 // Registros
-void imprReg(Tindice pers);
+void imprReg(TWrkr pers);
 int cargarRegistros(Tindice vect[], int *n);
 
 // Archivos
@@ -67,7 +71,6 @@ void escrArchTXT(char nomArchivo[], Tindice vect[], int n);
 void empaquetar(Tindice vect[], int n);
 bool cargarArchBin(TWrkr vect[]);
 bool cargarIndice(Tindice vect[], int *n);
-
 int contarRegArch(char nomArchivo[]);
 
 //****  MAIN PRINCIPAL  *********
@@ -102,7 +105,7 @@ int msges()
 /********* MENU *********/
 void menu()
 {
-    int op, num;
+    int op;
     int nPers = 0;
     bool ordenado = false, cargado = false;
 
@@ -118,7 +121,7 @@ void menu()
     Tindice indice[N]; // [ llave, índice] donde el campo llave es noempleado.
     cargado = cargarIndice(indice, &nPers);
 
-    Tkey i;
+    Tkey i, num;
 
     system("CLS");
 
@@ -147,52 +150,12 @@ void menu()
 
         // Eliminar registro
         case 2:
-            printf("Ingrese la matricula del estudiante que desea eliminar: ");
-            num = valiNum(300000, 399999);
-            system("CLS");
-
-            i = busqOpt(indice, nPers, num, ordenado);
-
-            if (i != -1)
-            {
-                imprReg(indice[i]);
-                printf("\n\nDesea eliminar el registro? (1 - Si, 2 - No) ");
-                op = valiNum(1, 2);
-                system("CLS");
-
-                if (op == 1)
-                {
-                    // Eliminar registro indice[i]
-                    printf("Matricula eliminada con exito\n");
-                }
-                else
-                {
-                    printf("Matricula no eliminada\n");
-                }
-            }
-            else
-            {
-                printf("Matricula no encontrada\n");
-            }
+            eliminarReg(indice, &nPers, ordenado);
             break;
 
         // Buscar registros
         case 3:
-            printf("Ingrese la matricula del estudiante que desea buscar: ");
-            num = valiNum(300000, 399999);
-            system("CLS");
-
-            i = busqOpt(indice, nPers, num, ordenado);
-
-            if (i != -1)
-            {
-                printf("Matricula encontrada\n\n", num);
-                imprReg(indice[i]);
-            }
-            else
-            {
-                printf("La matricula %d no se encuentra en el vector\n", num);
-            }
+            buscarReg(indice, nPers, ordenado);
             break;
 
         // Ordenar registros
@@ -366,10 +329,8 @@ void imprArchBinOrdenado(Tindice indice[], int n)
 }
 
 // Imprime el registro de una persona.
-void imprReg(Tindice indice)
+void imprReg(TWrkr pers)
 {
-    TWrkr pers;
-
     printf("STATUS: ");
     printf("%s\n", pers.status == 1 ? "ACTIVO" : "NO ACTIVO");
     printf("MATRICULA: ");
@@ -565,4 +526,84 @@ int contarRegArch(char nomArchivo[])
     cont = system(cmd);
 
     return cont;
+}
+
+void eliminarReg(Tindice indice[], int *n, bool ordenado)
+{
+    Tkey i;
+    int num, op;
+    FILE *fa;
+    TWrkr reg;
+
+    printf("Ingrese la matricula del estudiante que desea eliminar: ");
+    num = valiNum(300000, 399999);
+    system("CLS");
+
+    i = busqOpt(indice, *n, num, ordenado);
+
+    if (i != -1)
+    {
+        fa = fopen("datos.dat", "rb+");
+        fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
+        fread(&reg, sizeof(TWrkr), 1, fa);
+        fclose(fa);
+
+        imprReg(reg);
+        printf("\n\nDesea eliminar el registro? (1 - Si, 2 - No) ");
+        op = valiNum(1, 2);
+        system("CLS");
+
+        if (op == 1)
+        {
+            fa = fopen("datos.dat", "rb+");
+            fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
+            reg.status = 0;
+            fwrite(&reg, sizeof(TWrkr), 1, fa);
+            fclose(fa);
+            printf("Matricula eliminada con exito\n");
+        }
+        else
+        {
+            printf("Matricula no eliminada\n");
+        }
+    }
+    else
+    {
+        printf("Matricula no encontrada\n");
+    }
+}
+
+void buscarReg(Tindice indice[], int n, bool ordenado)
+{
+    Tkey i;
+    int num;
+
+    FILE *fa;
+    TWrkr reg;
+
+    printf("Ingrese la matricula del estudiante que desea buscar: ");
+    num = valiNum(300000, 399999);
+    system("CLS");
+
+    i = busqOpt(indice, n, num, ordenado);
+
+    if (i != -1)
+    {
+        printf("Matricula encontrada\n\n", num);
+        fa = fopen("datos.dat", "rb");
+
+        fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
+        fread(&reg, sizeof(TWrkr), 1, fa);
+        imprReg(reg);
+
+        fclose(fa);
+    }
+    else
+    {
+        printf("La matricula %d no se encuentra en el vector\n", num);
+    }
+}
+
+void ordenarReg(Tindice indice[], int n, bool ordenado)
+{
 }

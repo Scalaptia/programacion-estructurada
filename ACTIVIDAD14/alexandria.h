@@ -518,24 +518,40 @@ void genAp(char cadena[])
 
 void genPuesto(char cadena[])
 {
-    char puestos[8][12] = {"GERENTE", "SUBGERENTE", "JEFE", "SUPERVISOR", "ANALISTA", "PROGRAMADOR", "AUXILIAR", "SECRETARIA"};
-    int probabilidades[8] = {5, 10, 3, 7, 25, 20, 15, 15}; // suma = 100
+    char puestos[33][30] = {"DevSoft",
+                            "IngRed",
+                            "AnlDatos",
+                            "DisGraf",
+                            "EspRRHH",
+                            "GteProj",
+                            "ConsFin",
+                            "MedGen",
+                            "Enferm",
+                            "Abogado",
+                            "AnMktDg",
+                            "EspSeg",
+                            "IngCivil",
+                            "Contado",
+                            "ProfPrim",
+                            "ChefEje",
+                            "TecSup",
+                            "DisUX",
+                            "AsistAdm",
+                            "AnlVent",
+                            "InvCien",
+                            "AnlSist",
+                            "PsOrg",
+                            "EspLog",
+                            "IngElec",
+                            "EdCont",
+                            "Arquitect",
+                            "AsServ",
+                            "Traduct",
+                            "EspERen",
+                            "RepVInt",
+                            "TrabSoc"};
 
-    int acumulado = 0;
-    int i;
-    int num = numAleatorio(1, 100);
-
-    for (i = 0; i < 8; ++i)
-    {
-        acumulado += probabilidades[i];
-
-        if (num <= acumulado)
-        {
-            break;
-        }
-    }
-
-    strcpy(cadena, puestos[i]);
+    strcpy(cadena, puestos[numAleatorio(0, 32)]);
 }
 
 void genEdo(char estado[])
