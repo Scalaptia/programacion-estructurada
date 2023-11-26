@@ -50,6 +50,7 @@ El programa deber√° actualizar el Archivo Binario, a partir de solo registros v√
 int msges(void);
 void menu(void);
 
+void agregarReg(Tindice indice[], int *n, bool ordenado);
 void eliminarReg(Tindice indice[], int *n, bool ordenado);
 void buscarReg(Tindice indice[], int n, bool ordenado);
 void ordenarReg(Tindice indice[], int n, bool ordenado);
@@ -134,18 +135,7 @@ void menu()
         {
         // Agregar registros
         case 1:
-            num = cargarRegistros(indice, &nPers);
-
-            if (num == -1)
-            {
-                printf("Ha llegado al maximo de personas\n");
-            }
-            else
-            {
-                printf("Se han agregado %d personas\n", N_AUTO);
-                ordenado = false;
-            }
-
+            agregarReg(indice, &nPers, ordenado);
             break;
 
         // Eliminar registro
@@ -431,7 +421,6 @@ int cargarRegistros(Tindice vect[], int *nPers)
     }
 }
 
-// Crea un archivo binario con los registros de un vector de personas especificado.
 void empaquetar(Tindice vect[], int n)
 {
 
@@ -528,6 +517,28 @@ int contarRegArch(char nomArchivo[])
     return cont;
 }
 
+// Agrega un registro al vector de indices y al final del archivo binario.
+void agregarReg(Tindice indice[], int *n, bool ordenado)
+{
+    TWrkr reg;
+    FILE *fa;
+
+    reg = genPersAlea();
+
+    while (busqOpt(indice, *n, reg.enrollment, ordenado) != -1)
+    {
+        reg.enrollment = matriAlea();
+    }
+
+    fa = fopen("datos.dat", "ab");
+    fwrite(&reg, sizeof(TWrkr), 1, fa);
+    fclose(fa);
+
+    indice[*n].key = reg.enrollment;
+    indice[*n].indice = *n;
+    (*n)++;
+}
+
 void eliminarReg(Tindice indice[], int *n, bool ordenado)
 {
     Tkey i;
@@ -544,9 +555,9 @@ void eliminarReg(Tindice indice[], int *n, bool ordenado)
     if (i != -1)
     {
         fa = fopen("datos.dat", "rb+");
+
         fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
         fread(&reg, sizeof(TWrkr), 1, fa);
-        fclose(fa);
 
         imprReg(reg);
         printf("\n\nDesea eliminar el registro? (1 - Si, 2 - No) ");
@@ -555,17 +566,18 @@ void eliminarReg(Tindice indice[], int *n, bool ordenado)
 
         if (op == 1)
         {
-            fa = fopen("datos.dat", "rb+");
-            fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
             reg.status = 0;
+            fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
             fwrite(&reg, sizeof(TWrkr), 1, fa);
-            fclose(fa);
+
             printf("Matricula eliminada con exito\n");
         }
         else
         {
             printf("Matricula no eliminada\n");
         }
+
+        fclose(fa);
     }
     else
     {

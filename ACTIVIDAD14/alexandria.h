@@ -178,11 +178,11 @@ int matriAlea(void)
 
 int numTelAlea()
 {
-    int codigoPais = rand() % 1000;
-    int codigoArea = rand() % 1000;
-    int numeroLocal = rand() % 10000000;
+    int numeroTelefono, mid, low;
+    mid = rand() % 100 * 1000;
+    low = rand() % 1000;
 
-    int numeroTelefono = codigoPais * 10000000 + codigoArea * 10000 + numeroLocal;
+    numeroTelefono = 1000000 + mid + low;
 
     return numeroTelefono;
 }
@@ -518,45 +518,14 @@ void genAp(char cadena[])
 
 void genPuesto(char cadena[])
 {
-    char puestos[33][30] = {"DevSoft",
-                            "IngRed",
-                            "AnlDatos",
-                            "DisGraf",
-                            "EspRRHH",
-                            "GteProj",
-                            "ConsFin",
-                            "MedGen",
-                            "Enferm",
-                            "Abogado",
-                            "AnMktDg",
-                            "EspSeg",
-                            "IngCivil",
-                            "Contado",
-                            "ProfPrim",
-                            "ChefEje",
-                            "TecSup",
-                            "DisUX",
-                            "AsistAdm",
-                            "AnlVent",
-                            "InvCien",
-                            "AnlSist",
-                            "PsOrg",
-                            "EspLog",
-                            "IngElec",
-                            "EdCont",
-                            "Arquitect",
-                            "AsServ",
-                            "Traduct",
-                            "EspERen",
-                            "RepVInt",
-                            "TrabSoc"};
+    char puestos[][30] = {"DevSoft", "IngRed", "AnlDatos", "DisGraf", "EspRRHH", "GteProj", "ConsFin", "MedGen", "Enferm", "Abogado", "AnMktDg", "EspSeg", "IngCivil", "Contado", "ProfPrim", "ChefEje", "TecSup", "DisUX", "AsistAdm", "AnlVent", "InvCien", "AnlSist", "PsOrg", "EspLog", "IngElec", "EdCont", "Arquitect", "AsServ", "Traduct", "EspERen", "RepVInt", "TrabSoc"};
 
-    strcpy(cadena, puestos[numAleatorio(0, 32)]);
+    strcpy(cadena, puestos[numAleatorio(0, 31)]);
 }
 
 void genEdo(char estado[])
 {
-    char estados[][19] = {"AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR", "CAMPECHE", "COAHUILA", "COLIMA", "CHIAPAS", "CHIHUAHUA", "DISTRITO FEDERAL", "DURANGO", "GUANAJUATO", "GUERRERO", "HIDALGO", "JALISCO", "MEXICO", "MICHOACAN", "MORELOS", "NAYARIT", "NUEVO LEON", "OAXACA", "PUEBLA", "QUERETARO", "QUINTANA ROO", "SAN LUIS POTOSI", "SINALOA", "SONORA", "TABASCO", "TAMAULIPAS", "TLAXCALA", "VERACRUZ", "YUCATAN", "ZACATECAS", "EXTRANJERO"};
+    char estados[][3] = {"AS", "BC", "BS", "CC", "CL", "CM", "CS", "CH", "DF", "DG", "GT", "GR", "HG", "JC", "MC", "MN", "MS", "NT", "NL", "OC", "PL", "QT", "QR", "SP", "SL", "SR", "TC", "TS", "TL", "VZ", "YN", "ZS", "NE"};
     int num = numAleatorio(0, 32);
 
     strcpy(estado, estados[num]);
