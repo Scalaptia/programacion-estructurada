@@ -52,9 +52,8 @@ void menu(void);
 
 // Auxiliares
 TWrkr genPersAlea(void);
-void imprPersonas(Tindice vect[], int n, int status);
 void imprArchBin();
-void imprArchBinOrdenado();
+void imprArchBinOrdenado(Tindice indice[], int n);
 
 // Registros
 void imprReg(Tindice pers);
@@ -62,9 +61,9 @@ int cargarRegistros(Tindice vect[], int *n);
 
 // Archivos
 void leerNomArch(char nomArchivo[]);
-
 void escrArchTXT(char nomArchivo[], Tindice vect[], int n);
 
+// Archivos binarios
 void empaquetar(Tindice vect[], int n);
 bool cargarArchBin(TWrkr vect[]);
 bool cargarIndice(Tindice vect[], int *n);
@@ -216,6 +215,7 @@ void menu()
 
         // Imprimir registros ordenados por matricula
         case 6:
+            imprArchBinOrdenado(indice, nPers);
             break;
 
         // Escribir archivos de texto
@@ -271,47 +271,6 @@ TWrkr genPersAlea(void)
     return pers;
 }
 
-// Imprime todas las personas en un vector dado.
-void imprPersonas(Tindice indice[], int n, int status)
-{
-    int i, activos, op;
-
-    TWrkr vect[n];
-
-    printf("Registros 1 - 40\n\n");
-    printf("----------------------------------------------------------------------------------------------------------\n");
-    printf("  No  | MATRICULA | TELEFONO   | ESTADO      | PUESTO       | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-    printf("----------------------------------------------------------------------------------------------------------\n");
-    for (i = 0, activos = 1; i < n; i++)
-    {
-        if (vect[i].status == status)
-        {
-            printf("%4d.-  %6d      %-7d      %-2s      %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].enrollment, vect[i].cellPhone, vect[i].state, vect[i].JobPstion, vect[i].name, vect[i].LastName1, vect[i].LastName2, vect[i].age, vect[i].sex);
-            activos++;
-        }
-
-        if (activos % 41 == 0 && activos < n)
-        {
-            printf("\n\n");
-            printf("Desea continuar? (0 - Si, 1 - No): ");
-            op = valiNum(0, 1);
-
-            if (op == 0)
-            {
-                system("CLS");
-                printf("Registros %d - %d\n\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
-                printf("----------------------------------------------------------------------------------------------------------\n");
-                printf("  No  | MATRICULA | TELEFONO    | ESTADO      | PUESTO       | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-                printf("----------------------------------------------------------------------------------------------------------\n");
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
-}
-
 void imprArchBin()
 {
     int i, activos, op;
@@ -355,8 +314,55 @@ void imprArchBin()
     }
 }
 
-void imprArchBinOrdenado()
+void imprArchBinOrdenado(Tindice indice[], int n)
 {
+    int i, activos, op;
+
+    Tindice indiceOrdenado[n];
+    for (i = 0; i < n; i++)
+    {
+        indiceOrdenado[i] = indice[i];
+    }
+    ordOpt(indiceOrdenado, n);
+
+    FILE *fa;
+    TWrkr reg;
+    fa = fopen("datos.dat", "rb");
+
+    printf("Registros 1 - 40\n");
+    printf("------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("  No  | MATRICULA | TELEFONO   | ESTADO | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+    printf("------------------------------------------------------------------------------------------------------------------------------\n");
+    for (i = 0, activos = 1; i < n; i++)
+    {
+        fseek(fa, indiceOrdenado[i].indice * sizeof(TWrkr), SEEK_SET);
+        fread(&reg, sizeof(TWrkr), 1, fa);
+
+        printf("%4d.-  %6d      %-7d      %-2s       %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, reg.enrollment, reg.cellPhone, reg.state, reg.JobPstion, reg.name, reg.LastName1, reg.LastName2, reg.age, reg.sex);
+        activos++;
+
+        if (activos % 41 == 0 && activos < n)
+        {
+            printf("\n\n");
+            printf("Desea continuar? (0 - Si, 1 - No): ");
+            op = valiNum(0, 1);
+
+            if (op == 0)
+            {
+                system("CLS");
+                printf("Registros %d - %d\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
+                printf("------------------------------------------------------------------------------------------------------------------------------\n");
+                printf("  No  | MATRICULA | TELEFONO   | ESTADO | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+                printf("------------------------------------------------------------------------------------------------------------------------------\n");
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    fclose(fa);
 }
 
 // Imprime el registro de una persona.
@@ -472,9 +478,8 @@ void empaquetar(Tindice vect[], int n)
     Tindice reg;
 
     rename("datos.dat", "datos.bak");
-    char nomArchivo[11] = "datos.dat";
 
-    fa = fopen(nomArchivo, "wb");
+    fa = fopen("datos.dat", "wb");
 
     if (fa)
     {
@@ -494,10 +499,7 @@ bool cargarArchBin(TWrkr vect[])
     TWrkr reg;
     int n = 0;
 
-    char nomArchivo[11];
-    strcpy(nomArchivo, "datos.dat");
-
-    fa = fopen(nomArchivo, "rb");
+    fa = fopen("datos.dat", "rb");
 
     if (fa)
     {
@@ -528,10 +530,7 @@ bool cargarIndice(Tindice indice[], int *n)
     TWrkr vect[N];
     TWrkr reg;
 
-    char nomArchivo[11];
-    strcpy(nomArchivo, "datos.dat");
-
-    fa = fopen(nomArchivo, "rb");
+    fa = fopen("datos.dat", "rb");
 
     if (fa)
     {
