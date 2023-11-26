@@ -50,27 +50,23 @@ El programa deberá actualizar el Archivo Binario, a partir de solo registros v�
 int msges(void);
 void menu(void);
 
-void agregarReg(Tindice indice[], int *n, bool ordenado);
-void eliminarReg(Tindice indice[], int *n, bool ordenado);
-void buscarReg(Tindice indice[], int n, bool ordenado);
-void ordenarReg(Tindice indice[], int n, bool ordenado);
-
 // Auxiliares
+void leerNomArch(char nomArchivo[]);
 TWrkr genPersAlea(void);
-void imprArchBin();
-void imprArchBinOrdenado(Tindice indice[], int n);
+void imprArchBin(Tindice indice[], int n, bool ordenado);
 
 // Registros
 void imprReg(TWrkr pers);
-int cargarRegistros(Tindice vect[], int *n);
+void agregarReg(Tindice indice[], int *n, bool ordenado);
+void eliminarReg(Tindice indice[], int *n, bool ordenado);
+void buscarReg(Tindice indice[], int n, bool ordenado);
+void ordenarReg(Tindice indice[], int n, bool *ordenado);
 
 // Archivos
-void leerNomArch(char nomArchivo[]);
-void escrArchTXT(char nomArchivo[], Tindice vect[], int n);
+void escrArchTXT(char nomArchivo[], Tindice vect[], int n, bool ordenado);
 
 // Archivos binarios
-void empaquetar(Tindice vect[], int n);
-bool cargarArchBin(TWrkr vect[]);
+void empaquetar(Tindice indice[], int *n);
 bool cargarIndice(Tindice vect[], int *n);
 int contarRegArch(char nomArchivo[]);
 
@@ -89,12 +85,12 @@ int msges()
     int op;
     system("CLS");
     printf("\n   M   E   N   U \n");
-    printf("1.- AGREGAR \n");
+    printf("1.- AGREGAR REGISTRO \n");
     printf("2.- ELIMINAR REGISTRO \n");
-    printf("3.- BUSCAR \n");
-    printf("4.- ORDENAR \n");
-    printf("5.- IMPRIMIR (ARCHIVO ORIGINAL) \n");
-    printf("6.- IMPRIMIR (ARCHIVO ORDENADO) \n");
+    printf("3.- BUSCAR REGISTRO \n");
+    printf("4.- ORDENAR INDICE \n");
+    printf("5.- IMPRIMIR ARCHIVO \n");
+    printf("6.- IMPRIMIR INDICE \n");
     printf("7.- GENERAR ARCHIVO TEXTO \n");
     printf("8.- EMPAQUETAR \n");
     printf("9.- SALIR  \n");
@@ -108,21 +104,14 @@ void menu()
 {
     int op;
     int nPers = 0;
-    bool ordenado = false, cargado = false;
-
+    bool ordenado = false;
     char nomArchivo[15];
-    strcpy(nomArchivo, "\n");
 
     int N = contarRegArch("datos");
     N *= 1.25;
 
-    printf("N: %d\n", N);
-    system("PAUSE");
-
-    Tindice indice[N]; // [ llave, índice] donde el campo llave es noempleado.
-    cargado = cargarIndice(indice, &nPers);
-
-    Tkey i, num;
+    Tindice indice[N];
+    cargarIndice(indice, &nPers);
 
     system("CLS");
 
@@ -150,36 +139,39 @@ void menu()
 
         // Ordenar registros
         case 4:
-            if (ordenado == false)
-            {
-                ordenado = ordOpt(indice, nPers);
-                printf("El vector ha sido ordenado\n");
-            }
-            else
-            {
-                printf("El vector ya estaba ordenado\n");
-            }
+            ordenarReg(indice, nPers, &ordenado);
             break;
 
-        // Imprimir registros originales
+        // Imprimir registros originales desde el archivo
         case 5:
-            imprArchBin();
+            imprArchBin(indice, nPers, false);
             break;
 
-        // Imprimir registros ordenados por matricula
+        // Imprimir registros ordenados desde el indice
         case 6:
-            imprArchBinOrdenado(indice, nPers);
+            imprArchBin(indice, nPers, true);
             break;
 
-        // Escribir archivos de texto
+        // Escribir archivo de texto
         case 7:
             leerNomArch(nomArchivo);
 
-            escrArchTXT(nomArchivo, indice, nPers);
+            system("CLS");
+            printf("1 - Archivo\n2 - Indice\n\nElija una opcion: ");
+            if (valiNum(1, 2) == 1)
+            {
+                escrArchTXT(nomArchivo, indice, nPers, false);
+            }
+            else
+            {
+                escrArchTXT(nomArchivo, indice, nPers, true);
+            }
+
             break;
 
         // Empaquetar registros
         case 8:
+            empaquetar(indice, &nPers);
             break;
         }
 
@@ -224,14 +216,13 @@ TWrkr genPersAlea(void)
     return pers;
 }
 
-void imprArchBin()
+void imprArchBin(Tindice indice[], int n, bool ordenado)
 {
     int i, activos, op;
 
-    int n = contarRegArch("datos");
-
-    TWrkr vect[n];
-    cargarArchBin(vect);
+    FILE *fa;
+    TWrkr reg;
+    fa = fopen("datos.dat", "rb");
 
     printf("Registros 1 - 40\n");
     printf("------------------------------------------------------------------------------------------------------------------------------\n");
@@ -239,9 +230,20 @@ void imprArchBin()
     printf("------------------------------------------------------------------------------------------------------------------------------\n");
     for (i = 0, activos = 1; i < n; i++)
     {
-        if (vect[i].status == 1)
+        if (ordenado)
         {
-            printf("%4d.-  %6d      %-7d      %-2s       %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, vect[i].enrollment, vect[i].cellPhone, vect[i].state, vect[i].JobPstion, vect[i].name, vect[i].LastName1, vect[i].LastName2, vect[i].age, vect[i].sex);
+            fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
+        }
+        else
+        {
+            fseek(fa, i * sizeof(TWrkr), SEEK_SET);
+        }
+
+        fread(&reg, sizeof(TWrkr), 1, fa);
+
+        if (reg.status == 1)
+        {
+            printf("%4d.-  %6d      %-7d      %-2s       %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, reg.enrollment, reg.cellPhone, reg.state, reg.JobPstion, reg.name, reg.LastName1, reg.LastName2, reg.age, reg.sex);
             activos++;
         }
 
@@ -261,55 +263,7 @@ void imprArchBin()
             }
             else
             {
-                return;
-            }
-        }
-    }
-}
-
-void imprArchBinOrdenado(Tindice indice[], int n)
-{
-    int i, activos, op;
-
-    Tindice indiceOrdenado[n];
-    for (i = 0; i < n; i++)
-    {
-        indiceOrdenado[i] = indice[i];
-    }
-    ordOpt(indiceOrdenado, n);
-
-    FILE *fa;
-    TWrkr reg;
-    fa = fopen("datos.dat", "rb");
-
-    printf("Registros 1 - 40\n");
-    printf("------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("  No  | MATRICULA | TELEFONO   | ESTADO | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-    printf("------------------------------------------------------------------------------------------------------------------------------\n");
-    for (i = 0, activos = 1; i < n; i++)
-    {
-        fseek(fa, indiceOrdenado[i].indice * sizeof(TWrkr), SEEK_SET);
-        fread(&reg, sizeof(TWrkr), 1, fa);
-
-        printf("%4d.-  %6d      %-7d      %-2s       %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", activos - 1, reg.enrollment, reg.cellPhone, reg.state, reg.JobPstion, reg.name, reg.LastName1, reg.LastName2, reg.age, reg.sex);
-        activos++;
-
-        if (activos % 41 == 0 && activos < n)
-        {
-            printf("\n\n");
-            printf("Desea continuar? (0 - Si, 1 - No): ");
-            op = valiNum(0, 1);
-
-            if (op == 0)
-            {
-                system("CLS");
-                printf("Registros %d - %d\n", activos + 1, (activos + 40) > n ? n : (activos + 40));
-                printf("------------------------------------------------------------------------------------------------------------------------------\n");
-                printf("  No  | MATRICULA | TELEFONO   | ESTADO | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-                printf("------------------------------------------------------------------------------------------------------------------------------\n");
-            }
-            else
-            {
+                fclose(fa);
                 return;
             }
         }
@@ -355,129 +309,87 @@ void leerNomArch(char nomArchivo[])
     } while (strcmp(nomArchivo, "\n") == 0);
 }
 
-// Escribe los registros de un vector de personas en un archivo de texto especificado.
-void escrArchTXT(char nomArchivo[], Tindice indice[], int n)
+// Escribe un archivo de texto con los registros especificados. Escribir
+void escrArchTXT(char nomArchivo[], Tindice indice[], int n, bool ordenado)
 {
-    if (n <= 0)
-    {
-        printf("No hay registros para escribir\n");
-        return;
-    }
-
     int i, cont = 0;
+    TWrkr reg;
 
     FILE *fa;
-    TWrkr vect[n];
+    FILE *fb;
 
     char temp[30];
     strcpy(temp, nomArchivo);
     strcat(temp, ".txt");
 
     fa = fopen(temp, "w");
+    fb = fopen("datos.dat", "rb");
 
-    fprintf(fa, "----------------------------------------------------------------------------------------------------------\n");
-    fprintf(fa, "  No  | MATRICULA | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
-    fprintf(fa, "----------------------------------------------------------------------------------------------------------\n");
+    fprintf(fa, "------------------------------------------------------------------------------------------------------------------------------\n");
+    fprintf(fa, "  No  | MATRICULA | TELEFONO   | ESTADO | PUESTO         | NOMBRE        | APELLIDO P.  |  APELLIDO MAT.     | EDAD  | SEXO \n");
+    fprintf(fa, "------------------------------------------------------------------------------------------------------------------------------\n");
 
-    for (i = 0; i < n; i++)
+    for (i = 0, cont = 1; i < n; i++)
     {
-        if (vect[i].status == 1)
+        if (ordenado)
         {
-            fprintf(fa, "%4d.-  %6d      %-0010d      %-13s      %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", cont, vect[i].enrollment, vect[i].cellPhone, vect[i].state, vect[i].JobPstion, vect[i].name, vect[i].LastName1, vect[i].LastName2, vect[i].age, vect[i].sex);
+            fseek(fb, indice[i].indice * sizeof(TWrkr), SEEK_SET);
+        }
+        else
+        {
+            fseek(fb, i * sizeof(TWrkr), SEEK_SET);
+        }
 
-            if (i < (n - 1))
-            {
-                fprintf(fa, "\n");
-            }
+        fread(&reg, sizeof(TWrkr), 1, fb);
+
+        if (reg.status == 1)
+        {
+            fprintf(fa, "%4d.-  %6d      %-7d      %-2s       %-11s      %-10s      %-10s      %-10s          %2d      %-7s\n", cont - 1, reg.enrollment, reg.cellPhone, reg.state, reg.JobPstion, reg.name, reg.LastName1, reg.LastName2, reg.age, reg.sex);
             cont++;
         }
     }
 
-    fprintf(fa, "\n----------------------------------------------------------------------------------------------------------\n");
-    fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia        www.profeyepiz.com      @2023-2                     --\n");
-    fprintf(fa, "----------------------------------------------------------------------------------------------------------");
+    fprintf(fa, "\n------------------------------------------------------------------------------------------------------------------------------\n");
+    fprintf(fa, "--  TODOS LOS DERECHOS RESERVADOS @Scalaptia     ONLYCODES      ESPY               www.profeyepiz.com      @2023-2          --\n");
+    fprintf(fa, "------------------------------------------------------------------------------------------------------------------------------");
 
     fclose(fa);
+    fclose(fb);
 }
 
-// Carga n cantidad de registros de personas aleatoriamente dentro del vector de personas especificado.
-int cargarRegistros(Tindice vect[], int *nPers)
+// Actualiza el archivo binario eliminando los registros no activos.
+void empaquetar(Tindice indice[], int *n)
 {
-    int i;
-    TWrkr pers;
-
-    for (i = 0; i < N_AUTO; i++)
-    {
-        pers = genPersAlea();
-
-        while (busqSeq(vect, *nPers, pers.enrollment) != -1)
-        {
-            pers.enrollment = matriAlea();
-        }
-
-        // Agregar persona al vector (archivo binario)
-
-        // Agragar persona al vector de indices
-    }
-}
-
-void empaquetar(Tindice vect[], int n)
-{
-
+    TWrkr reg;
     FILE *fa;
-    Tindice reg;
+    FILE *fb;
 
     rename("datos.dat", "datos.bak");
 
     fa = fopen("datos.dat", "wb");
+    fb = fopen("datos.bak", "rb");
 
-    if (fa)
+    while (fread(&reg, sizeof(TWrkr), 1, fb) == 1)
     {
-        fwrite(vect, sizeof(Tindice), n, fa);
-        fclose(fa);
-    }
-    else
-    {
-        printf("No se pudo crear el archivo\n");
-    }
-}
-
-// Carga los registros de un archivo binario especificado.
-bool cargarArchBin(TWrkr vect[])
-{
-    FILE *fa;
-    TWrkr reg;
-    int n = 0;
-
-    fa = fopen("datos.dat", "rb");
-
-    if (fa)
-    {
-        while (fread(&reg, sizeof(TWrkr), 1, fa) == 1)
+        if (reg.status == 1)
         {
-            if (reg.status == 1)
-            {
-                vect[n] = reg;
-                n++;
-            }
+            fwrite(&reg, sizeof(TWrkr), 1, fa);
         }
-
-        fclose(fa);
-        return true;
     }
 
-    return false;
+    fclose(fa);
+    fclose(fb);
+
+    *n = 0;
+    cargarIndice(indice, n);
+
+    printf("Archivo empaquetado con exito\n");
 }
 
 // Carga los registros de un archivo binario especificado en un vector de indices
 bool cargarIndice(Tindice indice[], int *n)
 {
     FILE *fa;
-
-    int N = contarRegArch("datos");
-    N *= 1.25;
-
-    TWrkr vect[N];
     TWrkr reg;
 
     fa = fopen("datos.dat", "rb");
@@ -486,14 +398,9 @@ bool cargarIndice(Tindice indice[], int *n)
     {
         while (fread(&reg, sizeof(TWrkr), 1, fa) == 1)
         {
-            if (reg.status == 1)
-            {
-                vect[(*n)++] = reg;
-
-                // Crear indice
-                indice[(*n) - 1].key = reg.enrollment;
-                indice[(*n) - 1].indice = (*n) - 1;
-            }
+            indice[*n].key = reg.enrollment;
+            indice[*n].indice = *n;
+            (*n)++;
         }
 
         fclose(fa);
@@ -537,6 +444,8 @@ void agregarReg(Tindice indice[], int *n, bool ordenado)
     indice[*n].key = reg.enrollment;
     indice[*n].indice = *n;
     (*n)++;
+
+    printf("Registro agregado con exito\n");
 }
 
 void eliminarReg(Tindice indice[], int *n, bool ordenado)
@@ -559,22 +468,29 @@ void eliminarReg(Tindice indice[], int *n, bool ordenado)
         fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
         fread(&reg, sizeof(TWrkr), 1, fa);
 
-        imprReg(reg);
-        printf("\n\nDesea eliminar el registro? (1 - Si, 2 - No) ");
-        op = valiNum(1, 2);
-        system("CLS");
-
-        if (op == 1)
+        if (reg.status == 0)
         {
-            reg.status = 0;
-            fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
-            fwrite(&reg, sizeof(TWrkr), 1, fa);
-
-            printf("Matricula eliminada con exito\n");
+            printf("Matricula se encuentra eliminada\n");
         }
         else
         {
-            printf("Matricula no eliminada\n");
+            imprReg(reg);
+            printf("\n\nDesea eliminar el registro? (1 - Si, 2 - No) ");
+            op = valiNum(1, 2);
+            system("CLS");
+
+            if (op == 1)
+            {
+                reg.status = 0;
+                fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
+                fwrite(&reg, sizeof(TWrkr), 1, fa);
+
+                printf("Matricula eliminada con exito\n");
+            }
+            else
+            {
+                printf("Matricula no eliminada\n");
+            }
         }
 
         fclose(fa);
@@ -616,6 +532,15 @@ void buscarReg(Tindice indice[], int n, bool ordenado)
     }
 }
 
-void ordenarReg(Tindice indice[], int n, bool ordenado)
+void ordenarReg(Tindice indice[], int n, bool *ordenado)
 {
+    if (*ordenado == false)
+    {
+        *ordenado = ordOpt(indice, n);
+        printf("El vector ha sido ordenado\n");
+    }
+    else
+    {
+        printf("El vector ya estaba ordenado\n");
+    }
 }
