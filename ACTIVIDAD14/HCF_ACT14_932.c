@@ -1,45 +1,6 @@
 // Fernando Haro Calvo  MATR. 372106
 // 23-NOV-2023 (Creado)
 
-/*
-INSTRUCCIONES: Programa que contenga el menú anterior, el programa utiliza un vector de índices de la siguiente estructura:  [ llave, índice] donde el campo llave es  noempleado.
-registros.dat es el archivo con los registros a cargar en el vector de índices  archivo binario sera proporcionado.
-
-CARGAR ARCHIVO : El programa deberá cargar al arrancar el programa, el archivo Binario generará el vector de índices (llave, indice) sólo con registros válidos (el tamaño del vector debera ser 25% mas grande que el la cantidad de registros que contenga el archivo binario ) utiliza un archivo externo para averiguar tamaño y retorne cantidad de registros.
-
-1.- Agregar :
-El programa deberá ser capaz de agregar un registro al arreglo de índices y al final del archivo Binario.  (agregar forma automatica no repetido el campo llave)
-
-2.- Eliminar :
-El programa deberá buscar una noempleado en el vector de índices por medio del método de búsqueda más óptimo.
-La función deberá retornar, el índice donde se encuentra la matrícula en el archivo Binario,  utilizar banderas para escoger el método más adecuado.
-Una vez obtenido el índice moverse dentro del archivo binario (usar fseek ) usando el índice del vector de índices.
-Leer el registro en la posición correcta, preguntar si se quiere eliminar registro.
-Cambiar el status del registro si la respuesta es afirmativa, volver a posición anterior y sobreescribir el registro.
-
-
-3.- Buscar :
-El programa deberá buscar un noempleado en el vector de índices por medio del método de búsqueda más óptimo.
-La función deberá retornar, el índice donde se encuentra la matrícula en el archivo Binario,  utilizar banderas para escoger el método más adecuado.
-Una vez obtenido el índice moverse dentro del archivo binario (usar fseek ) usando el índice del vector de índices.
-Leer el registro en la posición correcta, y desplegar el registro.
-
-4.- Ordenar :
-El programa deberá ordenar el vector de índices por medio del método de ordenación más óptimo. Utilizar banderas para escoger el método más adecuado por el que se ordenará por el campo llave (noempleado) o no ordenarse si ya está ordenado.   (utilizar 3 metodos de ordenacion diferentes segun sea el caso que se necesite Justificar los metodos en el reporte)
-
-5 Y 6.- Mostrar Todo:
-El programa deberá mostrar todos los registros del Archivo Binario, preguntar:  ordenado o normal.  Usar el vector de índices para imprimirlo ordenado, y directamente desde el archivo si es normal.
-
-7.- GENERAR ARCHIVO TEXTO:
-
-El programa deberá generar un archivo de texto, el usuario debe proporcionar el nombre del archivo.
-El programa deberá mostrar todos los registros del Archivo Binario, preguntar:  ordenado o normal.  Usar el vector de índices para imprimirlo ordenado, y directamente desde el archivo si es normal.
-el programa podrá generar múltiples archivos para comprobar las salidas.
-
-8.- EMPAQUETAR :
-El programa deberá actualizar el Archivo Binario, a partir de solo registros válidos, y eliminarlos del archivo binario.  Crear copia y archivo de respaldo .bak del archivo de antes de eliminarlos.
-*/
-
 /********* LIBRERIAS *********/
 #include "alexandria.h"
 
@@ -53,17 +14,17 @@ void menu(void);
 // Auxiliares
 void leerNomArch(char nomArchivo[]);
 TWrkr genPersAlea(void);
-void imprArchBin(Tindice indice[], int n, bool ordenado);
+void imprArchBin(Tindice indice[], int n, int ordenado);
 
 // Registros
 void imprReg(TWrkr pers);
-void agregarReg(Tindice indice[], int *n, bool ordenado);
-void eliminarReg(Tindice indice[], int *n, bool ordenado);
-void buscarReg(Tindice indice[], int n, bool ordenado);
-void ordenarReg(Tindice indice[], int n, bool *ordenado);
+void agregarReg(Tindice indice[], int *n, int *ordenado);
+void eliminarReg(Tindice indice[], int *n, int ordenado);
+void buscarReg(Tindice indice[], int n, int ordenado);
+void ordenarReg(Tindice indice[], int n, int *ordenado);
 
 // Archivos
-void escrArchTXT(char nomArchivo[], Tindice vect[], int n, bool ordenado);
+void escrArchTXT(char nomArchivo[], Tindice vect[], int n, int ordenado);
 
 // Archivos binarios
 void empaquetar(Tindice indice[], int *n);
@@ -104,7 +65,7 @@ void menu()
 {
     int op;
     int nPers = 0;
-    bool ordenado = false;
+    int ordenado = 0;
     char nomArchivo[15];
 
     int N = contarRegArch("datos");
@@ -124,7 +85,7 @@ void menu()
         {
         // Agregar registros
         case 1:
-            agregarReg(indice, &nPers, ordenado);
+            agregarReg(indice, &nPers, &ordenado);
             break;
 
         // Eliminar registro
@@ -144,12 +105,12 @@ void menu()
 
         // Imprimir registros originales desde el archivo
         case 5:
-            imprArchBin(indice, nPers, false);
+            imprArchBin(indice, nPers, 0);
             break;
 
         // Imprimir registros ordenados desde el indice
         case 6:
-            imprArchBin(indice, nPers, true);
+            imprArchBin(indice, nPers, 1);
             break;
 
         // Escribir archivo de texto
@@ -160,11 +121,11 @@ void menu()
             printf("1 - Archivo\n2 - Indice\n\nElija una opcion: ");
             if (valiNum(1, 2) == 1)
             {
-                escrArchTXT(nomArchivo, indice, nPers, false);
+                escrArchTXT(nomArchivo, indice, nPers, 0);
             }
             else
             {
-                escrArchTXT(nomArchivo, indice, nPers, true);
+                escrArchTXT(nomArchivo, indice, nPers, 1);
             }
 
             break;
@@ -216,7 +177,7 @@ TWrkr genPersAlea(void)
     return pers;
 }
 
-void imprArchBin(Tindice indice[], int n, bool ordenado)
+void imprArchBin(Tindice indice[], int n, int ordenado)
 {
     int i, activos, op;
 
@@ -230,7 +191,7 @@ void imprArchBin(Tindice indice[], int n, bool ordenado)
     printf("------------------------------------------------------------------------------------------------------------------------------\n");
     for (i = 0, activos = 1; i < n; i++)
     {
-        if (ordenado)
+        if (ordenado == 1)
         {
             fseek(fa, indice[i].indice * sizeof(TWrkr), SEEK_SET);
         }
@@ -310,7 +271,7 @@ void leerNomArch(char nomArchivo[])
 }
 
 // Escribe un archivo de texto con los registros especificados. Escribir
-void escrArchTXT(char nomArchivo[], Tindice indice[], int n, bool ordenado)
+void escrArchTXT(char nomArchivo[], Tindice indice[], int n, int ordenado)
 {
     int i, cont = 0;
     TWrkr reg;
@@ -331,7 +292,7 @@ void escrArchTXT(char nomArchivo[], Tindice indice[], int n, bool ordenado)
 
     for (i = 0, cont = 1; i < n; i++)
     {
-        if (ordenado)
+        if (ordenado == 1)
         {
             fseek(fb, indice[i].indice * sizeof(TWrkr), SEEK_SET);
         }
@@ -425,14 +386,14 @@ int contarRegArch(char nomArchivo[])
 }
 
 // Agrega un registro al vector de indices y al final del archivo binario.
-void agregarReg(Tindice indice[], int *n, bool ordenado)
+void agregarReg(Tindice indice[], int *n, int *ordenado)
 {
     TWrkr reg;
     FILE *fa;
 
     reg = genPersAlea();
 
-    while (busqOpt(indice, *n, reg.enrollment, ordenado) != -1)
+    while (busqOpt(indice, *n, reg.enrollment, *ordenado) != -1)
     {
         reg.enrollment = matriAlea();
     }
@@ -446,9 +407,14 @@ void agregarReg(Tindice indice[], int *n, bool ordenado)
     (*n)++;
 
     printf("Registro agregado con exito\n");
+
+    if (*ordenado == 1)
+    {
+        *ordenado = 2;
+    }
 }
 
-void eliminarReg(Tindice indice[], int *n, bool ordenado)
+void eliminarReg(Tindice indice[], int *n, int ordenado)
 {
     Tkey i;
     int num, op;
@@ -501,7 +467,7 @@ void eliminarReg(Tindice indice[], int *n, bool ordenado)
     }
 }
 
-void buscarReg(Tindice indice[], int n, bool ordenado)
+void buscarReg(Tindice indice[], int n, int ordenado)
 {
     Tkey i;
     int num;
@@ -532,11 +498,11 @@ void buscarReg(Tindice indice[], int n, bool ordenado)
     }
 }
 
-void ordenarReg(Tindice indice[], int n, bool *ordenado)
+void ordenarReg(Tindice indice[], int n, int *ordenado)
 {
-    if (*ordenado == false)
+    if (*ordenado == 0 || *ordenado == 2)
     {
-        *ordenado = ordOpt(indice, n);
+        *ordenado = ordOpt(indice, n, *ordenado);
         printf("El vector ha sido ordenado\n");
     }
     else

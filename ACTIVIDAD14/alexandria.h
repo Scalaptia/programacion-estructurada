@@ -41,16 +41,20 @@ int numTelAlea();
 Tkey busqSeq(Tindice vect[], int n, Tkey num);
 Tkey busqSeqOrd(Tindice vect[], int n, Tkey num);
 Tkey busqBin(Tindice vect[], int n, Tkey num);
-Tkey busqOpt(Tindice vect[], int n, Tkey num, bool band);
+Tkey busqOpt(Tindice vect[], int n, Tkey num, int band);
 Tkey busqSeqMat(int mat[][4], int m, int n, int num);
 
 void imprVect(int vect[], int n);
 void imprMat(int mat[][4], int m, int n);
 
 bool ordBubble(Tindice vect[], int n);
+bool ordBubbleMejorado(Tindice vect[], int n);
 bool ordQuick(Tindice vect[], int n);
+bool ordMerge(Tindice vect[], int n);
+void mSort(Tindice vect[], Tindice temp[], int izq, int der);
+void merge(Tindice vect[], Tindice temp[], int izq, int med, int der);
 void qs(Tindice vect[], int limite_izq, int limite_der);
-bool ordOpt(Tindice vect[], int n);
+int ordOpt(Tindice vect[], int n, int ordenado);
 
 void mayus(char cadena[]);
 int largoCadena(char cadena[]);
@@ -260,11 +264,11 @@ Tkey busqBin(Tindice vect[], int n, Tkey num)
 }
 
 // Busca un valor en un arreglo usando el algoritmo optimo
-Tkey busqOpt(Tindice vect[], int n, Tkey num, bool band)
+Tkey busqOpt(Tindice vect[], int n, Tkey num, int band)
 {
     Tkey i;
 
-    if (band)
+    if (band == 1)
     {
         i = busqBin(vect, n, num);
     }
@@ -347,6 +351,107 @@ bool ordBubble(Tindice vect[], int n)
     return true;
 }
 
+// Ordena el vector usando bubble sort mejorado.
+bool ordBubbleMejorado(Tindice vect[], int n)
+{
+    int i, j;
+    Tindice temp;
+    bool swap = true;
+
+    for (i = 0; i < n - 1 && swap; i++)
+    {
+        swap = false;
+
+        for (j = n - 1; j > i; j--)
+        {
+            if (vect[j].key <= vect[j - 1].key)
+            {
+                temp = vect[j];
+                vect[j] = vect[j - 1];
+                vect[j - 1] = temp;
+                swap = true;
+            }
+        }
+    }
+
+    return true;
+}
+
+// Ordena el vector usando merge sort.
+bool ordMerge(Tindice vect[], int n)
+{
+    Tindice temp[n];
+
+    mSort(vect, temp, 0, n - 1);
+
+    return true;
+}
+
+// Algoritmo de ordenamiento merge sort.
+void mSort(Tindice vect[], Tindice temp[], int izq, int der)
+{
+    int med;
+
+    if (izq < der)
+    {
+        med = (izq + der) / 2;
+        mSort(vect, temp, izq, med);
+        mSort(vect, temp, med + 1, der);
+        merge(vect, temp, izq, med + 1, der);
+    }
+}
+
+// Mezcla dos vectores ordenados.
+void merge(Tindice vect[], Tindice temp[], int izq, int med, int der)
+{
+    int i, izq_fin, num_elem, temp_pos;
+
+    izq_fin = med - 1;
+    temp_pos = izq;
+    num_elem = der - izq + 1;
+
+    while ((izq <= izq_fin) && (med <= der))
+    {
+        if (vect[izq].key <= vect[med].key)
+        {
+            temp[temp_pos].key = vect[izq].key;
+            temp[temp_pos].indice = vect[izq].indice;
+            temp_pos++;
+            izq++;
+        }
+        else
+        {
+            temp[temp_pos].key = vect[med].key;
+            temp[temp_pos].indice = vect[med].indice;
+            temp_pos++;
+            med++;
+        }
+    }
+
+    while (izq <= izq_fin)
+    {
+        temp[temp_pos].key = vect[izq].key;
+        temp[temp_pos].indice = vect[izq].indice;
+        temp_pos++;
+        izq++;
+    }
+
+    while (med <= der)
+    {
+        temp[temp_pos].key = vect[med].key;
+        temp[temp_pos].indice = vect[med].indice;
+        temp_pos++;
+        med++;
+    }
+
+    for (i = 0; i <= num_elem; i++)
+    {
+        vect[der].key = temp[der].key;
+        vect[der].indice = temp[der].indice;
+        der--;
+    }
+}
+
 // Ordena el vector usando quick sort.
 bool ordQuick(Tindice vect[], int n)
 {
@@ -355,6 +460,7 @@ bool ordQuick(Tindice vect[], int n)
     return true;
 }
 
+// Algoritmo de ordenamiento quick sort.
 void qs(Tindice vect[], int limite_izq, int limite_der)
 {
     int izq, der, pivote;
@@ -398,20 +504,33 @@ void qs(Tindice vect[], int limite_izq, int limite_der)
 }
 
 // Ordena un vector usando el algoritmo optimo
-bool ordOpt(Tindice vect[], int n)
+int ordOpt(Tindice vect[], int n, int ordenado)
 {
     int i;
 
-    if (n <= 200)
+    if (ordenado == 0)
     {
-        ordBubble(vect, n);
+        if (n <= 1000)
+        {
+            i = ordQuick(vect, n);
+            printf("Ordenado usando Quick Sort\n");
+        }
+        else
+        {
+            i = ordMerge(vect, n);
+            printf("Ordenado usando Merge Sort\n");
+        }
     }
     else
     {
-        ordQuick(vect, n);
+        if (ordenado == 2)
+        {
+            i = ordBubbleMejorado(vect, n);
+            printf("Ordenado usando Bubble Sort Mejorado\n");
+        }
     }
 
-    return true;
+    return 1;
 }
 
 /********* CADENAS *********/
